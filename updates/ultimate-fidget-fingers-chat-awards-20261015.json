@@ -1,0 +1,79 @@
+{
+  "version": "ultimate-fidget-fingers-chat-awards-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/29123a87a96b022f032f8b91466a1dfb3202773c/",
+  "files": [
+    {
+      "source": "ASSET-CREDITS.md",
+      "target": "ASSET-CREDITS.md"
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/audio/sound.ts",
+      "target": "src/audio/sound.ts"
+    },
+    {
+      "source": "src/chat/ChatPanel.tsx",
+      "target": "src/chat/ChatPanel.tsx"
+    },
+    {
+      "source": "src/chat/adminActions.ts",
+      "target": "src/chat/adminActions.ts"
+    },
+    {
+      "source": "src/chat/chat.css",
+      "target": "src/chat/chat.css"
+    },
+    {
+      "source": "src/chat/chatMute.ts",
+      "target": "src/chat/chatMute.ts"
+    },
+    {
+      "source": "src/chat/connection.ts",
+      "target": "src/chat/connection.ts"
+    },
+    {
+      "source": "src/chat/permissions.ts",
+      "target": "src/chat/permissions.ts"
+    },
+    {
+      "source": "src/chat/protocol.ts",
+      "target": "src/chat/protocol.ts"
+    },
+    {
+      "source": "src/chat/store.ts",
+      "target": "src/chat/store.ts"
+    },
+    {
+      "source": "src/chat/useChat.ts",
+      "target": "src/chat/useChat.ts"
+    },
+    {
+      "source": "src/economy.ts",
+      "target": "src/economy.ts"
+    },
+    {
+      "source": "src/gameplay/ToyStage.tsx",
+      "target": "src/gameplay/ToyStage.tsx"
+    },
+    {
+      "source": "src/gameplay/catalog.ts",
+      "target": "src/gameplay/catalog.ts"
+    },
+    {
+      "source": "src/gameplay/melodies.ts",
+      "target": "src/gameplay/melodies.ts"
+    },
+    {
+      "source": "src/gameplay/toys.css",
+      "target": "src/gameplay/toys.css"
+    },
+    {
+      "source": "src/style.css",
+      "target": "src/style.css"
+    }
+  ]
+}

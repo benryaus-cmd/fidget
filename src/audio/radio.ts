@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import { requestMixableAudio } from './audioPolicy.js';
 export const STATIONS = [
   { id: 'poptron', name: 'PopTron', mood: 'Electric pop · bright energy', url: 'https://ice5.somafm.com/poptron-128-mp3' },
   { id: 'vaporwaves', name: 'Vaporwaves', mood: 'Vaporwave · pastel daydreams', url: 'https://ice5.somafm.com/vaporwaves-128-mp3' },
@@ -52,6 +53,7 @@ export class RadioController {
   play(){
     const token=++this.request;
     try {
+      requestMixableAudio();
       if(!this.media){this.media=this.factory();this.media.preload='none';this.handlers.forEach(([event,fn])=>this.media!.addEventListener(event,fn));}
       const station=STATIONS.find(s=>s.id===this.state.station)!;
       if(this.media.src!==station.url)this.media.src=station.url;

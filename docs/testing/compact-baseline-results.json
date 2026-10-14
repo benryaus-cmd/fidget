@@ -1,0 +1,295 @@
+{
+  "testedAt": "2026-10-14T20:46:47.826Z",
+  "checks": [
+    {
+      "name": "welcome fits embedded 320×520 and Play is visible",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":0,\"width\":320,\"height\":844} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "navigation starts no AudioContext at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "host typography remains readable at 320",
+      "status": "FAIL",
+      "detail": "host black styles leak onto dark UI\n+ actual - expected\n\n+ [\n+   'Find your flow.',\n+   'Pop Frenzy',\n+   'Spin Lab',\n+   'Switch Circuit',\n+   'Piano Rush',\n+   'Slider Sync',\n+   'Detent Dial',\n+   'Marble Drop',\n+   'Magnet Field'\n+ ]\n- []\n"
+    },
+    {
+      "name": "Pop Frenzy controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Pop Frenzy offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Spin Lab controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Spin Lab offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Switch Circuit controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Switch Circuit offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Piano Rush controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Piano Rush offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Slider Sync controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Slider Sync offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Detent Dial controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Detent Dial offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Marble Drop controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Marble Drop offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Magnet Field controls fit stage and compact 320×520",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-258,\"width\":320,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":320,\"height\":520}"
+    },
+    {
+      "name": "Magnet Field offers opt-in music at 320",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "welcome fits embedded 390×610 and Play is visible",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":0,\"width\":390,\"height\":844} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "navigation starts no AudioContext at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "host typography remains readable at 390",
+      "status": "FAIL",
+      "detail": "host black styles leak onto dark UI\n+ actual - expected\n\n+ [\n+   'Find your flow.',\n+   'Pop Frenzy',\n+   'Spin Lab',\n+   'Switch Circuit',\n+   'Piano Rush',\n+   'Slider Sync',\n+   'Detent Dial',\n+   'Marble Drop',\n+   'Magnet Field'\n+ ]\n- []\n"
+    },
+    {
+      "name": "showroom displays four complete cards above navigation at 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Pop Frenzy offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Spin Lab controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Spin Lab offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Switch Circuit controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Switch Circuit offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Piano Rush controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Piano Rush offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Slider Sync controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Slider Sync offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Detent Dial controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Detent Dial offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Marble Drop controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Marble Drop offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Magnet Field controls fit stage and compact 390×610",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-168,\"width\":390,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":390,\"height\":610}"
+    },
+    {
+      "name": "Magnet Field offers opt-in music at 390",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "welcome fits embedded 430×650 and Play is visible",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":0,\"width\":430,\"height\":844} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "navigation starts no AudioContext at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n1 !== 0\n"
+    },
+    {
+      "name": "host typography remains readable at 430",
+      "status": "FAIL",
+      "detail": "host black styles leak onto dark UI\n+ actual - expected\n\n+ [\n+   'Find your flow.',\n+   'Pop Frenzy',\n+   'Spin Lab',\n+   'Switch Circuit',\n+   'Piano Rush',\n+   'Slider Sync',\n+   'Detent Dial',\n+   'Marble Drop',\n+   'Magnet Field'\n+ ]\n- []\n"
+    },
+    {
+      "name": "Pop Frenzy controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Pop Frenzy offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Spin Lab controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Spin Lab offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Switch Circuit controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Switch Circuit offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Piano Rush controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Piano Rush offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Slider Sync controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Slider Sync offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Detent Dial controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Detent Dial offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Marble Drop controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Marble Drop offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    },
+    {
+      "name": "Magnet Field controls fit stage and compact 430×650",
+      "status": "FAIL",
+      "detail": "bounds {\"x\":0,\"y\":-128,\"width\":430,\"height\":778} exceed host {\"x\":0,\"y\":0,\"width\":430,\"height\":650}"
+    },
+    {
+      "name": "Magnet Field offers opt-in music at 430",
+      "status": "FAIL",
+      "detail": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    }
+  ],
+  "errors": []
+}

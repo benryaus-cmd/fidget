@@ -1,6 +1,6 @@
 {
-  "testedAt": "2026-10-14T12:41:35.005Z",
-  "base": "http://127.0.0.1:5173",
+  "testedAt": "2026-10-14T20:54:31.065Z",
+  "base": "http://127.0.0.1:5174",
   "checks": [
     {
       "name": "welcome starts arcade on direct Play tap",

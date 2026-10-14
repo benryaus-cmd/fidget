@@ -25,3 +25,7 @@ Build includes TypeScript verification. Unit scripts use Node 24 in the verified
 Read `docs/development-report.md` for actual validation and remaining gaps, `docs/toy-review.md` for the review of all 26 original components, and `final-goal.md` for the full quality target. See `AIPPY-IMPORT.md` for the gameplay-only update that preserves the Aippy host scaffold.
 
 Progress saves on this browser/device. No accounts, multiplayer or real-money payments are implemented. SomaFM radio embedding is a development integration with a documented public-release rights limitation in `ASSET-CREDITS.md`.
+
+## Compact Aippy update
+
+The game now sizes to its containing surface, with smaller navigation, eight visible showroom cards at 390×610, larger toys, explicit scoped text contrast and per-toy radio controls. See `docs/compact-playtest-report.md` for 62 compact checks plus the 44-check main suite, and `docs/audio-focus-investigation.md` for the precise external-music behavior and host limitations.

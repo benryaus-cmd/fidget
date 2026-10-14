@@ -1,4 +1,5 @@
 import { vibrate } from '@aippy/runtime/device';
+import { requestMixableAudio } from './audioPolicy.js';
 type SoundSettings={muted:boolean;sfxVolume:number;haptics:boolean;hapticStrength:number};
 let settings:SoundSettings={muted:false,sfxVolume:.65,haptics:true,hapticStrength:.6};
 let context:AudioContext|null=null;
@@ -8,11 +9,17 @@ const gates=new Map<string,number>();
 const clamp=(n:number)=>Number.isFinite(n)?Math.max(0,Math.min(1,n)):0;
 export function setSoundSettings(next:SoundSettings):void {
   settings={muted:!!next.muted,sfxVolume:clamp(next.sfxVolume),haptics:!!next.haptics,hapticStrength:clamp(next.hapticStrength)};
-  if(context&&master)master.gain.setTargetAtTime(settings.muted?0:settings.sfxVolume*.22,context.currentTime,.015);
+  if(settings.muted||settings.sfxVolume===0){
+    // Release our own output instead of keeping a silent context active.
+    const previous=context;context=null;master=null;voices.clear();
+    if(previous)void previous.close().catch(()=>{});
+  }else if(context&&master)master.gain.setTargetAtTime(settings.sfxVolume*.22,context.currentTime,.015);
 }
 /** Call inside pointer/key handlers. Unsupported audio leaves gameplay usable. */
 export function unlockAudio():void {
+  if(settings.muted||settings.sfxVolume===0)return;
   try {
+    requestMixableAudio();
     if(!context){
       const Constructor=window.AudioContext||(window as unknown as {webkitAudioContext:typeof AudioContext}).webkitAudioContext;
       if(!Constructor)return;
@@ -40,7 +47,7 @@ export function playSound(kind:string,pitch=440,volume=1):void {
       try{void vibrate(Math.round((kind==='reward'||kind==='purchase'?32:12)*settings.hapticStrength)).catch(()=>{});}catch{/* Optional device feedback. */}
     }
   }
-  if(settings.muted||settings.sfxVolume===0)return;
+  if(kind==='navigation'||settings.muted||settings.sfxVolume===0||clamp(volume)===0)return;
   unlockAudio();if(!context||context.state!=='running')return;
   const v=clamp(volume),p=Number.isFinite(pitch)?Math.max(40,Math.min(4000,pitch)):440;
   try {

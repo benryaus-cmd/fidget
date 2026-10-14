@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 const temp = mkdtempSync(`${tmpdir()}/uff-radio-`);
 execFileSync('node_modules/.bin/tsc', ['src/audio/radio.ts','--outDir',temp,'--target','ES2022','--module','ES2022','--lib','ES2022,DOM','--skipLibCheck']);
+writeFileSync(`${temp}/package.json`,JSON.stringify({type:'module'}));
 writeFileSync(`${temp}/radio.mjs`,readFileSync(`${temp}/radio.js`));
 const { RadioController, STATIONS } = await import(pathToFileURL(`${temp}/radio.mjs`).href);
 class Media extends EventTarget {
@@ -13,12 +14,15 @@ class Media extends EventTarget {
   pause(){this.paused=true;setTimeout(()=>this.dispatchEvent(new Event('pause')),0);}
   load(){} removeAttribute(){}
 }
+Object.defineProperty(globalThis,'navigator',{value:{audioSession:{type:'auto'}},configurable:true});
 const media = new Media();
 const player = new RadioController(()=>media, 15);
 assert.equal(STATIONS.length,5);
 player.select('vaporwaves');
 assert.equal(media.plays,0,'selecting must never autoplay');
+assert.equal(navigator.audioSession.type,'auto','station selection never activates an audio session');
 player.play();
+assert.equal(navigator.audioSession.type,'ambient','explicit radio play requests mixing only when supported');
 assert.equal(player.snapshot().status,'loading','promise success is not proof of playback');
 media.dispatchEvent(new Event('pause'));
 assert.equal(player.snapshot().status,'loading','stale queued pause must not cancel a newer play');

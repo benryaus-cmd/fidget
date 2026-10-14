@@ -12,3 +12,36 @@
 @media(orientation:landscape) and (max-height:650px){.field-housing{width:min(100%,calc((100cqh - 60px)*.7619))}.angular-housing{width:min(100%,calc(100cqh - 60px))}.keyboard{height:clamp(80px,calc(100cqh - 145px),165px)}.rocker{height:72px}}
 @media(orientation:landscape) and (max-height:650px){.pop-housing{width:min(100%,360px,calc((100cqh - 105px)*1.6));padding:12px}.pop-board{grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}}
 .toy-pointer-trails,.toy-bursts{opacity:var(--effect,1)}
+
+/* Dense surround, large physical object, inside the host's available surface. */
+.uff .toy-stage{max-width:690px;padding:10px 8px;gap:8px;justify-content:center}
+.uff .toy-status{align-self:flex-start;max-width:calc(100% - 110px);min-height:16px;padding:0 4px;font-size:9px;line-height:1.35;text-align:left;margin-right:auto}
+.uff .toy-engraving{font-size:7px;letter-spacing:1.3px;line-height:1.3}
+.uff .toy-control{min-height:29px;padding:7px 12px;font-size:8px;border-radius:9px}
+.uff .pop-housing{width:min(100%,440px,calc(100cqh - 90px));padding:16px;border-radius:26px}
+.uff .pop-board{gap:10px}
+.uff .angular-housing{width:min(100%,480px,calc(100cqh - 55px))}
+.uff .field-housing{width:min(100%,440px,calc((100cqh - 48px)*.7619));border-radius:18px}
+.uff .keyboard{height:clamp(80px,calc(100cqh - 120px),300px)}
+.uff .piano-housing{width:min(100%,530px);padding:16px 13px 12px;border-radius:21px}
+.uff .melody-strip{margin-bottom:12px}
+.uff .melody-strip span{width:31px;height:31px;font-size:12px}
+.uff .slider-housing{width:min(100%,530px);padding:23px 18px;border-radius:21px}
+.uff .slider-label{font-size:8px;letter-spacing:1px;margin-bottom:19px}
+.uff .slider-row{margin-bottom:clamp(24px,calc((100cqh - 170px)*.2),52px)}
+.uff .switch-housing{width:min(100%,430px);padding:17px;gap:19px;border-radius:23px}
+.uff .rocker{height:clamp(44px,calc((100cqh - 160px)*.5),130px)}
+.uff .circuit-pattern{padding:6px 13px;gap:12px}
+.uff .circuit-pattern span{font-size:8px}
+.uff .circuit-pattern span b{font-size:7px;padding:3px 5px}
+.uff .toy-score-flash{right:auto;left:12px;top:auto;bottom:8px;font-size:19px}
+@container(max-height:300px){.uff .toy-engraving{display:none}.uff .toy-status{font-size:8px}.uff .toy-stage{gap:6px;padding:9px 6px}.uff .pop-housing{padding:10px;width:min(100%,calc((100cqh - 77px)*1.6))}.uff .pop-board{grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.uff .slider-housing{padding:16px 14px}.uff .slider-row{margin-bottom:22px}.uff .slider-label{margin-bottom:16px}.uff .keyboard{height:clamp(60px,calc(100cqh - 104px),180px)}.uff .rocker{height:clamp(40px,calc((100cqh - 135px)*.5),80px)}.uff .switch-housing{gap:12px;padding:13px}}
+/* A dedicated slim HUD strip keeps music controls off the physical toy. */
+.uff .toy-stage{padding-top:37px;padding-bottom:8px}
+.uff .toy-status{position:absolute;top:9px;left:8px;max-width:calc(100% - 119px);margin:0}
+.uff .field-housing{width:min(100%,440px,calc((100cqh - 22px)*.7619))}
+.uff .angular-housing{width:min(100%,480px,calc(100cqh - 22px))}
+.uff .pop-housing{width:min(100%,440px,calc(100cqh - 54px))}
+.uff .slider-housing{flex:1;min-height:0;max-height:420px;display:flex;flex-direction:column;justify-content:space-evenly}
+.uff .slider-row{margin-bottom:0;padding:10px 0}
+@container(max-height:300px){.uff .pop-housing{width:min(100%,calc((100cqh - 47px)*1.6))}.uff .slider-housing{padding:10px 14px}.uff .slider-row{padding:7px 0}.uff .angular-housing{width:min(100%,calc(100cqh - 12px))}.uff .field-housing{width:min(100%,calc((100cqh - 12px)*.7619))}}

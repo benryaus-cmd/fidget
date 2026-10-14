@@ -5,8 +5,9 @@ import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 const temp=mkdtempSync(`${tmpdir()}/uff-sound-`);
 execFileSync('node_modules/.bin/tsc',['src/audio/sound.ts','--outDir',temp,'--target','ES2022','--module','ES2022','--moduleResolution','Bundler','--lib','ES2022,DOM','--skipLibCheck']);
+writeFileSync(`${temp}/package.json`,JSON.stringify({type:'module'}));
 writeFileSync(`${temp}/sound.mjs`,readFileSync(`${temp}/sound.js`,'utf8').replace("'@aippy/runtime/device'", JSON.stringify(pathToFileURL(`${process.cwd()}/node_modules/@aippy/runtime/dist/device/index.js`).href)));
-let contexts=0,oscillators=0;const vibrations=[];const nodes=[];
+let contexts=0,closed=0,oscillators=0;const vibrations=[];const nodes=[];
 const param=()=>({value:0,setValueAtTime(){},exponentialRampToValueAtTime(){},setTargetAtTime(){}});
 class Context {
   state='running';currentTime=0;destination={};
@@ -14,13 +15,25 @@ class Context {
   createGain(){return {gain:param(),connect(){},disconnect(){}};}
   createOscillator(){oscillators++;const node={frequency:param(),connect(){},disconnect(){},start(){},stop(at){this.end=at;}};nodes.push(node);return node;}
   resume(){return Promise.resolve();}
+  close(){closed++;this.state='closed';return Promise.resolve();}
 }
 globalThis.window={AudioContext:Context};
 Object.defineProperty(globalThis,'navigator',{value:{vibrate:n=>vibrations.push(n)},configurable:true});
 const {unlockAudio,playSound,setSoundSettings}=await import(pathToFileURL(`${temp}/sound.mjs`).href);
-unlockAudio();unlockAudio();assert.equal(contexts,1,'repeated gestures share one context');
 setSoundSettings({muted:true,sfxVolume:1,haptics:true,hapticStrength:1});
-playSound('muted-one');assert.equal(oscillators,0);assert.equal(vibrations.at(-1),12,'muting SFX preserves separately controlled haptics');
+unlockAudio();playSound('muted-start');
+assert.equal(contexts,0,'muted first interaction must never activate audio');
+setSoundSettings({muted:false,sfxVolume:0,haptics:true,hapticStrength:1});
+unlockAudio();playSound('zero-volume');
+assert.equal(contexts,0,'zero volume must never activate audio');
+setSoundSettings({muted:false,sfxVolume:1,haptics:true,hapticStrength:1});
+playSound('navigation');playSound('silent-volume',440,0);
+assert.equal(contexts,0,'silent navigation and silent event must never activate audio');
+navigator.audioSession={type:'auto'};
+unlockAudio();assert.equal(navigator.audioSession.type,'ambient','supported AudioSession requests mixable ambient output');
+unlockAudio();assert.equal(contexts,1,'repeated gestures share one context');
+setSoundSettings({muted:true,sfxVolume:1,haptics:true,hapticStrength:1});
+playSound('muted-one');assert.equal(closed,1,'muting releases existing audio output');assert.equal(oscillators,0);assert.equal(vibrations.at(-1),12,'muting SFX preserves separately controlled haptics');
 setSoundSettings({muted:false,sfxVolume:1,haptics:false,hapticStrength:1});
 for(const kind of ['melody','piano-miss']) {
   const start=nodes.length;playSound(kind,330);
@@ -40,7 +53,7 @@ const prior=oscillators;
 const count=vibrations.length;
 for(let i=0;i<30;i++)playSound(`burst-${i}`);
 assert.equal(oscillators-prior,20,'concurrent voices capped');assert.equal(vibrations.length,count);
-assert.equal(contexts,1);
+assert.equal(contexts,2,'one new shared context after explicitly re-enabling sound');assert.equal(closed,1);
 const bridgeCalls=[];
 window.webkit={messageHandlers:{aippyListener:{postMessage:message=>bridgeCalls.push(message)}}};
 Object.defineProperty(globalThis,'navigator',{value:{},configurable:true});

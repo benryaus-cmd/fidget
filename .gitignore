@@ -2,3 +2,4 @@ node_modules/
 dist/
 evidence/
 tests/artifacts/
+tests/compact-artifacts/

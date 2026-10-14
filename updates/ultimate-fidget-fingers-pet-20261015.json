@@ -1,0 +1,47 @@
+{
+  "version": "ultimate-fidget-fingers-pet-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/736a2f36d3a224376ef533d1d684f12fe092ed3c/",
+  "files": [
+    {
+      "source": "ASSET-CREDITS.md",
+      "target": "ASSET-CREDITS.md"
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/economy.ts",
+      "target": "src/economy.ts"
+    },
+    {
+      "source": "src/pet/PetCanvas.tsx",
+      "target": "src/pet/PetCanvas.tsx"
+    },
+    {
+      "source": "src/pet/PetStudio.tsx",
+      "target": "src/pet/PetStudio.tsx"
+    },
+    {
+      "source": "src/pet/draw.ts",
+      "target": "src/pet/draw.ts"
+    },
+    {
+      "source": "src/pet/motion.ts",
+      "target": "src/pet/motion.ts"
+    },
+    {
+      "source": "src/pet/pet.css",
+      "target": "src/pet/pet.css"
+    },
+    {
+      "source": "src/pet/pose.ts",
+      "target": "src/pet/pose.ts"
+    },
+    {
+      "source": "src/pet/state.ts",
+      "target": "src/pet/state.ts"
+    }
+  ]
+}

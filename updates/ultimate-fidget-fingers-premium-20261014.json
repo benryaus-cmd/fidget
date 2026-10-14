@@ -1,0 +1,55 @@
+{
+  "version": "ultimate-fidget-fingers-premium-20261014",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/5d369af52b578716ae56d55c5dded1edebd9bc0e/",
+  "files": [
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/style.css",
+      "target": "src/style.css"
+    },
+    {
+      "source": "src/economy.ts",
+      "target": "src/economy.ts"
+    },
+    {
+      "source": "src/gameplay/ToyStage.tsx",
+      "target": "src/gameplay/ToyStage.tsx"
+    },
+    {
+      "source": "src/gameplay/catalog.ts",
+      "target": "src/gameplay/catalog.ts"
+    },
+    {
+      "source": "src/gameplay/physics.ts",
+      "target": "src/gameplay/physics.ts"
+    },
+    {
+      "source": "src/gameplay/toys.css",
+      "target": "src/gameplay/toys.css"
+    },
+    {
+      "source": "src/audio/sound.ts",
+      "target": "src/audio/sound.ts"
+    },
+    {
+      "source": "src/audio/radio.ts",
+      "target": "src/audio/radio.ts"
+    },
+    {
+      "source": "src/audio/RadioPanel.tsx",
+      "target": "src/audio/RadioPanel.tsx"
+    },
+    {
+      "source": "src/audio/audio.css",
+      "target": "src/audio/audio.css"
+    },
+    {
+      "source": "ASSET-CREDITS.md",
+      "target": "ASSET-CREDITS.md"
+    }
+  ]
+}

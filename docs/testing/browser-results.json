@@ -1,0 +1,183 @@
+{
+  "testedAt": "2026-10-14T12:41:35.005Z",
+  "base": "http://127.0.0.1:5173",
+  "checks": [
+    {
+      "name": "welcome starts arcade on direct Play tap",
+      "status": "PASS"
+    },
+    {
+      "name": "eight distinctive playable toys are present",
+      "status": "PASS"
+    },
+    {
+      "name": "early challenge finish awards zero gems and XP",
+      "status": "PASS"
+    },
+    {
+      "name": "result offers direct return to free play",
+      "status": "PASS"
+    },
+    {
+      "name": "result dialog blocks hidden piano keyboard progression",
+      "status": "PASS"
+    },
+    {
+      "name": "unmatched challenge switch clicks sound without farming progression",
+      "status": "PASS"
+    },
+    {
+      "name": "screens 320×700 have no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "screens 390×844 have no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "screens 430×932 have no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "screens 844×390 have no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "screens 1280×800 have no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field stage and controls accessible at 320×700",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field stage and controls accessible at 844×390",
+      "status": "PASS"
+    },
+    {
+      "name": "effects create one reusable Web Audio context after touch",
+      "status": "PASS"
+    },
+    {
+      "name": "visibility transition flushes a recent action immediately",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field genuine freeplay action earns progression",
+      "status": "PASS"
+    },
+    {
+      "name": "genuine actions persist across reload",
+      "status": "PASS"
+    },
+    {
+      "name": "first touch award claims once and remains claimed",
+      "status": "PASS"
+    },
+    {
+      "name": "45 second challenge scores real target hits and completes with reward",
+      "status": "PASS"
+    },
+    {
+      "name": "locked radio cannot play or equip a station and blocked stream fails honestly",
+      "status": "PASS"
+    },
+    {
+      "name": "shop previews without spending, buys atomically, equips and persists station",
+      "status": "PASS"
+    },
+    {
+      "name": "reduced motion setting persists and suppresses decorative toy bursts",
+      "status": "PASS"
+    },
+    {
+      "name": "no uncaught application errors during navigation",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

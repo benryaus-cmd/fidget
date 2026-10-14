@@ -1,5 +1,27 @@
 # ULTIMATE FIDGET FINGERS
 
-Mobile-first tactile arcade for Aippy and standalone browsers.
+Portrait-first tactile arcade, built with React and Vite for Aippy and standalone browsers. One React root: `src/main.tsx` → `src/App.tsx`.
 
-Run `npm install` then `npm run dev` or `npm run build`. The real entry is `src/main.tsx` -> `src/App.tsx`, using one React root. See `final-goal.md` for quality standard and milestones. GitHub repository is source-of-truth; use the Aippy build-time exact-path importer to sync source. The original Aippy `src.zip` includes 26 toy references for future upgrades, and is preserved in the supplied source archive rather than claiming all 26 are integrated in this initial playable vertical slice.
+Eight rebuilt toys: Pop Frenzy, Spin Lab, Switch Circuit, Piano Rush, Slider Sync, Detent Dial, Marble Drop and Magnet Field. Unlimited free play, toy-specific 45-second challenges, local mastery/XP/Gems, awards, daily objectives, materials, trails and studio backgrounds.
+
+## Run and verify
+
+```sh
+npm ci
+npm run dev
+npm run build
+npm test
+```
+
+Build includes TypeScript verification. Unit scripts use Node 24 in the verified environment. For browser tests, install the test tool with `npm install --no-save playwright` and `npx playwright install chromium`. Browser tests require Playwright and its Chromium installation; run a Vite server on port 5173 and `TEST_URL=http://127.0.0.1:5173 npm run test:browser`. Optional `CHROMIUM_PATH` selects an installed browser. Playwright is a test tool, not shipped in the game.
+
+## Modules
+
+- `src/gameplay`: curated tactile toys, physics, capped effects and responsive toy layouts.
+- `src/economy.ts`: validated v2 save, v1 migration, transactions and bounded rewards.
+- `src/audio`: shared sound context, Aippy/native haptics and optional radio lifecycle.
+- `src/App.tsx`, `src/style.css`: arcade, challenges, collection, shop, awards and settings.
+
+Read `docs/development-report.md` for actual validation and remaining gaps, `docs/toy-review.md` for the review of all 26 original components, and `final-goal.md` for the full quality target. See `AIPPY-IMPORT.md` for the gameplay-only update that preserves the Aippy host scaffold.
+
+Progress saves on this browser/device. No accounts, multiplayer or real-money payments are implemented. SomaFM radio embedding is a development integration with a documented public-release rights limitation in `ASSET-CREDITS.md`.

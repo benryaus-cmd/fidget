@@ -1,0 +1,26 @@
+{
+  "testedAt": "2026-10-14T12:23:04.889Z",
+  "base": "http://127.0.0.1:5173",
+  "checks": [
+    {
+      "name": "welcome starts arcade on direct Play tap",
+      "status": "PASS"
+    },
+    {
+      "name": "eight distinctive playable toys are present",
+      "status": "FAIL",
+      "detail": "MARBLE DROP missing\n\n0 !== 1\n"
+    },
+    {
+      "name": "early challenge finish awards zero gems and XP",
+      "status": "FAIL",
+      "detail": "early finish XP\n\n1 !== 0\n"
+    },
+    {
+      "name": "result offers direct return to free play",
+      "status": "FAIL",
+      "detail": "locator.waitFor: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /FREE PLAY/i }) to be visible\u001b[22m\n"
+    }
+  ],
+  "errors": []
+}

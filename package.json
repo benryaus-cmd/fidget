@@ -4,9 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/economy.test.ts && node src/gameplay/physics.test.mjs && node src/audio/sound.test.mjs && node src/audio/radio.test.mjs",
+    "test:browser": "node tests/browser.mjs"
   },
   "dependencies": {
     "@aippy/runtime": "^0.4.1",

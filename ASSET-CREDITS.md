@@ -51,3 +51,5 @@ Shared chat reuses the owner's `benryaus-cmd/graf-game` deployment and protocol 
 ## Milo pocket pet
 
 The user supplied `actual kenney src.zip`, a KENNEY platform game whose About panel credits **Mohammad**. This game's procedural Milo renderer (`src/game/render/miloDraw.ts`) and pose helpers are adapted in `src/pet/draw.ts` and `src/pet/pose.ts`. The original body, face, paws and expressive animation style are retained, with new colour palettes, ear variants and hats. Roaming, care, wardrobe, transactions and persistence are implemented for ULTIMATE FIDGET FINGERS. No external character image, font, model or remote sprite asset is required. The supplied source is not represented as a Kenney.nl CC0 asset pack; credit also appears in the game's About page.
+
+The expanded pet, now default-named Pip, adds independently drawn golden/silver finishes, additional palettes, faces and hats, mirrored side-hanging floppy ears, style thumbnails and emote effects. All remain procedural canvas drawings. The original Milo renderer credit above remains applicable.

@@ -1,6 +1,7 @@
+import {chooseTapEmote,type PetEmote} from './emotes.ts';
 /** Small deterministic visual controller. It never touches game scores or currency. */
 export type Platform={x:number;y:number};
-export type PetMotion={x:number;y:number;from:Platform;to:Platform;phase:number;wait:number;happy:number;action:'idle'|'hop'|'happy';index:number;hops:number;dir:number;landing:number};
+export type PetMotion={x:number;y:number;from:Platform;to:Platform;phase:number;wait:number;happy:number;emote:PetEmote;action:'idle'|'hop'|'happy';index:number;hops:number;dir:number;landing:number};
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
 export function fitPlatforms(points:Platform[],width:number,height:number):Platform[]{
  const result:Platform[]=[];
@@ -9,9 +10,9 @@ export function fitPlatforms(points:Platform[],width:number,height:number):Platf
  return result;
 }
 export function createMotion(platforms:Platform[]):PetMotion{
- const p=platforms[0]??{x:30,y:76};return {x:p.x,y:p.y,from:{...p},to:{...p},phase:0,wait:1.5,happy:0,action:'idle',index:0,hops:0,dir:1,landing:0};
+ const p=platforms[0]??{x:30,y:76};return {x:p.x,y:p.y,from:{...p},to:{...p},phase:0,wait:1.5,happy:0,emote:'idle',action:'idle',index:0,hops:0,dir:1,landing:0};
 }
-export function reactMotion(m:PetMotion){m.happy=1.15;if(m.action!=='hop')m.action='happy';m.wait=Math.max(m.wait,1.4);}
+export function reactMotion(m:PetMotion,emote?:PetEmote){m.emote=emote??chooseTapEmote(m.emote);m.happy=1.15;if(m.action!=='hop')m.action='happy';m.wait=Math.max(m.wait,1.4);}
 export function stepMotion(m:PetMotion,delta:number,platforms:Platform[],reduced:boolean){
  const dt=clamp(Number.isFinite(delta)?delta:0,0,.04);m.happy=Math.max(0,m.happy-dt);m.landing=Math.max(0,m.landing-dt);
  if(!platforms.length)return;

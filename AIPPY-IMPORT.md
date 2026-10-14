@@ -1,25 +1,9 @@
-# Aippy update — Milo pocket pet
+# Pending combined Aippy update
 
-Apply `updates/ultimate-fidget-fingers-pet-20261015.json` on top of the current chat-and-awards version. This 10-file exact-path overlay is pinned to the tested source commit and preserves the Aippy host scaffold and saves.
+The latest tested pet expansion is prepared as `updates/ultimate-fidget-fingers-pet-expanded-20261015.json`, a cumulative 12-file overlay containing both the initial pet and its expanded wardrobe, emotes and game-footer companion. Its source URL is pinned to the tested commit. It can be included in the next larger update; the user is holding the import until that bundle is ready.
 
-## Copy-paste prompt
+This pet overlay applies after the chat-and-awards version. Older projects first apply the premium eight-toy, compact-layout and chat-and-awards overlays in that order. The original 10-file pet overlay is superseded by this cumulative version.
 
-Use Node during the normal Vite build to import:
+One React root, the existing Aippy runtime, build lifecycle, importer, dependencies and saves remain in place. No new runtime dependency is introduced. Pet state uses the existing validated uff-save-v2 save. Colours, ears, faces, hats, chosen names, treats and existing arcade progress remain intact.
 
-https://raw.githubusercontent.com/benryaus-cmd/fidget/main/updates/ultimate-fidget-fingers-pet-20261015.json
-
-Download all 10 listed files using manifest.baseUrl + source, then replace their exact target paths.
-
-Preserve saves, purchases, settings, the existing React entry, Aippy runtime integration, Vite plugins, dependencies, README and importer.
-
-Build and load ULTIMATE FIDGET FINGERS.
-
-## Prerequisites
-
-For an older imported version, apply these overlays in order: `ultimate-fidget-fingers-premium-20261014.json`, `ultimate-fidget-fingers-compact-20261015.json`, `ultimate-fidget-fingers-chat-awards-20261015.json`, then this pet overlay. A project already running the chat-and-awards version needs only the pet overlay.
-
-## Runtime
-
-One React root remains. No new runtime dependency is introduced. Pet drawing is procedural canvas and local care/cosmetics are stored inside the existing validated save. Existing players receive the free original pet and five treats; prior Gems, XP, purchases and settings remain intact.
-
-Node runs during normal build/import operations. Preserve the functioning Aippy importer and packaging. Browser tests do not establish actual Aippy import or physical Android performance.
+The normal Vite build runs the host's existing exact-path downloader with Node. Actual Aippy import and physical Android behavior remain device verification work. No new build prompt is issued for this checkpoint.

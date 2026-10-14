@@ -2,11 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 
-test('Milo starts cozy with original owned cosmetics and five treats',async()=>{
+test('Pip starts cozy with original owned cosmetics and five treats',async()=>{
   assert.ok(existsSync(new URL('../src/pet/state.ts',import.meta.url)),'pet state module must exist');
   const {createPet,PET_ITEMS}=await import('../src/pet/state.ts');
   const pet=createPet();
-  assert.equal(pet.name,'Milo');
+  assert.equal(pet.name,'Pip');
   assert.equal(pet.treats,5);
   assert.equal(pet.feeds,0);
   for(const category of ['color','ears','face','hat'] as const){
@@ -81,7 +81,7 @@ test('names trim and cap visible characters without empty or control-only labels
   const {createPet,renamePet}=await import('../src/pet/state.ts');
   const pet=createPet();
   assert.equal(renamePet(pet,'  Pip  ').name,'Pip');
-  assert.equal(renamePet(pet,'').name,'Milo');
+  assert.equal(renamePet(pet,'').name,'Pip');
   assert.equal(renamePet(pet,'\n\t'),pet);
   assert.equal(renamePet(pet,'abcdefghijklmnopq').name,'abcdefghijklmnop');
   assert.equal([...renamePet(pet,'🐱'.repeat(20)).name].length,16);
@@ -90,7 +90,7 @@ test('names trim and cap visible characters without empty or control-only labels
 test('malformed pet saves retain owned valid cosmetics and repair equip and counters',async()=>{
   const {normalizePet}=await import('../src/pet/state.ts');
   const pet=normalizePet({name:42,owned:['color-lavender','color-lavender','missing',null],color:'color-lavender',ears:'hat-crown',hat:'hat-crown',face:[],treats:200,feeds:-3,lastFedAt:'bad'});
-  assert.equal(pet.name,'Milo');
+  assert.equal(pet.name,'Pip');
   assert.equal(pet.color,'color-lavender');
   assert.equal(pet.ears,'ears-original');
   assert.equal(pet.hat,'hat-none');
@@ -101,13 +101,13 @@ test('malformed pet saves retain owned valid cosmetics and repair equip and coun
   assert.ok(!pet.owned.includes('missing'));
 });
 
-test('old economy saves gain Milo and pet purchases survive the existing save roundtrip',async()=>{
+test('old economy saves gain Pip and pet purchases survive the existing save roundtrip',async()=>{
   const {loadSave,persistSave}=await import('../src/economy.ts');
   const {buyPetItem,feedPet,renamePet}=await import('../src/pet/state.ts');
   const records=new Map([['uff-save-v1',JSON.stringify({gems:300,xp:80,claimed:['first']})]]);
   const storage={getItem:(key:string)=>records.get(key)??null,setItem:(key:string,value:string)=>{records.set(key,value)}};
   const old=loadSave(storage);
-  assert.equal(old.pet.name,'Milo');
+  assert.equal(old.pet.name,'Pip');
   assert.equal(old.pet.treats,5);
   const bought=buyPetItem(old,'hat-star');
   const changed={...bought,pet:feedPet(renamePet(bought.pet,'Nova'),123456)};

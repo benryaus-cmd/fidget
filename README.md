@@ -38,8 +38,10 @@ Pop boards celebrate and automatically flip. Piano challenges play public-domain
 
 Run `npm run test:social` against a running Vite server for the SDK-profile and mocked-chat browser suite. Read `docs/social-development-report.md`, `docs/social-playtest-report.md` and `docs/chat-integration.md` for evidence and server/device limitations.
 
-## Milo pocket pet
+## Pip pocket pet
 
-A small procedural pet hops around the welcome screen and between showroom cards. Tap him for a happy reaction; use the header paw button to feed, rename and customise him. Four palettes, four ear styles, three faces and four hat options use the existing Gem balance. Five treats are included, and a five-treat refill costs 15 Gems. No streaks, penalties or changes to challenge scoring are introduced.
+A small procedural pet hops around the welcome screen and between showroom cards. Tap him for a happy reaction; use the header paw button to feed, rename and customise him. Twelve palettes, four ear styles, nine faces and ten hat options use the existing Gem balance. Five treats are included, and a five-treat refill costs 15 Gems. No streaks, penalties or changes to challenge scoring are introduced.
 
 Pet care and cosmetics migrate into the existing `uff-save-v2` save. Roaming stops behind chat and dialogs and respects reduced motion. Run `npm run test:pet` against a running Vite server; see `docs/pet-playtest-report.md` and `docs/pet-development-report.md` for actual verification.
+
+The expanded pet uses nonrepeating random tap emotes and a passive companion in the game footer. Actual toy actions, clears, combos, piano songs, awards and results trigger reactions. Metallic gold/silver palettes and repaired side-hanging floppy ears are included. Existing chosen names are retained; the earlier automatic Milo/Mile name migrates to Pip. See `docs/pet-expansion-report.md` for this follow-up; the next Aippy import is being bundled.

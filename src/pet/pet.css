@@ -48,3 +48,18 @@
 .uff .pet-footnote{font-size:7px;line-height:1.6;text-align:center;margin:9px 0 0;color:#94829f}
 @container(max-width:345px){.uff .top{gap:4px}.uff .top-center small{letter-spacing:.25px;font-size:5px}.uff .top-center strong{font-size:9px}.uff .top .uff-toy-music-toggle strong{max-width:37px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.uff .wallet{font-size:10px;padding:6px}.uff .header-pet{width:25px}.uff .pet-studio{padding:11px}.uff .pet-stage{height:132px;min-height:132px}.uff .pet-portrait-button,.uff .pet-portrait{width:126px;height:126px}}
 @container(max-height:540px){.uff .pet-stage{height:116px;min-height:116px}.uff .pet-portrait-button,.uff .pet-portrait{width:116px;height:116px}.uff .pet-studio-head h2{font-size:14px}.uff .pet-care-label{bottom:18px}.uff .pet-studio{padding:10px}.uff .pet-name{margin:7px 0}.uff .pet-footnote{margin-top:7px}}
+.uff .pet-items{max-height:180px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#9e75bf55 transparent;align-content:start;padding-right:2px}
+.uff .pet-style-thumb{width:33px;height:38px;flex-shrink:0;display:block;background:radial-gradient(ellipse,#f2d8ff12,transparent 70%);pointer-events:none}
+.uff .pet-item-preview>span:last-child{flex:1}
+.uff .pet-stage{padding-bottom:7px}
+.uff .pet-dock{display:flex;align-items:center;gap:3px;min-width:0;flex:1;height:44px;pointer-events:none;user-select:none;overflow:hidden}
+.uff .pet-dock .pet-portrait{width:49px;height:49px;flex-shrink:0;animation:pet-companion-wander 6s ease-in-out infinite}
+.uff .pet-dock-copy{display:flex;flex-direction:column;gap:3px;min-width:0;margin-left:1px}
+.uff .pet-dock-copy b{font-size:8px;letter-spacing:.4px;color:#d4b8ed;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.uff .pet-dock-copy small{font-size:6px;color:#ab97bc;max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uff .toy-bottom:has(.pet-dock){min-height:44px}
+.uff[data-reduced=true] .pet-dock .pet-portrait{animation:none}
+@keyframes pet-companion-wander{0%,100%{transform:translateX(0) rotate(-1deg)}35%{transform:translateX(3px) rotate(2deg)}70%{transform:translateX(-2px) rotate(-2deg)}}
+@container(max-width:345px){.uff .pet-dock{gap:0}.uff .pet-dock-copy small{max-width:85px;font-size:6px}.uff .pet-items{max-height:160px}.uff .pet-item{padding:5px}.uff .pet-style-thumb{width:29px;height:34px}}
+
+.uff .result-medal .pet-portrait{width:72px;height:72px}

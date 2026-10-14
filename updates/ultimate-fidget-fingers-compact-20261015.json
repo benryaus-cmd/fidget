@@ -1,0 +1,39 @@
+{
+  "version": "ultimate-fidget-fingers-compact-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/c0fd6ebf827e27da9f81280816a6a09727da6576/",
+  "files": [
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/style.css",
+      "target": "src/style.css"
+    },
+    {
+      "source": "src/gameplay/toys.css",
+      "target": "src/gameplay/toys.css"
+    },
+    {
+      "source": "src/audio/sound.ts",
+      "target": "src/audio/sound.ts"
+    },
+    {
+      "source": "src/audio/radio.ts",
+      "target": "src/audio/radio.ts"
+    },
+    {
+      "source": "src/audio/audio.css",
+      "target": "src/audio/audio.css"
+    },
+    {
+      "source": "src/audio/ToyMusicButton.tsx",
+      "target": "src/audio/ToyMusicButton.tsx"
+    },
+    {
+      "source": "src/audio/audioPolicy.ts",
+      "target": "src/audio/audioPolicy.ts"
+    }
+  ]
+}

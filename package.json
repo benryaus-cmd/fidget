@@ -8,8 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/economy.test.ts && node src/gameplay/physics.test.mjs && node src/audio/sound.test.mjs && node src/audio/radio.test.mjs",
-    "test:browser": "node tests/browser.mjs"
+    "test": "node --test tests/economy.test.ts && node src/gameplay/physics.test.mjs && node src/gameplay/melodies.test.mjs && node src/audio/sound.test.mjs && node src/audio/radio.test.mjs && node src/chat/chat.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "test:social": "node tests/social-browser.mjs"
   },
   "dependencies": {
     "@aippy/runtime": "^0.4.1",

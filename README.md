@@ -24,8 +24,16 @@ Build includes TypeScript verification. Unit scripts use Node 24 in the verified
 
 Read `docs/development-report.md` for actual validation and remaining gaps, `docs/toy-review.md` for the review of all 26 original components, and `final-goal.md` for the full quality target. See `AIPPY-IMPORT.md` for the gameplay-only update that preserves the Aippy host scaffold.
 
-Progress saves on this browser/device. No accounts, multiplayer or real-money payments are implemented. SomaFM radio embedding is a development integration with a documented public-release rights limitation in `ASSET-CREDITS.md`.
+Progress saves on this browser/device. Shared HubSide chat uses the existing Aippy profile and server protocol. No real-money payments are implemented. SomaFM radio embedding is a development integration with a documented public-release rights limitation in `ASSET-CREDITS.md`.
 
 ## Compact Aippy update
 
-The game now sizes to its containing surface, with smaller navigation, eight visible showroom cards at 390×610, larger toys, explicit scoped text contrast and per-toy radio controls. See `docs/compact-playtest-report.md` for 62 compact checks plus the 44-check main suite, and `docs/audio-focus-investigation.md` for the precise external-music behavior and host limitations.
+The game now sizes to its containing surface, with smaller navigation, eight visible showroom cards at 390×610, larger toys, explicit scoped text contrast and global header radio controls. See `docs/compact-playtest-report.md` for 62 compact checks plus the 44-check main suite, and `docs/audio-focus-investigation.md` for the precise external-music behavior and host limitations.
+
+## Chat, melodies and rotating awards
+
+The shared header now contains music and chat controls on every page. The ninth showroom tile opens the full chatroom; the header opens a compact translucent overlay. The redundant showroom heading is removed and toy captions sit above their artwork.
+
+Pop boards celebrate and automatically flip. Piano challenges play public-domain melodies in four-note phrases, with a Listen preview. A catalogue of 54 claimable awards rotates through five unclaimed slots, with completion popups and a claim badge. New radio preferences start at 3%; saved choices are retained.
+
+Run `npm run test:social` against a running Vite server for the SDK-profile and mocked-chat browser suite. Read `docs/social-development-report.md`, `docs/social-playtest-report.md` and `docs/chat-integration.md` for evidence and server/device limitations.

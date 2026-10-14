@@ -2,6 +2,85 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 
+test('award shelf rotates five unclaimed awards and prioritizes earned rewards',async()=>{
+  const {DEFAULT_SAVE,AWARDS,availableAwards,claimAward,claimableAwards}=await import('../src/economy.ts');
+  assert.ok(AWARDS.length>=35);
+  assert.equal(new Set(AWARDS.map(a=>a.id)).size,AWARDS.length);
+  const save={...structuredClone(DEFAULT_SAVE),mastery:{piano:250},interactions:250};
+  const shelf=availableAwards(save);
+  assert.equal(shelf.length,5);
+  assert.ok(shelf.every(a=>!save.claimed.includes(a.id)));
+  assert.ok(shelf.every(a=>a.progress(save)>=a.target));
+  const claimed=claimAward(save,shelf[0].id);
+  const next=availableAwards(claimed);
+  assert.equal(next.length,5);
+  assert.ok(!next.some(a=>a.id===shelf[0].id));
+  assert.ok(next.some(a=>!shelf.some(old=>old.id===a.id)));
+  assert.ok(!claimableAwards(claimed).some(a=>a.id===shelf[0].id));
+  assert.deepEqual(availableAwards({...save,claimed:AWARDS.map(a=>a.id)}),[]);
+});
+
+test('award notifications report only newly eligible unclaimed awards',async()=>{
+  const {DEFAULT_SAVE,recordAction,newlyClaimableAwards,claimAward}=await import('../src/economy.ts');
+  const before=structuredClone(DEFAULT_SAVE),after=recordAction(before,'pop',1);
+  assert.deepEqual(newlyClaimableAwards(before,after).map(a=>a.id),['first']);
+  assert.deepEqual(newlyClaimableAwards(after,after),[]);
+  assert.deepEqual(newlyClaimableAwards(before,claimAward(after,'first')),[]);
+});
+
+test('unfinished shelf entries favor closest goals after all earned entries',async()=>{
+  const {DEFAULT_SAVE,availableAwards}=await import('../src/economy.ts');
+  const save={...structuredClone(DEFAULT_SAVE),interactions:24,mastery:{pop:24}};
+  const shelf=availableAwards(save);
+  assert.equal(shelf[0].id,'first');
+  assert.equal(shelf[1].id,'pop-moves-25');
+  const unfinished=shelf.filter(a=>a.progress(save)<a.target);
+  assert.ok(unfinished.every((a,i)=>i===0||unfinished[i-1].progress(save)/unfinished[i-1].target>=a.progress(save)/a.target));
+});
+
+test('legacy awards retain their prizes and even high XP cannot unlock play milestones',async()=>{
+  const {DEFAULT_SAVE,AWARDS,claimableAwards}=await import('../src/economy.ts');
+  const old={first:20,fifty:60,hundred:150,collector:100,arcade:100,explorer:80,master:120};
+  for(const [id,prize] of Object.entries(old))assert.equal(AWARDS.find(a=>a.id===id)!.prize,prize);
+  assert.deepEqual(claimableAwards({...structuredClone(DEFAULT_SAVE),xp:1e9,gems:1e9}),[]);
+});
+
+test('milestone events count actual completions without creating currency or XP',async()=>{
+  const {DEFAULT_SAVE,recordMilestone,AWARDS}=await import('../src/economy.ts');
+  const base=structuredClone(DEFAULT_SAVE);
+  const changed=recordMilestone(base,'pop-board-clear');
+  assert.equal(changed.milestones['pop-board-clear'],1);
+  assert.equal(changed.gems,base.gems);
+  assert.equal(changed.xp,base.xp);
+  assert.equal(recordMilestone(base,'unknown'),base);
+  assert.ok(AWARDS.some(a=>a.progress(changed)>=a.target&&a.progress(base)<a.target));
+  assert.equal(AWARDS.find(a=>a.id==='pop-clear-1')!.progress({...base,mastery:{pop:500}}),0);
+});
+
+test('unique completed rounds track per-toy lifetime counts; invalid rounds never count',async()=>{
+  const {DEFAULT_SAVE,completeRound,AWARDS}=await import('../src/economy.ts');
+  const base=structuredClone(DEFAULT_SAVE);
+  const won=completeRound(base,'piano',10,45,'r1').save;
+  assert.equal(won.rounds.piano,1);
+  assert.equal(completeRound(won,'piano',20,45,'r1').save.rounds.piano,1);
+  assert.equal(completeRound(won,'pop',0,45,'r2').save.rounds.pop,undefined);
+  assert.equal(AWARDS.find(a=>a.id==='rounds-1')!.progress(won),1);
+});
+
+test('new save fields migrate safely and radio starts quiet while explicit preferences survive',async()=>{
+  const {DEFAULT_SAVE,loadSave}=await import('../src/economy.ts');
+  assert.equal(DEFAULT_SAVE.settings.radioVolume,.03);
+  const read=(value:unknown)=>loadSave({getItem:()=>JSON.stringify(value),setItem:()=>{}});
+  const old=read({claimed:['first','collector','master'],completedRounds:['old-round'],settings:{radioVolume:.41}});
+  assert.equal(old.settings.radioVolume,.41);
+  assert.deepEqual(old.claimed,['first','collector','master']);
+  assert.deepEqual(old.rounds,{});
+  assert.deepEqual(old.milestones,{});
+  assert.equal(read({settings:{radioVolume:'bad'}}).settings.radioVolume,.03);
+  assert.equal(read({}).settings.radioVolume,.03);
+  assert.deepEqual(read({rounds:{piano:-4,evil:99},milestones:{'pop-board-clear':-9,'unknown':9}}).rounds,{piano:0});
+});
+
 test('economy exposes a safe default save and bounded genuine play rewards', async () => {
   assert.ok(existsSync(new URL('../src/economy.ts', import.meta.url)), 'economy module must exist');
   const { DEFAULT_SAVE, recordAction } = await import('../src/economy.ts');

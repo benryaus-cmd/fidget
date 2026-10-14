@@ -1,31 +1,23 @@
-# Aippy update — compact ULTIMATE FIDGET FINGERS
+# Aippy update — chat, music and rotating awards
 
-Apply `updates/ultimate-fidget-fingers-compact-20261015.json` to the current ULTIMATE FIDGET FINGERS game. It updates eight exact runtime files on top of the already imported premium version. The original host entry, Vite plugins, dependency configuration, README, importer and player saves remain in place.
+Apply `updates/ultimate-fidget-fingers-chat-awards-20261015.json` on top of the current compact game. This is an 18-file exact-path overlay pinned to the tested source commit. It preserves the existing Aippy scaffold, importer and saves.
 
 ## Copy-paste prompt
 
-Use Node during the normal Vite build to import this update:
+Use Node during the normal Vite build to import:
 
-https://raw.githubusercontent.com/benryaus-cmd/fidget/main/updates/ultimate-fidget-fingers-compact-20261015.json
+https://raw.githubusercontent.com/benryaus-cmd/fidget/main/updates/ultimate-fidget-fingers-chat-awards-20261015.json
 
-Download all 8 listed files using manifest.baseUrl + source, then replace their exact target paths in the current ULTIMATE FIDGET FINGERS game.
+Download all 18 listed files using manifest.baseUrl + source, then replace their exact target paths.
 
 Preserve saves, purchases, settings, the existing React entry, Aippy runtime integration, Vite plugins, dependencies, README and importer.
 
-Build and load ULTIMATE FIDGET FINGERS. Verify the compact layout fills the Aippy play area, all eight showroom cards fit at 390×610, text stays readable, and each toy has a working music play/pause control.
+Build and load ULTIMATE FIDGET FINGERS. Verify the shared music/chat header, ninth chatroom tile, foreground captions, automatic Pop board flip, piano melody challenges and five-slot awards shelf. Check actual Aippy profile admission, owner controls and keyboard resizing on a phone.
 
-## Changes
+## Prerequisites and runtime
 
-The game sizes to its parent surface instead of the outer phone viewport. Smaller chrome and a slimmer HUD leave more room for toys. Explicit game text colors prevent Aippy's generic dark text rules from leaking in. Radio controls share the existing controller and saved station/volume.
+For a project without the premium eight-toy version, first apply `updates/ultimate-fidget-fingers-premium-20261014.json` (12 files), then `updates/ultimate-fidget-fingers-compact-20261015.json` (8 files), then this overlay. These preserve the functioning Aippy host scaffold. The initial manifest is an archived standalone snapshot containing build configuration.
 
-Menu navigation is silent and muted effects never construct or resume an audio context. Enabled effects and explicit radio request a mixable ambient session where the host exposes that API. Actual coexistence with Spotify on Android still needs a phone test; the inspected SDK has no native Android audio-focus setting.
+One React root remains. No new runtime dependency is introduced. Chat uses the installed `@aippy/runtime` user-info integration and existing HubSide WebSocket server. Outside an identified Aippy session, chat is read-only. Node runs only during import/build/test operations.
 
-## Previous complete overlay
-
-For a project that has not received the premium eight-toy version, first apply `updates/ultimate-fidget-fingers-premium-20261014.json` (12 files), then this compact overlay (8 files). Both preserve the functioning Aippy host scaffold. The earlier initial manifest is an archived standalone snapshot that includes build configuration.
-
-## Runtime boundaries
-
-One React root, `src/main.tsx` → `src/App.tsx`; App imports its own stylesheet. React, Lucide and `@aippy/runtime/device` were already used by the original source. No remote artwork or new runtime dependency is required. Node runs only during build/import/test operations.
-
-The original src.zip did not include the functioning host Vite/importer configuration. If a host lacks a working importer, add the exact-path downloader to that host's normal Vite lifecycle, then build. The standalone Vite config is not a substitute for Aippy's existing packaging configuration.
+The original source ZIP did not include the functioning host importer configuration. Preserve that host's normal Vite lifecycle and packaging. Browser tests do not prove an actual Aippy import or physical Android behavior; see the development and chat reports for tested boundaries.

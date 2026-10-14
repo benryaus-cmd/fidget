@@ -1,5 +1,6 @@
 import {useCallback,useEffect,useRef,useState,type CSSProperties,type PointerEvent} from 'react';
-import {TOYS,type ToyId} from './catalog';
+import {TOYS,createBoardClearTimer,type ToyId} from './catalog';
+import {MELODIES,advanceMelody,phraseNotes} from './melodies';
 import {TAU,clamp,angleDelta,rotationReward,accuracyPoints,stepMarble} from './physics';
 import './toys.css';
 export interface ToyStageProps {toy:ToyId;challenge:boolean;roundKey:number;onAction:(event:{points:number;kind:string;pitch?:number})=>void;reducedMotion:boolean;intensity:number;material:string;trail:string}
@@ -7,26 +8,66 @@ type ToyProps=ToyStageProps & {hit:(points:number,kind:string,pitch?:number)=>vo
 const COLORS=['#fb6da8','#ffc575','#b7ed85','#69e7ce','#79b4ff','#b396ff','#f286df'];
 const randomTarget=(except=-1,max=12)=>{let v=Math.floor(Math.random()*max);if(v===except)v=(v+1)%max;return v;};
 function Status({children}:{children:React.ReactNode}){return <div className="toy-status" role="status" aria-live="polite">{children}</div>}
-function Pop({challenge,hit}:ToyProps){
- const [popped,setPopped]=useState<number[]>([]),[target,setTarget]=useState(7),[side,setSide]=useState(0),[miss,setMiss]=useState(-1);
+function Pop({challenge,hit,reducedMotion}:ToyProps){
+ const [popped,setPopped]=useState<number[]>([]),[target,setTarget]=useState(7),[side,setSide]=useState(0),[miss,setMiss]=useState(-1),[clearing,setClearing]=useState(false);
  const done=useRef(new Set<number>()),targetRef=useRef(7),pointers=useRef(new Set<number>());
- const pop=(i:number)=>{if(done.current.has(i))return;if(challenge&&i!==targetRef.current){setMiss(i);return;}done.current.add(i);setPopped([...done.current]);hit(challenge?12:3,'pop',260+i*17);const next=Array.from({length:25},(_,j)=>j).filter(j=>!done.current.has(j));if(next.length){targetRef.current=next[Math.floor(Math.random()*next.length)];setTarget(targetRef.current);}setMiss(-1);};
- const flip=()=>{if(done.current.size!==25)return;done.current.clear();setPopped([]);setSide(s=>s+1);const n=randomTarget(-1,25);targetRef.current=n;setTarget(n);};
+ const clearTimer=useRef<ReturnType<typeof createBoardClearTimer<ReturnType<typeof setTimeout>>>|null>(null);
+ useEffect(()=>{const timer=createBoardClearTimer(setTimeout,clearTimeout);clearTimer.current=timer;return()=>{timer.dispose();clearTimer.current=null;};},[]);
+ const flip=()=>{done.current.clear();pointers.current.clear();setPopped([]);setClearing(false);setSide(s=>s+1);setMiss(-1);const n=randomTarget(-1,25);targetRef.current=n;setTarget(n);};
+ const pop=(i:number)=>{
+  if(done.current.has(i)||done.current.size===25)return;
+  if(challenge&&i!==targetRef.current){setMiss(i);return;}
+  done.current.add(i);setPopped([...done.current]);hit(challenge?12:3,'pop',260+i*17);
+  const next=Array.from({length:25},(_,j)=>j).filter(j=>!done.current.has(j));
+  if(next.length){targetRef.current=next[Math.floor(Math.random()*next.length)];setTarget(targetRef.current);}
+  else{setClearing(true);hit(0,'board-clear');clearTimer.current?.arm(flip);}
+  setMiss(-1);
+ };
  const sweep=(e:PointerEvent<HTMLDivElement>)=>{if(!pointers.current.has(e.pointerId))return;if(e.buttons===0){pointers.current.delete(e.pointerId);return;}const el=document.elementFromPoint(e.clientX,e.clientY)?.closest<HTMLElement>('[data-bubble]');if(el&&e.currentTarget.contains(el))pop(Number(el.dataset.bubble));};
- return <><Status>{popped.length===25?'Board cleared — flip for another side':challenge?'Find the glowing bubble':`Side ${side+1} · ${25-popped.length} bubbles to go`}</Status><div className="pop-housing" onPointerMove={sweep} onPointerUp={e=>pointers.current.delete(e.pointerId)} onPointerCancel={e=>pointers.current.delete(e.pointerId)}><div className="pop-board">{Array.from({length:25},(_,i)=><button key={i} data-bubble={i} aria-label={`Bubble ${i+1}${popped.includes(i)?', popped':''}${challenge&&target===i?', target':''}`} className={`bubble ${popped.includes(i)?'popped':''} ${challenge&&target===i?'target':''} ${miss===i?'miss':''}`} style={{'--bubble':COLORS[Math.floor(i/5)]} as CSSProperties} onPointerDown={e=>{e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);pointers.current.add(e.pointerId);pop(i)}} onClick={e=>{if(e.detail===0)pop(i)}}>{challenge&&target===i&&!popped.includes(i)?'✦':''}</button>)}</div></div><button className="toy-control" disabled={popped.length!==25} onClick={flip}>↻ Flip cleared board</button></>;
+ return <><Status>{clearing?'BOARD CLEAR! A fresh side is coming…':challenge?'Find the glowing bubble':`Side ${side+1} · ${25-popped.length} bubbles to go`}</Status><div className={`pop-housing ${clearing?'board-cleared':''}`} onPointerMove={sweep} onPointerUp={e=>pointers.current.delete(e.pointerId)} onPointerCancel={e=>pointers.current.delete(e.pointerId)}><div className="pop-board" key={side}>{Array.from({length:25},(_,i)=><button key={i} data-bubble={i} aria-label={`Bubble ${i+1}${popped.includes(i)?', popped':''}${challenge&&target===i&&!clearing?', target':''}`} className={`bubble ${popped.includes(i)?'popped':''} ${challenge&&target===i&&!clearing?'target':''} ${miss===i?'miss':''}`} style={{'--bubble':COLORS[(Math.floor(i/5)+side)%COLORS.length]} as CSSProperties} onPointerDown={e=>{e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);pointers.current.add(e.pointerId);pop(i)}} onClick={e=>{if(e.detail===0)pop(i)}}>{challenge&&target===i&&!popped.includes(i)?'✦':''}</button>)}</div>{clearing&&<div className={`board-clear-banner ${reducedMotion?'still':''}`} data-board-clear="true" aria-hidden><span>✦</span><strong>BOARD CLEAR!</strong><small>AUTO FLIPPING</small></div>}</div><div className="pop-auto-footer">{clearing?'↻ Turning to a fresh side…':'CLEAR IT. WE’LL FLIP IT.'}</div></>;
 }
 function Switches({challenge,hit}:ToyProps){
  const [values,setValues]=useState([false,false,false,false]),[pattern,setPattern]=useState([true,false,true,true]),[sets,setSets]=useState(0);const last=useRef(0);
  const toggle=(i:number)=>{const now=performance.now();if(now-last.current<70)return;last.current=now;const next=values.map((v,j)=>j===i?!v:v);setValues(next);if(challenge){if(next.every((v,j)=>v===pattern[j])){hit(45,'switch-match');setSets(s=>s+1);const p=next.map(()=>Math.random()>.5);if(p.every((v,j)=>v===next[j]))p[i]=!p[i];setPattern(p);}else hit(0,'switch');}else hit(4,'switch');};
  return <><Status>{challenge?`Match the pattern · ${sets} circuits complete`:'Heavy rockers. Tiny, perfect clicks.'}</Status>{challenge&&<div className="circuit-pattern" aria-label={`Target pattern: ${pattern.map(v=>v?'on':'off').join(', ')}`}>{pattern.map((v,i)=><span key={i} className={v?'on':''}>{i+1}<b>{v?'ON':'OFF'}</b></span>)}</div>}<div className="switch-housing">{values.map((v,i)=><div className="switch-module" key={i} style={{'--bubble':COLORS[i+2]} as CSSProperties}><span className={`status-led ${v?'lit':''}`}/><button role="switch" aria-checked={v} aria-label={`Circuit ${i+1}`} onClick={()=>toggle(i)} className={`rocker ${v?'on':''}`}><span>I</span><span>O</span></button><small>0{i+1}</small></div>)}</div><div className="toy-engraving">FOUR CIRCUITS · ONE SATISFYING CLICK</div></>;
 }
-const PHRASES=[[0,2,4,2],[4,3,2,0],[0,1,2,4],[6,4,2,3],[2,5,4,0]];
+const NOTE_LABELS=['C','D','E','F','G','A','B'];
+const notePitch=(key:number)=>261.63*Math.pow(2,[0,2,4,5,7,9,11][key]/12);
 function Piano({challenge,hit}:ToyProps){
- const [active,setActive]=useState<number[]>([]),[phrase,setPhrase]=useState(0),[step,setStep]=useState(0),[wrong,setWrong]=useState(false);const refs=useRef({phrase:0,step:0,last:Array(7).fill(0)});
- const press=useCallback((i:number)=>{const r=refs.current,now=performance.now();if(now-r.last[i]<100)return;r.last[i]=now;setActive(a=>[...new Set([...a,i])]);const pitch=261.63*Math.pow(2,[0,2,4,5,7,9,11][i]/12);if(!challenge)hit(3,'piano',pitch);else if(PHRASES[r.phrase%PHRASES.length][r.step]===i){const end=r.step===3;hit(end?30:8,end?'melody':'piano',pitch);r.step=end?0:r.step+1;if(end)r.phrase++;setPhrase(r.phrase);setStep(r.step);setWrong(false);}else{r.step=0;setStep(0);setWrong(true);hit(0,'piano-miss',pitch);}},[challenge,hit]);
+ const [active,setActive]=useState<number[]>([]),[songIndex,setSongIndex]=useState(0),[phrase,setPhrase]=useState(0),[step,setStep]=useState(0),[message,setMessage]=useState('Play the bright note'),[listening,setListening]=useState(false),[previewKey,setPreviewKey]=useState(-1);
+ const refs=useRef({song:0,phrase:0,step:0,last:Array(7).fill(-Infinity),missed:false,listening:false});
+ const previewTimers=useRef<ReturnType<typeof setTimeout>[]>([]),previewGeneration=useRef(0);
+ const hitRef=useRef(hit);hitRef.current=hit;
+ const clearPreview=()=>{previewGeneration.current++;previewTimers.current.forEach(clearTimeout);previewTimers.current=[];refs.current.listening=false;};
+ const stopPreview=()=>{clearPreview();setListening(false);setPreviewKey(-1);};
+ useEffect(()=>()=>clearPreview(),[]);
+ const press=useCallback((i:number)=>{
+  const r=refs.current,now=performance.now();if(r.listening||now-r.last[i]<100)return;
+  r.last[i]=now;setActive(a=>[...new Set([...a,i])]);const pitch=notePitch(i);
+  if(!challenge){hit(3,'piano',pitch);return;}
+  const song=MELODIES[r.song],next=advanceMelody(song,r.phrase,r.step,i);
+  if(!next.correct){r.step=0;r.missed=true;setStep(0);setMessage('Try this phrase again — start at the first note');hit(0,'piano-miss',pitch);return;}
+  hit(next.songComplete?60:next.phraseComplete?30:8,next.songComplete?'song-complete':next.phraseComplete?'melody':'piano',pitch);
+  r.phrase=next.phrase;r.step=next.step;
+  if(next.songComplete){if(!r.missed)hit(0,'perfect-song');setMessage(`${song.title} complete! Next song…`);r.song=(r.song+1)%MELODIES.length;r.missed=false;setSongIndex(r.song);}
+  else setMessage(next.phraseComplete?'Phrase complete! Keep the melody flowing.':'Play the bright note');
+  setPhrase(r.phrase);setStep(r.step);
+ },[challenge,hit]);
  const release=(i:number)=>setActive(a=>a.filter(k=>k!==i));
- useEffect(()=>{const keys='asdfghj';const down=(e:KeyboardEvent)=>{const i=keys.indexOf(e.key.toLowerCase());if(i>=0&&!e.repeat&&!(e.target instanceof HTMLInputElement)){e.preventDefault();press(i)}};const up=(e:KeyboardEvent)=>{const i=keys.indexOf(e.key.toLowerCase());if(i>=0)release(i)};window.addEventListener('keydown',down);window.addEventListener('keyup',up);return()=>{window.removeEventListener('keydown',down);window.removeEventListener('keyup',up)}},[press]);
- return <><Status>{challenge?(wrong?'Try again — start with the first note':`Melody ${phrase+1} · play the bright note`):'Seven notes. Infinite little melodies.'}</Status><div className="piano-housing">{challenge&&<div className="melody-strip">{PHRASES[phrase%PHRASES.length].map((n,i)=><span className={`${i<step?'done':''} ${i===step?'current':''}`} key={i} style={{'--bubble':COLORS[n]} as CSSProperties}>{['C','D','E','F','G','A','B'][n]}</span>)}</div>}<div className="keyboard">{COLORS.map((c,i)=><button key={i} aria-label={`${['C','D','E','F','G','A','B'][i]} note`} className={`piano-key ${active.includes(i)?'pressed':''} ${challenge&&PHRASES[phrase%PHRASES.length][step]===i?'expected':''}`} style={{'--bubble':c} as CSSProperties} onPointerDown={e=>{e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);press(i)}} onPointerUp={()=>release(i)} onPointerCancel={()=>release(i)} onClick={e=>{if(e.detail===0){press(i);release(i)}}}><span>{['C','D','E','F','G','A','B'][i]}</span><small>{'ASDFGHJ'[i]}</small></button>)}<div className="black-keys" aria-hidden>{[1,2,4,5,6].map(i=><i key={i} style={{left:`${i/7*100-4}%`}}/>)}</div></div><div className="toy-engraving">CHROMATIC COLOR ENGINE / 01</div></div></>;
+ useEffect(()=>{const keys='asdfghj';const down=(e:KeyboardEvent)=>{const target=e.target;const editable=target instanceof HTMLElement&&(target.isContentEditable||!!target.closest('input,textarea,select,[role="textbox"],[role="dialog"],[data-chat],.chat-panel,.assistant-chat'));const i=keys.indexOf(e.key.toLowerCase());if(i>=0&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!editable){e.preventDefault();press(i)}};const up=(e:KeyboardEvent)=>{const i=keys.indexOf(e.key.toLowerCase());if(i>=0)release(i)};window.addEventListener('keydown',down);window.addEventListener('keyup',up);return()=>{window.removeEventListener('keydown',down);window.removeEventListener('keyup',up)}},[press]);
+ const listen=()=>{
+  if(refs.current.listening){stopPreview();return;}
+  stopPreview();refs.current.listening=true;setListening(true);const generation=previewGeneration.current;
+  let offset=0;for(const n of phraseNotes(MELODIES[refs.current.song],refs.current.phrase)){
+   previewTimers.current.push(setTimeout(()=>{if(generation!==previewGeneration.current)return;setPreviewKey(n.key);hitRef.current(0,'piano-preview',notePitch(n.key));},offset));
+   offset+=Math.round(n.beats*300);
+   previewTimers.current.push(setTimeout(()=>{if(generation===previewGeneration.current)setPreviewKey(-1);},offset-50));
+  }
+  previewTimers.current.push(setTimeout(()=>{if(generation===previewGeneration.current){refs.current.listening=false;setListening(false);setPreviewKey(-1);previewTimers.current=[];}},offset+30));
+ };
+ const chooseSong=(index:number)=>{stopPreview();const r=refs.current;r.song=index;r.phrase=0;r.step=0;r.missed=false;setSongIndex(index);setPhrase(0);setStep(0);setMessage('Play the bright note');};
+ const song=MELODIES[songIndex],notes=phraseNotes(song,phrase);
+ return <><Status>{challenge?(listening?'Listen to this phrase — then play it back':message):'Seven notes. Infinite little melodies.'}</Status><div className="piano-housing">{challenge&&<><div className="song-heading"><div><span>PLAY A CLASSIC</span><select aria-label="Choose a song" value={songIndex} onChange={e=>chooseSong(Number(e.target.value))}>{MELODIES.map((s,i)=><option key={s.id} value={i}>{s.title}</option>)}</select></div><button className="phrase-listen" onClick={listen} aria-label={listening?'Stop phrase preview':'Listen to current phrase'}>{listening?'■ Stop':'▶ Listen'}</button></div><div className="song-progress">Phrase {phrase+1} / {song.phrases.length} · {song.composer.split(' · ')[0]}</div><div className="melody-strip" aria-label={`Phrase ${phrase+1}: ${notes.map(n=>NOTE_LABELS[n.key]).join(' ')}`}>{notes.map((n,i)=><span data-note={NOTE_LABELS[n.key]} className={`${i<step?'done':''} ${i===step?'current':''} ${listening&&previewKey===n.key?'preview':''}`} key={`${phrase}:${i}`} style={{'--bubble':COLORS[n.key]} as CSSProperties}>{NOTE_LABELS[n.key]}</span>)}</div></>}<div className="keyboard">{COLORS.map((c,i)=><button key={i} aria-label={`${NOTE_LABELS[i]} note`} aria-disabled={listening} className={`piano-key ${active.includes(i)||previewKey===i?'pressed':''} ${challenge&&!listening&&notes[step]?.key===i?'expected':''}`} style={{'--bubble':c} as CSSProperties} onPointerDown={e=>{e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);press(i)}} onPointerUp={()=>release(i)} onPointerCancel={()=>release(i)} onClick={e=>{if(e.detail===0){press(i);release(i)}}}><span>{NOTE_LABELS[i]}</span><small>{'ASDFGHJ'[i]}</small></button>)}<div className="black-keys" aria-hidden>{[1,2,4,5,6].map(i=><i key={i} style={{left:`${i/7*100-4}%`}}/>)}</div></div><div className="toy-engraving">{challenge?'REAL MELODIES · FOUR NOTES AT A TIME':'CHROMATIC COLOR ENGINE / 01'}</div></div></>;
 }
 function Sliders({challenge,hit}:ToyProps){
  const [values,setValues]=useState([20,50,80]),[targets,setTargets]=useState([72,28,58]),[locked,setLocked]=useState<boolean[]>([false,false,false]),[message,setMessage]=useState('Release each fader inside the light');const last=useRef([0,0,0]),start=useRef([20,50,80]);

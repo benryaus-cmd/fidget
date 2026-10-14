@@ -1,0 +1,38 @@
+[
+  {
+    "toy": "Pop Frenzy",
+    "size": {
+      "width": 320,
+      "height": 520
+    },
+    "clipped": [],
+    "status": "PASS"
+  },
+  {
+    "toy": "Piano Rush",
+    "size": {
+      "width": 320,
+      "height": 520
+    },
+    "clipped": [],
+    "status": "PASS"
+  },
+  {
+    "toy": "Pop Frenzy",
+    "size": {
+      "width": 844,
+      "height": 390
+    },
+    "clipped": [],
+    "status": "PASS"
+  },
+  {
+    "toy": "Piano Rush",
+    "size": {
+      "width": 844,
+      "height": 390
+    },
+    "clipped": [],
+    "status": "PASS"
+  }
+]

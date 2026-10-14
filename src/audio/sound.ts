@@ -37,7 +37,7 @@ function tone(freq:number,end:number,duration:number,type:OscillatorType,level:n
   osc.onended=()=>{voices.delete(osc);osc.disconnect();gain.disconnect();};osc.start(at);osc.stop(at+duration+.02);
 }
 export function playSound(kind:string,pitch=440,volume=1):void {
-  const now=performance.now(),interval=['spin','dial','magnet','slider'].includes(kind)?45:['piano','melody','piano-miss'].includes(kind)?18:25;
+  const now=performance.now(),interval=['spin','dial','magnet','slider'].includes(kind)?45:['piano','melody','piano-miss','piano-preview','song-complete'].includes(kind)?18:25;
   if(now-(gates.get(kind)??-Infinity)<interval)return;
   gates.set(kind,now);
   if(settings.haptics&&settings.hapticStrength>0&&typeof navigator!=='undefined'&&typeof window!=='undefined'){
@@ -53,6 +53,8 @@ export function playSound(kind:string,pitch=440,volume=1):void {
   try {
     switch(kind){
       case 'pop':tone(p*1.5,p*.23,.12,'sine',v);tone(140,65,.05,'triangle',v*.3);break;
+      case 'piano-preview':
+      case 'song-complete':
       case 'melody':
       case 'piano-miss':
       case 'piano':tone(p,p,.65,'triangle',v*.7);tone(p*2,p*2,.24,'sine',v*.25);break;

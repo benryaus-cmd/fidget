@@ -41,3 +41,9 @@ Audio-module TypeScript and media-boundary regression tests exercise no-autoplay
 ## Additional asset source assessed
 
 `benryaus-cmd/3d-Maker`, tree commit `116266fd5dd32c866ad56d5f949431469929bbd5`, was inspected for available asset families and licenses. Its city/road/character GLB models and condensed game fonts serve a different 3D street-game style. No assets from that repository are bundled in this lightweight procedural arcade.
+
+## Piano melody transcriptions and shared chat
+
+Piano Rush uses independently entered opening melodies of Beethoven's **Ode to Joy**, the traditional **When the Saints Go Marching In**, and the traditional **Twinkle, Twinkle, Little Star**. These are public-domain melodies, not recordings or arrangements copied from commercial songs. Note sequences and attribution metadata live in `src/gameplay/melodies.ts`; historical sources are recorded in `docs/toy-followup.md`. Sound is synthesized by the game's shared piano engine.
+
+Shared chat reuses the owner's `benryaus-cmd/graf-game` deployment and protocol (reference commit `5ac7f8e586259ac35010e1d86df2b53148dbcb3e`). The compact React client is implemented for this game. Existing user profile images remain third-party/user data and are not bundled artwork. See `docs/chat-integration.md` for protocol, permissions and verification boundaries.

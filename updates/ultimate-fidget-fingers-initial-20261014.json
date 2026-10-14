@@ -1,0 +1,47 @@
+{
+  "version": "ultimate-fidget-fingers-initial-20261014",
+  "mode": "full-snapshot",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/main/",
+  "files": [
+    {
+      "source": "package.json",
+      "target": "package.json"
+    },
+    {
+      "source": "index.html",
+      "target": "index.html"
+    },
+    {
+      "source": "vite.config.ts",
+      "target": "vite.config.ts"
+    },
+    {
+      "source": "tsconfig.json",
+      "target": "tsconfig.json"
+    },
+    {
+      "source": "src/main.tsx",
+      "target": "src/main.tsx"
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/style.css",
+      "target": "src/style.css"
+    },
+    {
+      "source": "final-goal.md",
+      "target": "final-goal.md"
+    },
+    {
+      "source": "README.md",
+      "target": "README.md"
+    },
+    {
+      "source": "ASSET-CREDITS.md",
+      "target": "ASSET-CREDITS.md"
+    }
+  ]
+}

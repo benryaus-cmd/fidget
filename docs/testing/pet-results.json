@@ -1,0 +1,86 @@
+{
+  "testedAt": "2026-10-14T23:10:41.197Z",
+  "checks": [
+    {
+      "name": "header exposes Pet Studio",
+      "status": "PASS"
+    },
+    {
+      "name": "Milo roams the welcome with a procedural canvas",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome describes many tactile obsessions",
+      "status": "PASS"
+    },
+    {
+      "name": "header targets do not overlap at 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "pet studio fits and its controls remain reachable at 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "header targets do not overlap at 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "pet studio fits and its controls remain reachable at 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "header targets do not overlap at 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "pet studio fits and its controls remain reachable at 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "pet studio traps keyboard focus and Escape closes it",
+      "status": "PASS"
+    },
+    {
+      "name": "tapping Milo changes its reaction and rendered frame within a bounded hit target",
+      "status": "PASS"
+    },
+    {
+      "name": "cosmetic purchase deducts Gems once and persists equipped Lavender",
+      "status": "PASS"
+    },
+    {
+      "name": "treat purchase and feeding cooldown prevent duplicate consumption",
+      "status": "PASS"
+    },
+    {
+      "name": "pet rename and cosmetics survive reload",
+      "status": "PASS"
+    },
+    {
+      "name": "pet remains in content and hides on shop, awards, settings, toys and chat",
+      "status": "PASS"
+    },
+    {
+      "name": "Milo completes a real showroom platform hop while staying in content",
+      "status": "PASS"
+    },
+    {
+      "name": "preview changes canvas palette without purchase; ears, face and hat purchases persist",
+      "status": "PASS"
+    },
+    {
+      "name": "reduced motion stops roaming position while preserving navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "system reduced-motion preference independently stops roaming",
+      "status": "PASS"
+    },
+    {
+      "name": "pet session has no uncaught errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

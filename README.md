@@ -37,3 +37,9 @@ The shared header now contains music and chat controls on every page. The ninth 
 Pop boards celebrate and automatically flip. Piano challenges play public-domain melodies in four-note phrases, with a Listen preview. A catalogue of 54 claimable awards rotates through five unclaimed slots, with completion popups and a claim badge. New radio preferences start at 3%; saved choices are retained.
 
 Run `npm run test:social` against a running Vite server for the SDK-profile and mocked-chat browser suite. Read `docs/social-development-report.md`, `docs/social-playtest-report.md` and `docs/chat-integration.md` for evidence and server/device limitations.
+
+## Milo pocket pet
+
+A small procedural pet hops around the welcome screen and between showroom cards. Tap him for a happy reaction; use the header paw button to feed, rename and customise him. Four palettes, four ear styles, three faces and four hat options use the existing Gem balance. Five treats are included, and a five-treat refill costs 15 Gems. No streaks, penalties or changes to challenge scoring are introduced.
+
+Pet care and cosmetics migrate into the existing `uff-save-v2` save. Roaming stops behind chat and dialogs and respects reduced motion. Run `npm run test:pet` against a running Vite server; see `docs/pet-playtest-report.md` and `docs/pet-development-report.md` for actual verification.

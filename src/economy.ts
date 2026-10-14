@@ -1,5 +1,8 @@
+import {createPet,normalizePet} from './pet/state.ts';
+import type {PetState} from './pet/state.ts';
 /** Pure, versioned progression. Screen opens and idle time never award currency. */
 export type Save = {
+  pet:PetState;
   gems:number; xp:number; interactions:number; best:Record<string,number>;
   owned:string[]; claimed:string[]; theme:string; material:string; trail:string;
   mastery:Record<string,number>; rounds:Record<string,number>; milestones:Record<string,number>;
@@ -26,7 +29,7 @@ export const ITEMS:Item[] = [
   {id:'beatblender',name:'Beat Blender',cost:120,category:'station',description:'A laid-back blend of deep beats.'},
 ];
 const today=()=>new Date().toISOString().slice(0,10);
-export const DEFAULT_SAVE:Save={gems:90,xp:0,interactions:0,best:{},owned:['midnight','soft','sparkle','poptron'],claimed:[],theme:'midnight',material:'soft',trail:'sparkle',mastery:{},rounds:{},milestones:{},settings:{muted:false,sfxVolume:.65,haptics:true,hapticStrength:.6,reducedMotion:false,intensity:.75,radioVolume:.03,station:'poptron'},daily:{date:today(),actions:0,rounds:0,claimed:false},completedRounds:[]};
+export const DEFAULT_SAVE:Save={pet:createPet(),gems:90,xp:0,interactions:0,best:{},owned:['midnight','soft','sparkle','poptron'],claimed:[],theme:'midnight',material:'soft',trail:'sparkle',mastery:{},rounds:{},milestones:{},settings:{muted:false,sfxVolume:.65,haptics:true,hapticStrength:.6,reducedMotion:false,intensity:.75,radioVolume:.03,station:'poptron'},daily:{date:today(),actions:0,rounds:0,claimed:false},completedRounds:[]};
 export const MASTERY_THRESHOLDS=[25,100,250,500] as const;
 const MAX=1_000_000_000;
 const MILESTONES=new Set(['pop-board-clear','piano-song-complete','piano-perfect-song']);
@@ -37,13 +40,13 @@ const object=(value:unknown):Record<string,unknown>=>value!==null&&typeof value=
 const bool=(value:unknown,fallback:boolean)=>typeof value==='boolean'?value:fallback;
 const strings=(value:unknown)=>Array.isArray(value)?[...new Set(value.filter((v):v is string=>typeof v==='string'&&v.length>0&&v.length<=128))]:[];
 const counts=(value:unknown)=>Object.fromEntries(Object.entries(object(value)).filter(([key])=>TOYS.has(key)).map(([key,v])=>[key,number(v)]));
-const fresh=():Save=>({...DEFAULT_SAVE,best:{},mastery:{},rounds:{},milestones:{},owned:[...DEFAULT_SAVE.owned],claimed:[],settings:{...DEFAULT_SAVE.settings},daily:{date:today(),actions:0,rounds:0,claimed:false},completedRounds:[]});
+const fresh=():Save=>({...DEFAULT_SAVE,pet:createPet(),best:{},mastery:{},rounds:{},milestones:{},owned:[...DEFAULT_SAVE.owned],claimed:[],settings:{...DEFAULT_SAVE.settings},daily:{date:today(),actions:0,rounds:0,claimed:false},completedRounds:[]});
 const rollDaily=(save:Save):Save=>save.daily.date===today()?save:{...save,daily:{date:today(),actions:0,rounds:0,claimed:false}};
 function normalize(value:unknown):Save {
   const p=object(value),s=object(p.settings),d=object(p.daily),base=fresh();
   const owned=[...new Set([...base.owned,...strings(p.owned).filter(id=>ITEMS.some(item=>item.id===id))])];
   const equipped=(id:unknown,category:Item['category'],fallback:string)=>typeof id==='string'&&owned.includes(id)&&ITEMS.some(i=>i.id===id&&i.category===category)?id:fallback;
-  return {...base,gems:number(p.gems,90),xp:number(p.xp),interactions:number(p.interactions),best:counts(p.best),mastery:counts(p.mastery),rounds:counts(p.rounds),milestones:Object.fromEntries(Object.entries(object(p.milestones)).filter(([key])=>MILESTONES.has(key)).map(([key,v])=>[key,number(v)])),owned,claimed:strings(p.claimed).filter(id=>AWARDS.some(a=>a.id===id)),theme:equipped(p.theme,'theme','midnight'),material:equipped(p.material,'material','soft'),trail:equipped(p.trail,'trail','sparkle'),settings:{muted:bool(s.muted, bool(p.muted,false)),haptics:bool(s.haptics,bool(p.haptics,true)),sfxVolume:unit(s.sfxVolume,.65),hapticStrength:unit(s.hapticStrength,.6),reducedMotion:bool(s.reducedMotion,false),intensity:unit(s.intensity,.75),radioVolume:unit(s.radioVolume,.03),station:equipped(s.station,'station','poptron')},daily:d.date===today()?{date:today(),actions:number(d.actions),rounds:number(d.rounds),claimed:bool(d.claimed,false)}:base.daily,completedRounds:strings(p.completedRounds).slice(0,100000)};
+  return {...base,pet:normalizePet(p.pet),gems:number(p.gems,90),xp:number(p.xp),interactions:number(p.interactions),best:counts(p.best),mastery:counts(p.mastery),rounds:counts(p.rounds),milestones:Object.fromEntries(Object.entries(object(p.milestones)).filter(([key])=>MILESTONES.has(key)).map(([key,v])=>[key,number(v)])),owned,claimed:strings(p.claimed).filter(id=>AWARDS.some(a=>a.id===id)),theme:equipped(p.theme,'theme','midnight'),material:equipped(p.material,'material','soft'),trail:equipped(p.trail,'trail','sparkle'),settings:{muted:bool(s.muted, bool(p.muted,false)),haptics:bool(s.haptics,bool(p.haptics,true)),sfxVolume:unit(s.sfxVolume,.65),hapticStrength:unit(s.hapticStrength,.6),reducedMotion:bool(s.reducedMotion,false),intensity:unit(s.intensity,.75),radioVolume:unit(s.radioVolume,.03),station:equipped(s.station,'station','poptron')},daily:d.date===today()?{date:today(),actions:number(d.actions),rounds:number(d.rounds),claimed:bool(d.claimed,false)}:base.daily,completedRounds:strings(p.completedRounds).slice(0,100000)};
 }
 export type SaveStorage = {getItem:(key:string)=>string|null;setItem:(key:string,value:string)=>void};
 const browserStorage=():SaveStorage|undefined=>{try{return globalThis.localStorage}catch{return undefined}};

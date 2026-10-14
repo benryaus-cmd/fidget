@@ -1,0 +1,50 @@
+/* All pet chrome stays scoped to the embedded game. */
+.uff .header-pet{position:relative;flex-shrink:0;color:#f0c1dc;width:26px;height:28px;border-radius:8px;background:#e69acb12;border:1px solid #efb4e32a;display:grid;place-items:center;padding:0}
+.uff .header-pet svg{width:15px;height:15px}
+.uff .pet-roam-layer{position:absolute;z-index:12;pointer-events:none;overflow:hidden;contain:strict}
+.uff .pet-roamer{position:absolute;inset:0;pointer-events:none}
+.uff .pet-touch{position:absolute;top:0;left:0;width:56px;height:56px;padding:0;background:none;border:none;pointer-events:auto;touch-action:manipulation;will-change:transform;border-radius:50%;filter:drop-shadow(0 2px 2px #08071655)}
+.uff .pet-touch:active{transform:var(--pet-position);background:none}
+.uff .pet-touch:focus-visible{outline:1px dashed #d9bbfa;outline-offset:-6px}
+.uff .pet-roamer-canvas{width:56px;height:56px;pointer-events:none;display:block}
+.uff .pet-overlay{position:absolute;inset:0;z-index:48;display:grid;place-items:center;padding:10px;background:#080715bf;backdrop-filter:blur(9px)}
+.uff .pet-studio{width:min(100%,350px);max-height:100%;overflow:auto;overscroll-behavior:contain;border:1px solid #d7b5f54a;border-radius:19px;padding:13px;background:radial-gradient(ellipse at 50% 0,#5a36734d,transparent 45%),#171325;color:#f7f0ff;box-shadow:0 15px 65px #0007;outline:none;scrollbar-width:thin}
+.uff .pet-studio-head{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.uff .pet-studio-head small{font-size:6px;letter-spacing:1.5px;color:#c6a8e7;font-weight:900}
+.uff .pet-studio h2{font-size:16px;letter-spacing:-.4px;margin-top:3px;overflow-wrap:anywhere}
+.uff .pet-studio h2 span{color:#f1a2c9;font-size:13px}
+.uff .pet-studio-head>button{width:27px;height:27px;display:grid;place-items:center;flex-shrink:0;border-radius:9px;background:#ffffff0b;border:1px solid #ffffff18}
+.uff .pet-stage{position:relative;min-height:150px;height:150px;display:flex;justify-content:center;align-items:center}
+.uff .pet-halo{position:absolute;width:120px;height:120px;border:1px solid #e5b4f122;border-radius:50%;background:radial-gradient(ellipse at center,#c08fea24,transparent 65%);box-shadow:0 0 45px #b986ea16}
+.uff .pet-portrait-button{position:relative;width:140px;height:140px;padding:0;background:none}
+.uff .pet-portrait{display:block;width:140px;height:140px;pointer-events:none}
+.uff .pet-style-label{position:absolute;bottom:0;font-size:6px;letter-spacing:1px;color:#b69dcb;font-weight:800}
+.uff .pet-care-label{position:absolute;left:0;bottom:25px;font-size:8px;display:flex;flex-wrap:wrap;align-items:center;gap:4px;width:75px;color:#e4bed9}
+.uff .pet-care-label small{width:100%;font-size:6px;color:#9584ad}
+.uff .pet-notice{font-size:9px;text-align:center;color:#c8b8d9;min-height:14px;margin:7px 0}
+.uff .pet-care{display:grid;grid-template-columns:1.1fr 1fr;gap:7px}
+.uff .pet-care button{min-height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;gap:5px;font-size:8px;font-weight:900;letter-spacing:.3px}
+.uff .pet-feed{background:linear-gradient(120deg,#bd83d6,#8462cb);color:#fff}
+.uff .pet-feed small{font-size:7px;font-weight:500;margin-left:3px}
+.uff .pet-refill{background:#ecc09b0c;border:1px solid #edd0ae28;color:#e5d4b9}
+.uff .pet-refill span{font-size:8px;color:#d2b0fa}
+.uff .pet-care button:disabled{opacity:.45;cursor:default}
+.uff .pet-name{display:flex;gap:6px;margin:10px 0}
+.uff .pet-name input{min-width:0;flex:1;background:#08061555;border:1px solid #a887c335;border-radius:8px;color:#f0e3ff;font-size:10px;padding:8px 9px}
+.uff .pet-name button{background:#d2b8f012;color:#cbb1e6;border:1px solid #d2b8f021;border-radius:8px;font-size:8px;font-weight:800;padding:6px 10px}
+.uff .pet-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:3px;background:#0806154a;border-radius:9px;margin-bottom:8px}
+.uff .pet-tabs button{min-height:27px;border-radius:7px;background:none;font-size:7px;font-weight:900;letter-spacing:.6px;color:#ac96bd}
+.uff .pet-tabs [aria-selected=true]{background:#b687df24;color:#e5c6ff}
+.uff .pet-items{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.uff .pet-item{min-width:0;padding:6px;border-radius:10px;border:1px solid #bba0d521;background:#ffffff03;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.uff .pet-item.pet-equipped{background:#b19bd00a;border-color:#d5b7ef52}
+.uff .pet-item-preview{display:flex;align-items:center;gap:6px;padding:0;background:none;text-align:left;flex:1;min-width:0}
+.uff .pet-item-icon{width:25px;height:25px;border:1px solid #ffffff24;flex-shrink:0;border-radius:9px;display:grid;place-items:center;font-size:14px;box-shadow:inset 0 2px 5px #fff2,inset 0 -3px 4px #0002}
+.uff .pet-item-preview>span:last-child{display:flex;flex-direction:column;gap:3px;min-width:0}
+.uff .pet-item b{font-size:9px;color:#f1e4fc}
+.uff .pet-item small{font-size:5px;letter-spacing:.5px;font-weight:800;color:#ac91c0}
+.uff .pet-item-buy{height:22px;min-width:37px;border-radius:6px;font-size:7px;font-weight:900;background:#af86d525;border:1px solid #d3b4f02b;color:#dfbdfb;margin-left:auto;padding:4px 6px;display:grid;place-items:center}
+.uff .pet-item-buy:disabled{background:none;border-color:transparent;color:#c1e7cf}
+.uff .pet-footnote{font-size:7px;line-height:1.6;text-align:center;margin:9px 0 0;color:#94829f}
+@container(max-width:345px){.uff .top{gap:4px}.uff .top-center small{letter-spacing:.25px;font-size:5px}.uff .top-center strong{font-size:9px}.uff .top .uff-toy-music-toggle strong{max-width:37px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.uff .wallet{font-size:10px;padding:6px}.uff .header-pet{width:25px}.uff .pet-studio{padding:11px}.uff .pet-stage{height:132px;min-height:132px}.uff .pet-portrait-button,.uff .pet-portrait{width:126px;height:126px}}
+@container(max-height:540px){.uff .pet-stage{height:116px;min-height:116px}.uff .pet-portrait-button,.uff .pet-portrait{width:116px;height:116px}.uff .pet-studio-head h2{font-size:14px}.uff .pet-care-label{bottom:18px}.uff .pet-studio{padding:10px}.uff .pet-name{margin:7px 0}.uff .pet-footnote{margin-top:7px}}

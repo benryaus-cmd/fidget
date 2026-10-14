@@ -1,23 +1,25 @@
-# Aippy update — chat, music and rotating awards
+# Aippy update — Milo pocket pet
 
-Apply `updates/ultimate-fidget-fingers-chat-awards-20261015.json` on top of the current compact game. This is an 18-file exact-path overlay pinned to the tested source commit. It preserves the existing Aippy scaffold, importer and saves.
+Apply `updates/ultimate-fidget-fingers-pet-20261015.json` on top of the current chat-and-awards version. This 10-file exact-path overlay is pinned to the tested source commit and preserves the Aippy host scaffold and saves.
 
 ## Copy-paste prompt
 
 Use Node during the normal Vite build to import:
 
-https://raw.githubusercontent.com/benryaus-cmd/fidget/main/updates/ultimate-fidget-fingers-chat-awards-20261015.json
+https://raw.githubusercontent.com/benryaus-cmd/fidget/main/updates/ultimate-fidget-fingers-pet-20261015.json
 
-Download all 18 listed files using manifest.baseUrl + source, then replace their exact target paths.
+Download all 10 listed files using manifest.baseUrl + source, then replace their exact target paths.
 
 Preserve saves, purchases, settings, the existing React entry, Aippy runtime integration, Vite plugins, dependencies, README and importer.
 
-Build and load ULTIMATE FIDGET FINGERS. Verify the shared music/chat header, ninth chatroom tile, foreground captions, automatic Pop board flip, piano melody challenges and five-slot awards shelf. Check actual Aippy profile admission, owner controls and keyboard resizing on a phone.
+Build and load ULTIMATE FIDGET FINGERS.
 
-## Prerequisites and runtime
+## Prerequisites
 
-For a project without the premium eight-toy version, first apply `updates/ultimate-fidget-fingers-premium-20261014.json` (12 files), then `updates/ultimate-fidget-fingers-compact-20261015.json` (8 files), then this overlay. These preserve the functioning Aippy host scaffold. The initial manifest is an archived standalone snapshot containing build configuration.
+For an older imported version, apply these overlays in order: `ultimate-fidget-fingers-premium-20261014.json`, `ultimate-fidget-fingers-compact-20261015.json`, `ultimate-fidget-fingers-chat-awards-20261015.json`, then this pet overlay. A project already running the chat-and-awards version needs only the pet overlay.
 
-One React root remains. No new runtime dependency is introduced. Chat uses the installed `@aippy/runtime` user-info integration and existing HubSide WebSocket server. Outside an identified Aippy session, chat is read-only. Node runs only during import/build/test operations.
+## Runtime
 
-The original source ZIP did not include the functioning host importer configuration. Preserve that host's normal Vite lifecycle and packaging. Browser tests do not prove an actual Aippy import or physical Android behavior; see the development and chat reports for tested boundaries.
+One React root remains. No new runtime dependency is introduced. Pet drawing is procedural canvas and local care/cosmetics are stored inside the existing validated save. Existing players receive the free original pet and five treats; prior Gems, XP, purchases and settings remain intact.
+
+Node runs during normal build/import operations. Preserve the functioning Aippy importer and packaging. Browser tests do not establish actual Aippy import or physical Android performance.

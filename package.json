@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/economy.test.ts tests/goals.test.ts tests/welcome.test.ts tests/pet-reactions.test.ts && node src/gameplay/physics.test.mjs && node src/gameplay/melodies.test.mjs && node src/audio/sound.test.mjs && node src/audio/radio.test.mjs && node src/chat/chat.test.mjs && node --test tests/pet.test.ts && node tests/pet-motion.test.mjs && node --test tests/pet-expansion.test.ts && node --test tests/leaders.test.ts && node --test tests/chat-avatars.test.ts",
+    "test": "node --test tests/economy.test.ts tests/goals.test.ts tests/welcome.test.ts tests/pet-reactions.test.ts tests/sandbox-rules.test.ts && node src/gameplay/physics.test.mjs && node src/gameplay/melodies.test.mjs && node src/audio/sound.test.mjs && node src/audio/radio.test.mjs && node src/chat/chat.test.mjs && node --test tests/pet.test.ts && node tests/pet-motion.test.mjs && node --test tests/pet-expansion.test.ts && node --test tests/leaders.test.ts && node --test tests/chat-avatars.test.ts",
     "test:browser": "node tests/browser.mjs",
     "test:social": "node tests/social-browser.mjs",
     "test:pet": "node tests/pet-browser.mjs",

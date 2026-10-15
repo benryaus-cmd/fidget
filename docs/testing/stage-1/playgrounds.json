@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "classic Pop remains the default and Domino needs a deliberate switch",
+      "status": "PASS"
+    },
+    {
+      "name": "a genuine three-neighbour sweep starts a bounded cascade and only manual pops earn",
+      "status": "PASS"
+    },
+    {
+      "name": "Domino clears and flips without awarding a classic board-clear milestone",
+      "status": "PASS"
+    },
+    {
+      "name": "a second finger ending cannot interrupt the active Domino sweep",
+      "status": "PASS"
+    },
+    {
+      "name": "ranked Pop ignores the sandbox switch and uses 12-point target events",
+      "status": "PASS"
+    },
+    {
+      "name": "catch practice has a visible arc and a real timed catch changes the target",
+      "status": "PASS"
+    },
+    {
+      "name": "Orbit captures via an actual touch hold and releases eight into a vortex",
+      "status": "PASS"
+    },
+    {
+      "name": "cancelled orbit recapture does not repay previously caught crystals",
+      "status": "PASS"
+    },
+    {
+      "name": "DOMINO fits 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "CATCH GAME fits 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "ORBIT fits 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "DOMINO fits 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "CATCH GAME fits 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "ORBIT fits 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "DOMINO fits 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "CATCH GAME fits 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "ORBIT fits 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "no uncaught production errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

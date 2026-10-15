@@ -58,6 +58,14 @@ export function playSound(kind:string,pitch=440,volume=1):void {
       case 'melody':
       case 'piano-miss':
       case 'piano':tone(p,p,.65,'triangle',v*.7);tone(p*2,p*2,.24,'sine',v*.25);break;
+      case 'domino-chain':tone(280,110,.1,'sine',v*.5);tone(360,150,.1,'sine',v*.35,.05);tone(440,190,.12,'sine',v*.3,.1);break;
+      case 'domino-clear':
+      case 'orbit-clear':tone(523,523,.18,'sine',v*.3);tone(659,659,.2,'sine',v*.25,.06);tone(784,1046,.24,'sine',v*.25,.12);break;
+      case 'brake-perfect':tone(880,660,.14,'sine',v*.35);break;
+      case 'brake-near':
+      case 'brake-miss':tone(160,120,.07,'triangle',v*.15);break;
+      case 'orbit-release':tone(160,600,.32,'sine',v*.3);tone(280,800,.25,'sine',v*.2,.06);break;
+      case 'orbit-small':tone(260,400,.15,'sine',v*.2);break;
       case 'spin-start':tone(95,70,.045,'triangle',v*.18);break;
       case 'spin-brake':tone(220,55,.15,'triangle',v*.35);break;
       case 'magnet-wave':tone(523,659,.2,'sine',v*.35);tone(784,1046,.24,'sine',v*.3,.07);break;

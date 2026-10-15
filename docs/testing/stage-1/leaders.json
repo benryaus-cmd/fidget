@@ -1,0 +1,61 @@
+{
+  "testedAt": "2026-10-15T05:22:42.506Z",
+  "checks": [
+    {
+      "name": "five bottom destinations and contract-fixture Overall data with current rank outside top25",
+      "status": "PASS"
+    },
+    {
+      "name": "pagination preserves server rank order",
+      "status": "PASS"
+    },
+    {
+      "name": "all toys and daily historic dates use actual API filters",
+      "status": "PASS"
+    },
+    {
+      "name": "empty rankings and generic public response show truthful distinct states",
+      "status": "PASS"
+    },
+    {
+      "name": "leaderboard navigation and filters stay inside 320x520",
+      "status": "PASS"
+    },
+    {
+      "name": "leaderboard navigation and filters stay inside 390x610",
+      "status": "PASS"
+    },
+    {
+      "name": "leaderboard navigation and filters stay inside 430x650",
+      "status": "PASS"
+    },
+    {
+      "name": "pet options are text only and sampling does not buy or equip",
+      "status": "PASS"
+    },
+    {
+      "name": "real ten-second challenge captures exact trace and ranks only after acceptance",
+      "status": "PASS"
+    },
+    {
+      "name": "failed score persists and same-secret retry cannot pay Gems or XP again",
+      "status": "PASS"
+    },
+    {
+      "name": "offline server start and short challenge stay playable and local only",
+      "status": "PASS"
+    },
+    {
+      "name": "leaving while ranked start is pending cannot start a hidden challenge",
+      "status": "PASS"
+    },
+    {
+      "name": "SDK profile works without chat admission and no uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "mockedTransport": true,
+  "startRequests": 3,
+  "submissions": 3
+}

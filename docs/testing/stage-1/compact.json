@@ -1,0 +1,254 @@
+{
+  "testedAt": "2026-10-15T05:22:30.350Z",
+  "checks": [
+    {
+      "name": "welcome fits embedded 320×520 and Play is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "navigation starts no AudioContext or radio at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "host typography remains readable at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field controls fit stage and compact 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field shares header music without obscuring its board at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome fits embedded 390×610 and Play is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "navigation starts no AudioContext or radio at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "host typography remains readable at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "showroom displays nine complete toy/chat cards above navigation at 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field controls fit stage and compact 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field shares header music without obscuring its board at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome fits embedded 430×650 and Play is visible",
+      "status": "PASS"
+    },
+    {
+      "name": "navigation starts no AudioContext or radio at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "host typography remains readable at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop Frenzy shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Spin Lab shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch Circuit shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Piano Rush shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Slider Sync shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Detent Dial shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Marble Drop shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field controls fit stage and compact 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Magnet Field shares header music without obscuring its board at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "muted welcome/menu/toy gestures create no AudioContext",
+      "status": "PASS"
+    },
+    {
+      "name": "music control starts on tap, handles unavailable stream and shares settings state",
+      "status": "PASS"
+    },
+    {
+      "name": "slider pointer release awards once; clicking bubble twice cannot farm",
+      "status": "PASS"
+    },
+    {
+      "name": "compact session has no uncaught errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

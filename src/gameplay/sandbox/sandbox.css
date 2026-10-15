@@ -1,0 +1,10 @@
+.uff .toy-variant{position:absolute;top:6px;right:7px;z-index:8;display:flex;align-items:center;justify-content:center;gap:6px;min-width:104px;min-height:26px;padding:6px 8px;border:1px solid #c9b4ee3a;border-radius:9px;background:#201b34;color:#c2b0d9;font-size:8px;font-weight:900;letter-spacing:.6px}
+.toy-variant i{width:5px;height:5px;border:1px solid #bba9d6;border-radius:50%}
+.uff .toy-variant[aria-pressed='true']{background:#133b37;color:#baffdf;border-color:#94edca77}.toy-variant[aria-pressed='true'] i{background:#acffd8;border-color:#acffd8;box-shadow:0 0 7px #9bffce}
+.uff .domino-housing{width:min(100%,440px,calc(100cqh - 55px))}
+.uff .domino-housing .pop-board{grid-template-columns:repeat(5,minmax(0,1fr))}
+.uff .domino-auto{color:#f5e0ff;text-shadow:0 0 9px #d9abff;animation:domino-pop .3s both}
+.brake-target{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}.brake-target path{fill:none;stroke:#a7ffdc;stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 0 2px #86eac6)}.brake-target circle{fill:#e3fff3}
+.spinner-nose{position:absolute;left:86%;top:calc(50% - 5px);width:10px;height:10px;z-index:3;border-radius:50%;background:#ff91c2;box-shadow:0 0 12px #ff83b2;border:1px solid #ffe2ed;pointer-events:none}
+.orbit-housing{box-shadow:0 0 30px #b184ee15,inset 0 0 10px #b7a1ff22}
+@keyframes domino-pop{0%{scale:1.08;filter:brightness(1.7)}100%{scale:1;filter:brightness(1)}}

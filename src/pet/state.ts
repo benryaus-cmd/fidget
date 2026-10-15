@@ -1,6 +1,6 @@
 /** Optional cozy care. Pet state never changes arcade scores or XP. */
 export type PetState={
-  name:string;customName?:boolean;owned:string[];color:string;ears:string;face:string;hat:string;
+  name:string;customName?:boolean;customColor?:boolean;owned:string[];color:string;ears:string;face:string;hat:string;
   treats:number;feeds:number;lastFedAt:number;
 };
 export type PetItem={
@@ -10,7 +10,7 @@ export type PetItem={
 export const PET_ITEMS:PetItem[]=[
   {id:'color-cream',name:'Vanilla',cost:0,category:'color',color:'#fff0cf',accent:'#70d9cf',secondary:'#b5a0e8'},
   {id:'color-lavender',name:'Lavender Cloud',cost:25,category:'color',color:'#d9c8ff',accent:'#8de0db',secondary:'#f8c1df'},
-  {id:'color-mint',name:'Mint Mochi',cost:25,category:'color',color:'#bcecd7',accent:'#a594e9',secondary:'#ffe1ac'},
+  {id:'color-mint',name:'Mint Mochi',cost:0,category:'color',color:'#bcecd7',accent:'#a594e9',secondary:'#ffe1ac'},
   {id:'color-peach',name:'Peach Puff',cost:25,category:'color',color:'#ffd2b8',accent:'#83d8d0',secondary:'#c8b0ef'},
   {id:'color-gold',name:'Golden Honey',cost:80,category:'color',color:'#f7cb57',accent:'#ffefd1',secondary:'#b77a35'},
   {id:'color-silver',name:'Moon Silver',cost:65,category:'color',color:'#cad8ee',accent:'#f4f9ff',secondary:'#687caa'},
@@ -50,7 +50,7 @@ export const MAX_TREATS=50;
 export const FEED_COOLDOWN_MS=3000;
 const MAX_COUNT=1_000_000_000;
 export function createPet():PetState {
-  return {name:'Pip',customName:false,owned:['color-cream','ears-original','face-classic','hat-none'],color:'color-cream',ears:'ears-original',face:'face-classic',hat:'hat-none',treats:5,feeds:0,lastFedAt:0};
+  return {name:'Pip',customName:false,customColor:false,owned:['color-mint','color-cream','ears-original','face-classic','hat-none'],color:'color-mint',ears:'ears-original',face:'face-classic',hat:'hat-none',treats:5,feeds:0,lastFedAt:0};
 }
 const bounded=(value:unknown,fallback:number,max:number)=>typeof value==='number'&&Number.isFinite(value)?Math.max(0,Math.min(max,Math.floor(value))):fallback;
 const cleanName=(value:unknown)=>typeof value==='string'?Array.from(value.replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g,'').trim()).slice(0,16).join(''):'';
@@ -60,8 +60,10 @@ export function normalizePet(value:unknown):PetState {
   const p=value as Record<string,unknown>;
   const owned=[...new Set([...base.owned,...(Array.isArray(p.owned)?p.owned.filter((id):id is string=>typeof id==='string'&&PET_ITEMS.some(i=>i.id===id)):[])])];
   const equipped=(category:PetItem['category'])=>typeof p[category]==='string'&&owned.includes(p[category])&&PET_ITEMS.some(i=>i.id===p[category]&&i.category===category)?p[category] as string:base[category];
+  const customColor=p.customColor===true||Array.isArray(p.owned)&&p.owned.some(id=>typeof id==='string'&&id.startsWith('color-')&&id!=='color-cream'&&id!=='color-mint');
+  const color=equipped('color');
   const cleaned=cleanName(p.name),customName=p.customName===true||!!cleaned&&!['Milo','Mile','Pip'].includes(cleaned);
-  return {name:customName?cleaned||base.name:base.name,customName,owned,color:equipped('color'),ears:equipped('ears'),face:equipped('face'),hat:equipped('hat'),treats:bounded(p.treats,5,MAX_TREATS),feeds:bounded(p.feeds,0,MAX_COUNT),lastFedAt:bounded(p.lastFedAt,0,Number.MAX_SAFE_INTEGER)};
+  return {name:customName?cleaned||base.name:base.name,customName,customColor,owned,color:!customColor&&color==='color-cream'?base.color:color,ears:equipped('ears'),face:equipped('face'),hat:equipped('hat'),treats:bounded(p.treats,5,MAX_TREATS),feeds:bounded(p.feeds,0,MAX_COUNT),lastFedAt:bounded(p.lastFedAt,0,Number.MAX_SAFE_INTEGER)};
 }
 export type PetStatus={hunger:number;label:string;canFeed:boolean;cozy:boolean};
 export function petStatus(pet:PetState,now=Date.now()):PetStatus {
@@ -73,7 +75,7 @@ export function petStatus(pet:PetState,now=Date.now()):PetStatus {
 export function equipPetItem(pet:PetState,id:string):PetState {
   const item=PET_ITEMS.find(i=>i.id===id);
   if(!item||!pet.owned.includes(id)||pet[item.category]===id)return pet;
-  return {...pet,[item.category]:id};
+  return {...pet,[item.category]:id,...(item.category==='color'?{customColor:true}:{})};
 }
 type PetWallet={gems:number;pet:PetState};
 export function buyPetItem<T extends PetWallet>(save:T,id:string):T {

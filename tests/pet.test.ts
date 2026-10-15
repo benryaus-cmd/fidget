@@ -26,7 +26,7 @@ test('pet cosmetic purchase is atomic and equips while duplicate buys are free',
   assert.equal(bought.pet.color,item.id);
   assert.ok(bought.pet.owned.includes(item.id));
   assert.equal(bought.xp,500);
-  assert.equal(save.pet.color,'color-cream');
+  assert.equal(save.pet.color,'color-mint');
   assert.equal(buyPetItem(bought,item.id),bought);
   assert.equal(buyPetItem({...save,gems:0},item.id).pet,save.pet);
   assert.equal(buyPetItem(save,'missing'),save);

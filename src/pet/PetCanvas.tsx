@@ -43,7 +43,7 @@ function paint(canvas:HTMLCanvasElement,p:MiloPose,pet:PetState,size:number,scal
 }
 export function PetPortrait({pet,reducedMotion=false,reaction=0,emote}:{pet:PetState;reducedMotion?:boolean;reaction?:number;emote?:PetEmote}){
  const canvas=useRef<HTMLCanvasElement>(null),appearance=useRef(pet),m=useRef(createMotion([{x:0,y:0}]));appearance.current=pet;
- useEffect(()=>{if(reaction)reactMotion(m.current,emote)},[reaction]);
+ useEffect(()=>{if(reaction)reactMotion(m.current,emote)},[reaction,emote]);
  useEffect(()=>{let raf=0,last=0,time=0;const p=newPose();const loop=(now:number)=>{const dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(!document.hidden){time+=dt;stepMotion(m.current,dt,[{x:0,y:0}],reducedMotion);if(canvas.current)paint(canvas.current,p,appearance.current,180,2.05,time,m.current,reducedMotion);}raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop);return()=>cancelAnimationFrame(raf)},[reducedMotion]);
  return <canvas ref={canvas} className="pet-portrait" width={360} height={360} aria-label={`${pet.name} wearing selected pet style`} role="img"/>;
 }
@@ -67,17 +67,18 @@ export default function PetRoamer({pet,screen,reducedMotion,onReact}:{pet:PetSta
   const invalidate=()=>{dirty=true};const observer=new ResizeObserver(invalidate);observer.observe(main);observer.observe(root);main.addEventListener('scroll',invalidate,{passive:true});window.addEventListener('resize',invalidate);
   const loop=(now:number)=>{
    const dt=last?Math.min(.04,(now-last)/1000):0;last=now;
-   if(!document.hidden){if(dirty)measure();const m=motion.current;if(m&&platforms.length&&button.current&&canvas.current){time+=dt;stepMotion(m,dt,platforms,reducedMotion);button.current.style.transform=`translate(${m.x-28}px,${m.y-51}px)`;button.current.dataset.reaction=m.action;button.current.dataset.emote=m.happy>0?m.emote:'idle';button.current.dataset.hops=String(m.hops);paint(canvas.current,p,appearance.current,56,.62,time,m,reducedMotion);}}
+   if(!document.hidden){if(dirty)measure();const m=motion.current;if(m&&platforms.length&&button.current&&canvas.current){time+=dt;stepMotion(m,dt,platforms,reducedMotion);button.current.style.transform=`translate(${m.x-63}px,${m.y-121}px)`;button.current.dataset.reaction=m.action;button.current.dataset.emote=m.happy>0?m.emote:'idle';button.current.dataset.hops=String(m.hops);paint(canvas.current,p,appearance.current,126,1.395,time,m,reducedMotion);}}
    raf=requestAnimationFrame(loop);
   };
   raf=requestAnimationFrame(loop);return()=>{cancelAnimationFrame(raf);observer.disconnect();main.removeEventListener('scroll',invalidate);window.removeEventListener('resize',invalidate);motion.current=null};
  },[screen,reducedMotion]);
- return <div ref={ref} className="pet-roam-layer"><div className="pet-roamer"><button ref={button} className="pet-touch" aria-label={`Pet ${pet.name}`} title={`Tap ${pet.name} for a little happy hop`} onClick={()=>{if(motion.current)reactMotion(motion.current);react.current()}}><canvas ref={canvas} className="pet-roamer-canvas" width={112} height={112} aria-hidden="true"/></button></div></div>;
+ return <div ref={ref} className="pet-roam-layer"><div className="pet-roamer"><button ref={button} className="pet-touch" aria-label={`Pet ${pet.name}`} title={`Tap ${pet.name} for a little happy hop`} onClick={()=>{if(motion.current)reactMotion(motion.current);react.current()}}><canvas ref={canvas} className="pet-roamer-canvas" width={252} height={252} aria-hidden="true"/></button></div></div>;
 }
 
 /** Static thumbnails render the actual purchasable appearance without extra animation loops. */
 export function PetStyleThumb({pet}:{pet:PetState}){const ref=useRef<HTMLCanvasElement>(null);useEffect(()=>{const c=ref.current;if(!c)return;const p=newPose();p.front=1;paint(c,p,pet,64,.65,1,createMotion([{x:0,y:0}]),true)},[pet.color,pet.ears,pet.face,pet.hat]);return <canvas ref={ref} className="pet-style-thumb" aria-hidden="true"/>;}
 export function PetDock({pet,reducedMotion,event,combo}:{pet:PetState;reducedMotion:boolean;event:PetEvent;combo:number}){
  const [active,setActive]=useState(false);useEffect(()=>{if(!event.id)return;setActive(true);const id=setTimeout(()=>setActive(false),1450);return()=>clearTimeout(id)},[event.id]);
- const emote=emoteForEvent(event.kind);return <div className="pet-dock" data-event={event.kind} data-emote={active?emote:'idle'} aria-label={`${pet.name}, your game companion`}><PetPortrait pet={pet} reducedMotion={reducedMotion} reaction={event.id} emote={emote}/><div className="pet-dock-copy"><b>{combo>=3?`${combo} COMBO`:pet.name}</b><small>{active?EMOTE_LABELS[emote]:'Right here with you'}</small></div></div>;
+ const [idleDance,setIdleDance]=useState(0);useEffect(()=>{if(reducedMotion)return;const id=setInterval(()=>setIdleDance(n=>n+1),5200);return()=>clearInterval(id)},[reducedMotion]);
+ const emote=emoteForEvent(event.kind);return <div className="pet-dock" data-event={event.kind} data-emote={active?emote:'idle'} aria-label={`${pet.name}, your game companion`}><PetPortrait pet={pet} reducedMotion={reducedMotion} reaction={event.id+idleDance} emote={active?emote:idleDance%2?'dance':'bounce'}/><div className="pet-dock-copy"><b>{combo>=3?`${combo} COMBO`:pet.name}</b><small>{active?EMOTE_LABELS[emote]:'Right here with you'}</small></div></div>;
 }

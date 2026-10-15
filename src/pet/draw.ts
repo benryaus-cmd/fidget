@@ -1,5 +1,5 @@
 // Adapted from the user-supplied KENNEY game by Mohammad (Milo procedural renderer).
-import {paletteFor,earPlacement,bodyDimensions} from './appearance';
+import {paletteFor,earPlacement,bodyDimensions,bodyAnchors} from './appearance';
 import type {PetState} from './state';
 import type { MiloPose } from './pose';
 
@@ -88,7 +88,7 @@ const PAW = { rx: 4.3, ry: 3.1, tilt: 0.22, ax: 0.94, ay: 0.7, out: 1.6 };
 function createSidePaw(g: G, s: number, dx: number, dy: number, m: number): void {
   const { yt, h, w } = geo;
   g.save();
-  g.translate(s * (w * PAW.ax + PAW.out) + dx, yt + h * PAW.ay + dy);
+  g.translate(s * (w * PAW.ax + PAW.out) + dx, yt + bodyAnchors(h).pawY + dy);
   g.scale(s, 1);
   g.rotate(PAW.tilt);
   oval(g, 0, 0, PAW.rx, PAW.ry);
@@ -164,7 +164,7 @@ function mouth(g: G, x: number, y: number, k: number): void {
 }
 
 function face(g: G, P: MiloPose): void {
-  const fo = geo.fo, ey = geo.yt + geo.h * 0.47, side = 1 - P.front;
+  const fo = geo.fo, ey = geo.yt + bodyAnchors(geo.h).faceY, side = 1 - P.front;
   const e0 = fo - 6.2, e1 = fo + 6.2, rx = 3.5 * P.wide, ry = 4.9 * P.wide;
   g.fillStyle = CHEEK;
   oval(g, e0 - 3.1, ey + 5.6, 3.05, 1.86); g.fill();
@@ -178,7 +178,7 @@ function face(g: G, P: MiloPose): void {
 
 /** Draws the mascot with its feet at the origin, facing +x before `dir` mirroring. */
 export function drawMilo(g: G, P: MiloPose, appearance?:Pick<PetState,'color'|'ears'|'face'|'hat'>): void {
-  const palette=paletteFor(appearance?.color??'color-cream');
+  const palette=paletteFor(appearance?.color??'color-mint');
   [CREAM,SHADE,LIGHT,TURQ,TURQ_HI,PURP,PURP_HI]=[palette.body,palette.shade,palette.light,palette.ears,palette.earHi,palette.feet,palette.feetHi];metallic=palette.metallic;
   ears=appearance?.ears??'ears-original';faceStyle=appearance?.face??'face-classic';hat=appearance?.hat??'hat-none';
   setBody(P.sx, P.sy, P.hip, P.bob);

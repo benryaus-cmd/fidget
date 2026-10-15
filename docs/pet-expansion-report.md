@@ -1,5 +1,7 @@
 # Pip expansion and in-game companion
 
+> Historical checkpoint. Superseded by [Pip and live leaderboards](pip-live-leaderboards-report.md). Public routing has since been repaired; Pip sizing/defaults and production profile compatibility have also been updated.
+
 ## Changes
 
 - Default name is Pip. Existing custom names, including the supplied example Meetchu, survive migration. Explicit future renames are marked so names such as Milo can remain if intentionally chosen. Earlier unmarked automatic Milo/Mile names migrate to Pip. Vanilla and Classic Ears replace the old default wardrobe labels.

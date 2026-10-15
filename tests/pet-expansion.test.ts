@@ -22,6 +22,12 @@ test('random tap emotes avoid immediate repeats and real game events map to appr
  let last='idle';const seen=new Set();for(let i=0;i<48;i++){const next=chooseTapEmote(last,()=>i%8/8);assert.notEqual(next,last);seen.add(next);last=next;}assert.ok(seen.size>=7);
  assert.equal(emoteForEvent('board-clear'),'confetti');assert.equal(emoteForEvent('song-complete'),'dance');assert.equal(emoteForEvent('miss'),'encourage');assert.equal(emoteForEvent('best'),'confetti');
 });
-test('Pip silhouette is rounder and wider than the original tall Milo body',async()=>{
- const {bodyDimensions}=await import('../src/pet/appearance.ts');const b=bodyDimensions(1,1);assert.ok(b.h<37.4);assert.ok(b.w>17.9);assert.ok(b.wb>14.7);assert.ok(b.h/b.w<1.9);
+test('Pip is 30 percent taller with the face high and paws low',async()=>{
+ const {bodyDimensions,bodyAnchors}=await import('../src/pet/appearance.ts');const b=bodyDimensions(1,1),a=bodyAnchors(b.h);assert.equal(b.h,35.5*1.3);assert.equal(b.w,19.2);assert.equal(b.wb,16.6);assert.ok(a.faceY<b.h*.36);assert.ok(a.pawY>b.h*.75);
+});
+test('Mint Mochi is free by default; untouched old defaults migrate and explicit colours survive',()=>{
+ assert.equal(createPet().color,'color-mint');assert.ok(createPet().owned.includes('color-mint'));
+ assert.equal(normalizePet({color:'color-cream',owned:['color-cream']}).color,'color-mint');
+ const chosen=buyPetItem({gems:100,pet:createPet()},'color-cream').pet;assert.equal(normalizePet(chosen).color,'color-cream');
+ const gold=buyPetItem({gems:100,pet:createPet()},'color-gold').pet;assert.equal(normalizePet(gold).color,'color-gold');
 });

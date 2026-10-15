@@ -7,3 +7,5 @@ tests/social-artifacts/
 tests/pet-artifacts/
 tests/pet-expansion-artifacts/
 tests/leaders-artifacts/
+
+tests/leaders-live-artifacts/

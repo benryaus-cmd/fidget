@@ -1,0 +1,54 @@
+{
+  "testedAt": "2026-10-15T00:29:01.306Z",
+  "checks": [
+    {
+      "name": "fresh pet is Pip",
+      "status": "PASS"
+    },
+    {
+      "name": "game footer has companion outside playable board and pointer transparent",
+      "status": "PASS"
+    },
+    {
+      "name": "companion is over twice the old size and dances between game events",
+      "status": "PASS"
+    },
+    {
+      "name": "actual pop produces a pet response without extra arcade actions",
+      "status": "PASS"
+    },
+    {
+      "name": "clearing actual board produces celebration emote",
+      "status": "PASS"
+    },
+    {
+      "name": "all eight game footers avoid board overlap at 320x520",
+      "status": "PASS"
+    },
+    {
+      "name": "all eight game footers avoid board overlap at 390x610",
+      "status": "PASS"
+    },
+    {
+      "name": "all eight game footers avoid board overlap at 430x650",
+      "status": "PASS"
+    },
+    {
+      "name": "repeated genuine pet taps choose varied nonrepeating emotes without rewards",
+      "status": "PASS"
+    },
+    {
+      "name": "expanded text catalog and Golden Honey purchases persist",
+      "status": "PASS"
+    },
+    {
+      "name": "render all costume styles with static pose and floppy ears outside face",
+      "status": "PASS"
+    },
+    {
+      "name": "no uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

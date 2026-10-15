@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createMotion,stepMotion,reactMotion,fitPlatforms} from '../src/pet/motion.ts';
 test('platforms clamp inside usable surface and discard unusable duplicates',()=>{
- assert.deepEqual(fitPlatforms([{x:-5,y:20},{x:999,y:999},{x:999,y:999}],320,480),[{x:24,y:66},{x:296,y:470}]);
+ assert.deepEqual(fitPlatforms([{x:-5,y:20},{x:999,y:999},{x:999,y:999}],320,480),[{x:63,y:126},{x:257,y:470}]);
 });
 test('pet makes an arc and lands on a real platform without escaping bounds',()=>{
  const p=[{x:40,y:120},{x:230,y:150}];const m=createMotion(p);let airborne=false,landed=false;
@@ -18,7 +18,7 @@ test('reaction lasts through a tap, then normal idle resumes without awarding an
 test('returning from a hidden tab cannot teleport across several hops',()=>{
  const p=[{x:50,y:100},{x:200,y:100}],m=createMotion(p);stepMotion(m,100,p,false);assert.equal(m.hops,0);assert.equal(m.x,50);
 });
-test('hops between low perches keep the entire small character inside the content area',()=>{
- const p=[{x:50,y:66},{x:200,y:66}],m=createMotion(p);
- for(let i=0;i<300;i++){stepMotion(m,.016,p,false);assert.ok(m.y>=60,'ears must remain visible at the apex');}
+test('hops between low perches keep the entire enlarged character inside the content area',()=>{
+ const p=[{x:50,y:126},{x:200,y:126}],m=createMotion(p);
+ for(let i=0;i<300;i++){stepMotion(m,.016,p,false);assert.ok(m.y>=121,'ears must remain visible at the apex');}
 });

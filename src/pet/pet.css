@@ -3,10 +3,10 @@
 .uff .header-pet svg{width:15px;height:15px}
 .uff .pet-roam-layer{position:absolute;z-index:12;pointer-events:none;overflow:hidden;contain:strict}
 .uff .pet-roamer{position:absolute;inset:0;pointer-events:none}
-.uff .pet-touch{position:absolute;top:0;left:0;width:56px;height:56px;padding:0;background:none;border:none;pointer-events:auto;touch-action:manipulation;will-change:transform;border-radius:50%;filter:drop-shadow(0 2px 2px #08071655)}
+.uff .pet-touch{position:absolute;top:0;left:0;width:126px;height:126px;padding:0;background:none;border:none;pointer-events:auto;touch-action:manipulation;will-change:transform;border-radius:50%;filter:drop-shadow(0 2px 2px #08071655)}
 .uff .pet-touch:active{transform:var(--pet-position);background:none}
 .uff .pet-touch:focus-visible{outline:1px dashed #d9bbfa;outline-offset:-6px}
-.uff .pet-roamer-canvas{width:56px;height:56px;pointer-events:none;display:block}
+.uff .pet-roamer-canvas{width:126px;height:126px;pointer-events:none;display:block}
 .uff .pet-overlay{position:absolute;inset:0;z-index:48;display:grid;place-items:center;padding:10px;background:#080715bf;backdrop-filter:blur(9px)}
 .uff .pet-studio{width:min(100%,350px);max-height:100%;overflow:auto;overscroll-behavior:contain;border:1px solid #d7b5f54a;border-radius:19px;padding:13px;background:radial-gradient(ellipse at 50% 0,#5a36734d,transparent 45%),#171325;color:#f7f0ff;box-shadow:0 15px 65px #0007;outline:none;scrollbar-width:thin}
 .uff .pet-studio-head{display:flex;align-items:center;gap:8px;justify-content:space-between}
@@ -65,3 +65,16 @@
 .uff .result-medal .pet-portrait{width:72px;height:72px}
 
 .uff .pet-item-preview{min-height:30px;padding:3px 2px}.uff .pet-item-preview b{font-size:10px}.uff .pet-item-preview small{font-size:6px}
+
+/* Larger companion, with a visual overhang rather than a taller gameplay footer. */
+.uff .pet-stage{height:300px;min-height:300px}
+.uff .pet-portrait-button,.uff .pet-stage .pet-portrait{width:280px;height:280px}
+.uff .pet-halo{width:230px;height:230px}
+.uff .pet-dock{position:relative;overflow:visible;padding-left:108px;z-index:4}
+.uff .pet-dock .pet-portrait{position:absolute;left:-6px;bottom:0;width:114px;height:114px;animation:pet-companion-wander 5.2s ease-in-out infinite;transform-origin:50% 90%}
+.uff .pet-dock-copy small{max-width:70px}
+@keyframes pet-companion-wander{0%,100%{transform:translate(0,0) rotate(-3deg)}18%{transform:translate(9px,-3px) rotate(7deg)}28%{transform:translate(17px,-22px) rotate(-6deg)}38%{transform:translate(21px,0) rotate(4deg) scale(1.06,.92)}58%{transform:translate(8px,-5px) rotate(-9deg)}70%{transform:translate(-3px,-17px) rotate(6deg)}80%{transform:translate(-4px,0) rotate(-3deg)}}
+.uff .result-medal{width:164px;height:164px}
+.uff .result-medal .pet-portrait{width:164px;height:164px}
+@container(max-width:345px){.uff .pet-stage{height:272px;min-height:272px}.uff .pet-portrait-button,.uff .pet-stage .pet-portrait{width:252px;height:252px}.uff .pet-dock-copy small{max-width:55px}}
+@container(max-height:540px){.uff .pet-stage{height:252px;min-height:252px}.uff .pet-portrait-button,.uff .pet-stage .pet-portrait{width:232px;height:232px}}

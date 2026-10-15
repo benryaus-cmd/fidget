@@ -1,0 +1,206 @@
+{
+  "testedAt": "2026-10-15T00:27:02.318Z",
+  "realAPI": true,
+  "proxyCATestException": true,
+  "identity": "Native profile bridge fixture; clearly labelled uff-frontend-integration-qa",
+  "checks": [
+    {
+      "name": "live metadata and public CORS fetch reach the custom service",
+      "status": "PASS"
+    },
+    {
+      "name": "full 45-second actual target-pop challenge is accepted by real server",
+      "status": "PASS"
+    },
+    {
+      "name": "duplicate real submission is idempotent and never adds local rewards",
+      "status": "PASS"
+    },
+    {
+      "name": "failed real-round submission survives reload and retries original secret without rewards",
+      "status": "PASS"
+    },
+    {
+      "name": "real switch gesture trace passes server scoring rules",
+      "status": "PASS"
+    },
+    {
+      "name": "real piano gesture trace passes server scoring rules",
+      "status": "PASS"
+    },
+    {
+      "name": "real spinner gesture trace passes server scoring rules",
+      "status": "PASS"
+    },
+    {
+      "name": "real dial gesture trace passes server scoring rules",
+      "status": "PASS"
+    },
+    {
+      "name": "Live test failure",
+      "status": "FAIL",
+      "detail": "locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.score-sync[data-state=\"accepted\"]') to be visible\u001b[22m\n\n    at end (/workspace/scratch/7572fd4bff94/fidget/tests/leaders-live-browser.mjs:15:217)\n    at async file:///workspace/scratch/7572fd4bff94/fidget/tests/leaders-live-browser.mjs:31:3\n    at async check (/workspace/scratch/7572fd4bff94/fidget/tests/leaders-live-browser.mjs:11:31)\n    at async file:///workspace/scratch/7572fd4bff94/fidget/tests/leaders-live-browser.mjs:25:30"
+    }
+  ],
+  "errors": [],
+  "acceptedScores": [
+    {
+      "acceptedScore": 12,
+      "idempotent": false,
+      "overallTotal": 276
+    },
+    {
+      "acceptedScore": 12,
+      "idempotent": true,
+      "overallTotal": 276
+    },
+    {
+      "acceptedScore": 12,
+      "idempotent": false,
+      "overallTotal": 288
+    },
+    {
+      "acceptedScore": 45,
+      "idempotent": false,
+      "overallTotal": 333
+    },
+    {
+      "acceptedScore": 54,
+      "idempotent": false,
+      "overallTotal": 387
+    },
+    {
+      "acceptedScore": 30,
+      "idempotent": false,
+      "overallTotal": 417
+    },
+    {
+      "acceptedScore": 35,
+      "idempotent": false,
+      "overallTotal": 452
+    }
+  ],
+  "traces": [
+    {
+      "toyId": "pop",
+      "elapsedMs": 45000,
+      "score": 12,
+      "events": [
+        {
+          "kind": "pop",
+          "points": 12,
+          "atMs": 380
+        }
+      ]
+    },
+    {
+      "toyId": "pop",
+      "elapsedMs": 45000,
+      "score": 12,
+      "events": [
+        {
+          "kind": "pop",
+          "points": 12,
+          "atMs": 380
+        }
+      ]
+    },
+    {
+      "toyId": "pop",
+      "elapsedMs": 11063,
+      "score": 12,
+      "events": [
+        {
+          "kind": "pop",
+          "points": 12,
+          "atMs": 359
+        }
+      ]
+    },
+    {
+      "toyId": "pop",
+      "elapsedMs": 11063,
+      "score": 12,
+      "events": [
+        {
+          "kind": "pop",
+          "points": 12,
+          "atMs": 359
+        }
+      ]
+    },
+    {
+      "toyId": "switch",
+      "elapsedMs": 11051,
+      "score": 45,
+      "events": [
+        {
+          "kind": "switch-match",
+          "points": 45,
+          "atMs": 616
+        }
+      ]
+    },
+    {
+      "toyId": "piano",
+      "elapsedMs": 11113,
+      "score": 54,
+      "events": [
+        {
+          "kind": "piano",
+          "points": 8,
+          "atMs": 326
+        },
+        {
+          "kind": "piano",
+          "points": 8,
+          "atMs": 559
+        },
+        {
+          "kind": "piano",
+          "points": 8,
+          "atMs": 792
+        },
+        {
+          "kind": "melody",
+          "points": 30,
+          "atMs": 1010
+        }
+      ]
+    },
+    {
+      "toyId": "spinner",
+      "elapsedMs": 11058,
+      "score": 30,
+      "events": [
+        {
+          "kind": "spin",
+          "points": 10,
+          "atMs": 1017
+        },
+        {
+          "kind": "spin",
+          "points": 10,
+          "atMs": 1834
+        },
+        {
+          "kind": "spin",
+          "points": 10,
+          "atMs": 4502
+        }
+      ]
+    },
+    {
+      "toyId": "dial",
+      "elapsedMs": 11097,
+      "score": 35,
+      "events": [
+        {
+          "kind": "dial",
+          "points": 35,
+          "atMs": 1883
+        }
+      ]
+    }
+  ]
+}

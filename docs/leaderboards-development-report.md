@@ -1,5 +1,7 @@
 # Leaderboards frontend and Pip refinement
 
+> Historical checkpoint. Superseded by [Pip and live leaderboards](pip-live-leaderboards-report.md). Public routing has since been repaired; Pip sizing/defaults and production profile compatibility have also been updated.
+
 ## Delivered
 
 LEADERS is the fifth bottom-navigation destination. It presents Overall accepted point totals and individual toy single-round bests, All Time and Daily tabs, historical UTC days, server ranks, user avatars/names/usernames, pagination and a current-player card above the list even when outside the displayed top25. Filters cancel stale requests and refresh cleanly; loading, empty and unavailable states are separate. Daily rollover follows the server's metadata clock/date.

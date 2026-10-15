@@ -1,5 +1,7 @@
 # Public leaderboard API follow-up for server AI
 
+> Historical checkpoint. Superseded by [Pip and live leaderboards](pip-live-leaderboards-report.md). Public routing has since been repaired; Pip sizing/defaults and production profile compatibility have also been updated.
+
 Frontend implementation is ready against the supplied contract. The public HTTPS endpoint is currently not delivering that contract from this test environment.
 
 API base: `https://24.144.88.205/api/leaderboards/v1`

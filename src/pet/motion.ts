@@ -5,8 +5,8 @@ export type PetMotion={x:number;y:number;from:Platform;to:Platform;phase:number;
 const clamp=(v:number,a:number,b:number)=>Math.max(a,Math.min(b,v));
 export function fitPlatforms(points:Platform[],width:number,height:number):Platform[]{
  const result:Platform[]=[];
- if(width<48||height<76)return result;
- for(const p of points){if(!Number.isFinite(p.x)||!Number.isFinite(p.y))continue;const q={x:clamp(p.x,24,width-24),y:clamp(p.y,66,height-10)};if(!result.some(v=>Math.hypot(v.x-q.x,v.y-q.y)<8))result.push(q);}
+ if(width<126||height<136)return result;
+ for(const p of points){if(!Number.isFinite(p.x)||!Number.isFinite(p.y))continue;const q={x:clamp(p.x,63,width-63),y:clamp(p.y,126,height-10)};if(!result.some(v=>Math.hypot(v.x-q.x,v.y-q.y)<8))result.push(q);}
  return result;
 }
 export function createMotion(platforms:Platform[]):PetMotion{
@@ -19,7 +19,7 @@ export function stepMotion(m:PetMotion,delta:number,platforms:Platform[],reduced
  if(reduced){m.action=m.happy>0?'happy':'idle';m.phase=0;m.x=platforms[0].x;m.y=platforms[0].y;m.index=0;return;}
  if(m.action==='hop'){
   m.phase=Math.min(1,m.phase+dt/.76);const k=m.phase;
-  m.x=m.from.x+(m.to.x-m.from.x)*k;m.y=Math.max(60,m.from.y+(m.to.y-m.from.y)*k-Math.sin(k*Math.PI)*Math.min(50,22+Math.abs(m.to.x-m.from.x)*.2));
+  m.x=m.from.x+(m.to.x-m.from.x)*k;m.y=Math.max(121,m.from.y+(m.to.y-m.from.y)*k-Math.sin(k*Math.PI)*Math.min(50,22+Math.abs(m.to.x-m.from.x)*.2));
   if(k===1){m.hops++;m.action='idle';m.landing=.23;m.wait=1.6+(m.hops%3)*.45;}
  }else{
   m.action=m.happy>0?'happy':'idle';m.wait-=dt;

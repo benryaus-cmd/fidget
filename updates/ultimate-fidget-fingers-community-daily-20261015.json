@@ -1,0 +1,51 @@
+{
+  "version": "ultimate-fidget-fingers-community-daily-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/a80c59b7f36659a369e3be1625edd771bd68dea3/",
+  "files": [
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/audio/RadioPanel.tsx",
+      "target": "src/audio/RadioPanel.tsx"
+    },
+    {
+      "source": "src/chat/ChatPanel.tsx",
+      "target": "src/chat/ChatPanel.tsx"
+    },
+    {
+      "source": "src/chat/chat.css",
+      "target": "src/chat/chat.css"
+    },
+    {
+      "source": "src/chat/connection.ts",
+      "target": "src/chat/connection.ts"
+    },
+    {
+      "source": "src/chat/protocol.ts",
+      "target": "src/chat/protocol.ts"
+    },
+    {
+      "source": "src/chat/store.ts",
+      "target": "src/chat/store.ts"
+    },
+    {
+      "source": "src/chat/avatars.ts",
+      "target": "src/chat/avatars.ts"
+    },
+    {
+      "source": "src/leaders/LeadersPage.tsx",
+      "target": "src/leaders/LeadersPage.tsx"
+    },
+    {
+      "source": "src/leaders/leaders.css",
+      "target": "src/leaders/leaders.css"
+    },
+    {
+      "source": "src/leaders/rounds.ts",
+      "target": "src/leaders/rounds.ts"
+    }
+  ]
+}

@@ -185,3 +185,9 @@ html,body,#root{height:100%;min-height:0}
 .uff .content-chat{display:flex;flex-direction:column;overflow:hidden;padding:8px;max-width:850px}
 .uff .content-chat>*{flex:1;min-height:0}
 @container(max-width:345px){.uff .top{gap:5px;padding-left:8px;padding-right:8px}.uff .top .uff-toy-music-toggle{padding:4px 5px;gap:3px}.uff .top .uff-toy-music-toggle strong{font-size:7px}.uff .top .uff-toy-music-settings{width:19px}.uff .wallet{padding:6px 7px}.uff .top-center small{font-size:5px;letter-spacing:.7px}.uff .top-center strong{font-size:10px}}
+
+.goal-strip{display:flex;align-items:stretch;margin-bottom:8px;border:1px solid #b8ead74a;border-radius:12px;background:linear-gradient(110deg,#75c5ab15,#a779ff10)}
+.goal-strip button{display:flex;align-items:center;gap:8px;padding:7px 10px;background:none;color:#d5f5e8;text-align:left;min-width:0}
+.goal-strip button:first-child{flex:1}.goal-strip button:last-child{flex-shrink:0}
+.goal-strip span{flex:1;display:grid;gap:3px}.goal-strip b{font-size:10px}.goal-strip small{font-size:7px;letter-spacing:.6px;color:#b6c9cc}
+.pet-pin-goal{width:100%;padding:9px;border:1px solid #b8ead74a;border-radius:10px;background:#75c5ab15;color:#d5f5e8;font-size:9px;font-weight:800}

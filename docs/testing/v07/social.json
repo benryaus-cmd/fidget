@@ -1,0 +1,111 @@
+{
+  "testedAt": "2026-10-15T03:35:49.431Z",
+  "checks": [
+    {
+      "name": "catalogue contains 54 distinct achievements",
+      "status": "PASS"
+    },
+    {
+      "name": "header music and chat available on welcome",
+      "status": "PASS"
+    },
+    {
+      "name": "header music and chat available on PLAY",
+      "status": "PASS"
+    },
+    {
+      "name": "header music and chat available on SHOP",
+      "status": "PASS"
+    },
+    {
+      "name": "header music and chat available on AWARDS",
+      "status": "PASS"
+    },
+    {
+      "name": "header music and chat available on SETTINGS",
+      "status": "PASS"
+    },
+    {
+      "name": "showroom preserves eight toys and adds ninth chatroom card",
+      "status": "PASS"
+    },
+    {
+      "name": "showroom removes redundant Find your flow heading",
+      "status": "PASS"
+    },
+    {
+      "name": "awards shows five rotating unclaimed slots",
+      "status": "PASS"
+    },
+    {
+      "name": "fresh radio preference defaults to 3 percent",
+      "status": "PASS"
+    },
+    {
+      "name": "pop clear announces a ready award and automatically presents a fresh board",
+      "status": "PASS"
+    },
+    {
+      "name": "real piano phrase preview gives no progress and completing Ode to Joy records song milestone",
+      "status": "PASS"
+    },
+    {
+      "name": "chat opens over a toy, uses SDK username, and mock server echoes messages",
+      "status": "PASS"
+    },
+    {
+      "name": "mock external messages produce unread header badge and opening chat clears it",
+      "status": "PASS"
+    },
+    {
+      "name": "message profile uses server username and exposes no owner moderation for regular player",
+      "status": "PASS"
+    },
+    {
+      "name": "server owner permissions expose five supported moderation frames only inside mock transport",
+      "status": "PASS"
+    },
+    {
+      "name": "overlay keyboard resize preserves visible composer and bottom scroll",
+      "status": "PASS"
+    },
+    {
+      "name": "chat room shares same conversation and keyboard-safe composer",
+      "status": "PASS"
+    },
+    {
+      "name": "a marble dropped before opening chat still earns its genuine landing action",
+      "status": "PASS"
+    },
+    {
+      "name": "ready awards show first, claim once and replace a slot while notification badge updates",
+      "status": "PASS"
+    },
+    {
+      "name": "completed daily widget disappears while ready awards replace it",
+      "status": "PASS"
+    },
+    {
+      "name": "first earned award raises red nav badge and claiming removes its queued alert",
+      "status": "PASS"
+    },
+    {
+      "name": "owner permissions received before validated snapshot still expose owner controls after admission",
+      "status": "PASS"
+    },
+    {
+      "name": "an existing radio volume preference survives reload",
+      "status": "PASS"
+    },
+    {
+      "name": "missing SDK identity leaves chat read-only and does not open a chat socket",
+      "status": "PASS"
+    },
+    {
+      "name": "social session has no uncaught errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "mockedTransport": true
+}

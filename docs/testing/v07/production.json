@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "name": "welcome bubbles move before Play without earning progress",
+      "status": "PASS"
+    },
+    {
+      "name": "track tap never teleports the handle or pays a reward",
+      "status": "PASS"
+    },
+    {
+      "name": "edge grab preserves offset, precise drag scores once, and track stays inert",
+      "status": "PASS"
+    },
+    {
+      "name": "cancelled drag restores the original value without scoring",
+      "status": "PASS"
+    },
+    {
+      "name": "touchscreen handle drag follows the finger and scores on release",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard adjustments work and only a completed release earns points",
+      "status": "PASS"
+    },
+    {
+      "name": "studio goal pins from a preview and survives reload",
+      "status": "PASS"
+    },
+    {
+      "name": "purchasing the pinned item clears the goal and preserves earlier play",
+      "status": "PASS"
+    },
+    {
+      "name": "Pip wardrobe goal opens on the pinned hat preview",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome merges and burst respond to actual drags without minting rewards",
+      "status": "PASS"
+    },
+    {
+      "name": "leaderboard sliders require three genuine releases, lock individually, and keep 30-point caps",
+      "status": "PASS"
+    },
+    {
+      "name": "spinner coasts, can be grabbed to brake, and Pip notices",
+      "status": "PASS"
+    },
+    {
+      "name": "magnet completes a physical wave and celebrates without bonus score events",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome controls and play fit 320×520",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop board clears and flips once at 320",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome controls and play fit 390×610",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop board clears and flips once at 390",
+      "status": "PASS"
+    },
+    {
+      "name": "welcome controls and play fit 430×650",
+      "status": "PASS"
+    },
+    {
+      "name": "Pop board clears and flips once at 430",
+      "status": "PASS"
+    },
+    {
+      "name": "no production JavaScript errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

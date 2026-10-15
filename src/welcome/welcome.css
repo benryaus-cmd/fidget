@@ -1,0 +1,21 @@
+.bubble-playground{width:100%;min-width:0;flex:1;position:relative;height:100%;isolation:isolate}
+.welcome-bubble-field{position:absolute;inset:4px 0 24px;overflow:hidden;border-radius:28px;touch-action:pan-y}
+.welcome-orbits{position:absolute;inset:12% 7% 24%;border:1px solid #d2a1ff24;border-radius:50%;transform:rotate(-8deg);pointer-events:none}
+.uff .welcome-bubble{position:absolute;left:0;top:0;display:grid;place-items:center;padding:0;border-radius:42%;touch-action:none;cursor:grab;background:radial-gradient(circle at 32% 22%,#f8edff,#c590ef 37%,#8956c4 70%,#4d2f91);border:1px solid #ead4ffb0;box-shadow:inset 1px 2px 4px #fff9,inset -3px -5px 7px #43246188,0 4px 0 #3b2259,0 7px 12px #0005;will-change:transform}
+.uff .welcome-bubble[data-level='1']{background:radial-gradient(circle at 32% 22%,#effff4,#8ce5bd 37%,#45a392 70%,#235b69);border-color:#caffeb}
+.uff .welcome-bubble[data-held='true']{border-radius:36% 44% 38% 46%;cursor:grabbing;box-shadow:inset 1px 2px 4px #fff9,0 0 20px #c391ff55}
+.uff .welcome-bubble:active{scale:.96}
+.welcome-bubble span{font-size:24px;color:#fff5f7;text-shadow:0 1px 6px #59297b}
+.uff .bubble-playground .art-caption{position:absolute;bottom:0;left:0;right:0;font-size:7px;letter-spacing:.8px;line-height:12px;color:#cfbce5;pointer-events:none}
+.welcome-burst{position:absolute;left:50%;top:45%;white-space:nowrap;color:#ffe9a6;font-size:27px;pointer-events:none;animation:welcome-pop .7s both}
+.welcome-burst.still{font-size:15px;animation:welcome-pop 1s both}
+@keyframes welcome-pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}35%{opacity:1}100%{opacity:0;transform:translate(-50%,-80%) scale(1.4)}}
+@container(max-height:420px){.welcome-bubble-field{inset:0 0 4px}.uff .bubble-playground .art-caption{display:none}}
+/* Bubble gestures take precedence where Pip wanders behind a toy; empty space stays tappable. */
+.uff[data-screen='home'] .pet-roam-layer{z-index:1}
+.bubble-playground{z-index:2;pointer-events:none}
+.welcome-bubble-field{pointer-events:none}
+.uff .welcome-bubble{pointer-events:auto}
+/* The content container establishes its own stacking context. Raise that context too. */
+.uff[data-screen='home'] .content{position:relative;z-index:2;pointer-events:none}
+.uff[data-screen='home'] .content button{pointer-events:auto}

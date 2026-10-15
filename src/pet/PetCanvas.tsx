@@ -24,6 +24,12 @@ function poseAt(p:MiloPose,time:number,m:PetMotion,reduced:boolean){
   if(m.emote==='peek'){p.eye=4;p.a0x=13;p.a1x=-13;p.a0y=p.a1y=-13;p.front=1;}
   if(m.emote==='snooze'){p.eye=3;p.mouth=3;p.blink=1;p.earDrop=.5;p.rot=.08*move;}
   if(m.emote==='confetti'||m.emote==='cheer'){p.a0y=p.a1y=-10;p.a0x=-4;p.a1x=4;}
+  if(m.emote==='catch'){p.a0y=p.a1y=-12;p.a0x=5;p.a1x=-5;p.eye=1;p.mouth=1;p.bob-=Math.sin(k*Math.PI)*7*move;}
+  if(m.emote==='splat'){const flat=Math.sin(k*Math.PI);p.sx+=flat*.38*move;p.sy-=flat*.32*move;p.earDrop=flat;p.eye=3;p.a0y=p.a1y=3;}
+  if(m.emote==='bow'){p.rot=Math.sin(k*Math.PI)*.28*move;p.front=1;p.eye=3;p.a1y=-7;p.bob+=Math.sin(k*Math.PI)*3*move;}
+  if(m.emote==='float'){p.bob-=Math.sin(k*Math.PI)*10*move;p.a0x=-6;p.a1x=6;p.a0y=p.a1y=-5;p.eye=2;p.f0y=p.f1y=-3;}
+  if(m.emote==='dizzy'){p.rot=Math.sin(k*Math.PI*5)*.19*(1-k)*move;p.eye=4;p.mouth=1;p.a0y=-3;p.a1y=-9;}
+  if(m.emote==='focus'){p.eye=1;p.mouth=1;p.a0x=3;p.a1x=-3;p.a0y=p.a1y=-3;p.sy-=Math.sin(k*Math.PI)*.06*move;}
   if(m.emote==='encourage'){p.eye=0;p.mouth=0;p.rot=Math.sin(k*Math.PI*2)*.05*move;}
  }
 
@@ -47,7 +53,8 @@ export function PetPortrait({pet,reducedMotion=false,reaction=0,emote}:{pet:PetS
  useEffect(()=>{let raf=0,last=0,time=0;const p=newPose();const loop=(now:number)=>{const dt=last?Math.min(.04,(now-last)/1000):0;last=now;if(!document.hidden){time+=dt;stepMotion(m.current,dt,[{x:0,y:0}],reducedMotion);if(canvas.current)paint(canvas.current,p,appearance.current,180,2.05,time,m.current,reducedMotion);}raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop);return()=>cancelAnimationFrame(raf)},[reducedMotion]);
  return <canvas ref={canvas} className="pet-portrait" width={360} height={360} aria-label={`${pet.name} wearing selected pet style`} role="img"/>;
 }
-export default function PetRoamer({pet,screen,reducedMotion,onReact}:{pet:PetState;screen:'home'|'showroom';reducedMotion:boolean;onReact:()=>void}){
+export default function PetRoamer({pet,screen,reducedMotion,onReact,event}:{pet:PetState;event?:PetEvent;screen:'home'|'showroom';reducedMotion:boolean;onReact:()=>void}){
+ useEffect(()=>{if(event?.id&&motion.current)reactMotion(motion.current,emoteForEvent(event.kind));},[event?.id]);
  const ref=useRef<HTMLDivElement>(null),button=useRef<HTMLButtonElement>(null),canvas=useRef<HTMLCanvasElement>(null),appearance=useRef(pet),react=useRef(onReact),motion=useRef<PetMotion|null>(null);appearance.current=pet;react.current=onReact;
  useEffect(()=>{
   const layer=ref.current,root=layer?.closest('.uff'),main=root?.querySelector('.content');if(!layer||!root||!main)return;
@@ -59,7 +66,7 @@ export default function PetRoamer({pet,screen,reducedMotion,onReact}:{pet:PetSta
    if(screen==='showroom'){
     raw=Array.from(main.querySelectorAll('.toy-card')).map(card=>{const b=card.getBoundingClientRect();return point(b.left+b.width*.27,b.top+48)}).filter(q=>q.y>68&&q.y<height-10);
    }else{
-    const a=main.querySelector('.launch-art')?.getBoundingClientRect();const b=main.querySelector('.hero-bubble')?.getBoundingClientRect();
+    const a=main.querySelector('.launch-art')?.getBoundingClientRect();const b=main.querySelector('.welcome-bubble')?.getBoundingClientRect();
     if(a){raw=[point(a.left+28,a.bottom-24),point(a.right-28,a.bottom-24)];if(b)raw.splice(1,0,point(b.left+b.width/2,b.top+6));}
    }
    platforms=fitPlatforms(raw,width,height);motion.current=createMotion(platforms);dirty=false;
@@ -80,5 +87,5 @@ export function PetStyleThumb({pet}:{pet:PetState}){const ref=useRef<HTMLCanvasE
 export function PetDock({pet,reducedMotion,event,combo}:{pet:PetState;reducedMotion:boolean;event:PetEvent;combo:number}){
  const [active,setActive]=useState(false);useEffect(()=>{if(!event.id)return;setActive(true);const id=setTimeout(()=>setActive(false),1450);return()=>clearTimeout(id)},[event.id]);
  const [idleDance,setIdleDance]=useState(0);useEffect(()=>{if(reducedMotion)return;const id=setInterval(()=>setIdleDance(n=>n+1),5200);return()=>clearInterval(id)},[reducedMotion]);
- const emote=emoteForEvent(event.kind);return <div className="pet-dock" data-event={event.kind} data-emote={active?emote:'idle'} aria-label={`${pet.name}, your game companion`}><PetPortrait pet={pet} reducedMotion={reducedMotion} reaction={event.id+idleDance} emote={active?emote:idleDance%2?'dance':'bounce'}/><div className="pet-dock-copy"><b>{combo>=3?`${combo} COMBO`:pet.name}</b><small>{active?EMOTE_LABELS[emote]:'Right here with you'}</small></div></div>;
+ const emote=emoteForEvent(event.kind);return <div className="pet-dock" data-event={event.kind} data-emote={active?emote:'idle'} aria-label={`${pet.name}, your game companion`}><PetPortrait pet={pet} reducedMotion={reducedMotion} reaction={active?event.id:1000000+idleDance} emote={active?emote:idleDance%2?'dance':'bounce'}/><div className="pet-dock-copy"><b>{combo>=3?`${combo} COMBO`:pet.name}</b><small>{active?EMOTE_LABELS[emote]:'Right here with you'}</small></div></div>;
 }

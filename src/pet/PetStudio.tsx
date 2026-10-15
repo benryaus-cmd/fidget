@@ -1,13 +1,13 @@
 import {useEffect,useRef,useState} from 'react';
 import {X,Heart,Utensils} from 'lucide-react';
-import type {Save} from '../economy';
+import {pinGoal,type Save} from '../economy';
 import {PET_ITEMS,buyPetItem,buyTreats,feedPet,renamePet,petStatus,type PetItem} from './state';
 import {chooseTapEmote,EMOTE_LABELS,type PetEmote} from './emotes';
 import {PetPortrait} from './PetCanvas';
 import './pet.css';
 const CATEGORIES=[['color','COLORS'],['ears','EARS'],['face','FACES'],['hat','HATS']] as const;
 export default function PetStudio({save,reducedMotion,onUpdate,onClose,onSound}:{save:Save;reducedMotion:boolean;onUpdate:(fn:(s:Save)=>Save)=>Save;onClose:()=>void;onSound:(kind:string)=>void}){
- const [category,setCategory]=useState<PetItem['category']>('color'),[name,setName]=useState(save.pet.name),[preview,setPreview]=useState<PetItem|null>(null),[reaction,setReaction]=useState(0),[notice,setNotice]=useState('A little friend. A lot of personality.'),[now,setNow]=useState(Date.now());
+ const [category,setCategory]=useState<PetItem['category']>(PET_ITEMS.find(i=>i.id===save.goal)?.category??'color'),[name,setName]=useState(save.pet.name),[preview,setPreview]=useState<PetItem|null>(PET_ITEMS.find(i=>i.id===save.goal)??null),[reaction,setReaction]=useState(0),[notice,setNotice]=useState('A little friend. A lot of personality.'),[now,setNow]=useState(Date.now());
  const [emote,setEmote]=useState<PetEmote>('idle');
  const panel=useRef<HTMLDivElement>(null),close=useRef(onClose);close.current=onClose;
  useEffect(()=>{const previous=document.activeElement as HTMLElement|null;panel.current?.focus();const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){e.preventDefault();close.current()}if(e.key==='Tab'){const list=Array.from(panel.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input')??[]).filter(el=>el.getClientRects().length);const i=list.indexOf(document.activeElement as HTMLElement);if(e.shiftKey&&i<=0){e.preventDefault();list.at(-1)?.focus()}else if(!e.shiftKey&&(i===list.length-1||i<0)){e.preventDefault();list[0]?.focus()}}};const id=setInterval(()=>setNow(Date.now()),1000);panel.current?.addEventListener('keydown',key);const element=panel.current;return()=>{clearInterval(id);element?.removeEventListener('keydown',key);previous?.focus()}},[]);
@@ -19,6 +19,7 @@ export default function PetStudio({save,reducedMotion,onUpdate,onClose,onSound}:
   <header className="pet-studio-head"><div><small>YOUR POCKET COMPANION</small><h2>{pet.name}'s little world<span> ♥</span></h2></div><button aria-label="Close pet studio" onClick={onClose}><X size={17}/></button></header>
   <div className="pet-stage"><div className="pet-halo"/><button className="pet-portrait-button" aria-label={`Give ${pet.name} some love`} onClick={interact}><PetPortrait pet={displayPet} reducedMotion={reducedMotion} reaction={reaction} emote={emote}/></button><span className="pet-style-label">{preview?`TRYING ${preview.name.toUpperCase()}`:'TAP FOR A LITTLE LOVE'}</span><div className="pet-care-label"><Heart size={11}/>{status.label}<small>{pet.feeds} treats enjoyed</small></div></div>
   <p className="pet-notice" role="status">{notice}</p>
+  {preview&&!pet.owned.includes(preview.id)&&<button className="pet-pin-goal" onClick={()=>{onUpdate(s=>pinGoal(s,preview.id));setNotice(`${preview.name} pinned as your next goal.`)}}>{save.goal===preview.id?'GOAL PINNED':`PIN ${preview.name.toUpperCase()} · ◆ ${preview.cost}`}</button>}
   <div className="pet-care"><button className="pet-feed" aria-label="Feed treat" disabled={!status.canFeed} onClick={feed}><Utensils size={13}/>{status.canFeed?'FEED TREAT':pet.treats?'HAPPY SNACKING':'NO TREATS'}<small>{pet.treats} left</small></button><button className="pet-refill" aria-label="Buy 5 treats for 15 Gems" disabled={save.gems<15||pet.treats>45} onClick={()=>{const next=onUpdate(buyTreats);if(next.pet.treats>pet.treats){setNotice('Five little treats, ready to share.');onSound('purchase')}}}>+5 TREATS <span>◆ 15</span></button></div>
   <form className="pet-name" onSubmit={e=>{e.preventDefault();const next=onUpdate(s=>({...s,pet:renamePet(s.pet,name)}));setName(next.pet.name);setNotice(`Hello, ${next.pet.name}!`);onSound('navigation')}}><input aria-label="Pet name" value={name} maxLength={16} onChange={e=>setName(e.target.value)} placeholder="Name your little friend"/><button type="submit">Save name</button></form>
   <div className="pet-tabs" role="tablist" aria-label="Pet wardrobe">{CATEGORIES.map(([id,label])=><button key={id} role="tab" aria-selected={category===id} onClick={()=>{setCategory(id);setPreview(null)}}>{label}</button>)}</div>

@@ -1,0 +1,11 @@
+Apply this 14-file update to the CURRENT Ultimate Fidget Fingers game using its existing Node build-time GitHub importer:
+
+https://raw.githubusercontent.com/benryaus-cmd/fidget/main/updates/ultimate-fidget-fingers-v07-feel-mischief-20261015.json
+
+Download all 14 files using manifest.baseUrl and replace their exact target paths.
+
+Preserve the existing Aippy host, importer, dependencies, saves, settings, chat, radio and leaderboard integration.
+
+Build and load the game.
+
+Verify that Slider Sync requires grabbing its handle, and that the welcome bubbles can be dragged and merged.

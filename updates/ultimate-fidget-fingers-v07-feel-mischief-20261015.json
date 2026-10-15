@@ -1,0 +1,63 @@
+{
+  "version": "ultimate-fidget-fingers-v07-feel-mischief-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/572034bf3c166a4efdcbecd34f1fcbc9b7f6a4b0/",
+  "files": [
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/audio/sound.ts",
+      "target": "src/audio/sound.ts"
+    },
+    {
+      "source": "src/economy.ts",
+      "target": "src/economy.ts"
+    },
+    {
+      "source": "src/gameplay/Sliders.tsx",
+      "target": "src/gameplay/Sliders.tsx"
+    },
+    {
+      "source": "src/gameplay/ToyStage.tsx",
+      "target": "src/gameplay/ToyStage.tsx"
+    },
+    {
+      "source": "src/gameplay/catalog.ts",
+      "target": "src/gameplay/catalog.ts"
+    },
+    {
+      "source": "src/gameplay/toys.css",
+      "target": "src/gameplay/toys.css"
+    },
+    {
+      "source": "src/pet/PetCanvas.tsx",
+      "target": "src/pet/PetCanvas.tsx"
+    },
+    {
+      "source": "src/pet/PetStudio.tsx",
+      "target": "src/pet/PetStudio.tsx"
+    },
+    {
+      "source": "src/pet/emotes.ts",
+      "target": "src/pet/emotes.ts"
+    },
+    {
+      "source": "src/style.css",
+      "target": "src/style.css"
+    },
+    {
+      "source": "src/welcome/BubblePlayground.tsx",
+      "target": "src/welcome/BubblePlayground.tsx"
+    },
+    {
+      "source": "src/welcome/physics.ts",
+      "target": "src/welcome/physics.ts"
+    },
+    {
+      "source": "src/welcome/welcome.css",
+      "target": "src/welcome/welcome.css"
+    }
+  ]
+}

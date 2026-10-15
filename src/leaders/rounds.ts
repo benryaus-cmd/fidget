@@ -1,10 +1,10 @@
 import {leaderAPI,LeaderError,type Profile,type ScoreEvent,type ServerRound,type Submission,type Acceptance} from './api.ts';
 import type {ToyId} from '../gameplay/catalog';
 export type RankedAttempt={id:string;toyId:ToyId;profile:Profile|null;server:ServerRound|null;events:ScoreEvent[];reason:string;overflow:boolean};
-export type RoundStatus={state:'local'|'pending'|'retry'|'accepted'|'rejected';message:string;acceptedScore?:number};
+export type RoundStatus={state:'local'|'pending'|'retry'|'accepted'|'rejected';message:string;acceptedScore?:number;dailyRank?:number;dailyBest?:number;dailyState?:'loading'|'ready'|'unavailable'};
 type Pending={id:string;body:Submission};
 type Storage={getItem:(key:string)=>string|null;setItem:(key:string,value:string)=>void};
-type API=Pick<typeof leaderAPI,'start'|'submit'>;
+type API=Pick<typeof leaderAPI,'start'|'submit'>&Partial<Pick<typeof leaderAPI,'rankings'>>;
 const KEY='uff-leaderboards-pending-v1',MAX_PENDING=20;
 const toys=new Set(['pop','spinner','switch','piano','sliders','dial','marble','magnet']);
 export function captureEvent(events:ScoreEvent[],event:{kind:string;points:number},atMs:number){
@@ -31,8 +31,13 @@ export class RankedRounds{
   await this.retry(r.id,r.profile.uid);
  }
  async retry(id:string,uid:string){const p=this.queue.find(p=>p.id===id&&p.body.uid===uid);if(!p||this.busy.has(id))return;this.busy.add(id);this.status(id,{state:'pending',message:'Sending challenge score…'});
-  try{const accepted=await this.api.submit(p.body);this.queue=this.queue.filter(v=>v.id!==id);this.saveQueue();this.status(id,{state:'accepted',message:'Accepted by the leaderboard server.',acceptedScore:accepted.acceptedScore});}
+  try{const accepted=await this.api.submit(p.body);this.queue=this.queue.filter(v=>v.id!==id);this.saveQueue();this.status(id,{state:'accepted',message:'Accepted by the leaderboard server.',acceptedScore:accepted.acceptedScore,...(this.api.rankings?{dailyState:'loading' as const}:{})});if(this.api.rankings)void this.loadPlacement(id,p.body);}
   catch(e){const retryable=!(e instanceof LeaderError)||e.retryable;if(!retryable){this.queue=this.queue.filter(v=>v.id!==id);this.saveQueue()}this.status(id,{state:retryable?'retry':'rejected',message:e instanceof Error?e.message:'Score submission unavailable.'});}
   finally{this.busy.delete(id)}
  }
+ private async loadPlacement(id:string,body:Submission){
+  try{const board=await this.api.rankings!({period:'daily',toyId:body.toyId,uid:body.uid,limit:1,offset:0});const current=this.snapshot.results[id];if(current?.state!=='accepted')return;const player=board.currentPlayer;if(player&&player.uid===body.uid&&player.score>=(current.acceptedScore??0))this.status(id,{...current,dailyState:'ready',dailyRank:player.rank,dailyBest:player.score});else this.status(id,{...current,dailyState:'unavailable'});}
+  catch{const current=this.snapshot.results[id];if(current?.state==='accepted')this.status(id,{...current,dailyState:'unavailable'});}
+ }
+
 }

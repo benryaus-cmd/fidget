@@ -34,3 +34,5 @@
 .uff .modal{overflow:auto}.uff .modal .quiet+ .quiet{margin-left:12px}
 
 .uff .leader-my-rank{margin:0 0 10px}
+
+.uff .score-sync>b{display:flex;align-items:center;gap:5px}.uff .score-sync .score-place{font-size:12px;font-weight:900;color:#c5eadc;line-height:1}.uff .score-sync .score-place.rank-1,.uff .score-sync .score-place.rank-2,.uff .score-sync .score-place.rank-3{color:#ecd092}.uff .challenge-label{display:flex;flex-direction:column;gap:2px;line-height:1.1}.uff .challenge-label small{font-size:6px;letter-spacing:.6px}

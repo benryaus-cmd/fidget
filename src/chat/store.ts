@@ -2,18 +2,19 @@ import { MultiplayerConnection } from './connection';
 import { buildAdminAction, type AdminAction, type AdminActionOptions } from './adminActions';
 import { readPermissions, type ServerPermissions } from './permissions';
 import { isChatMuteActive, readChatMute } from './chatMute';
-import { enrichMessage, mergeHistory, readChatMessage, readPlayer, type ChatMessage, type ChatMuteState, type Message, type MultiplayerStatus, type PlayerProfile } from './protocol';
+import { countParticipants, enrichMessage, mergeHistory, readChatMessage, readPlayer, type ChatMessage, type ChatMuteState, type Message, type MultiplayerStatus, type PlayerProfile } from './protocol';
 
+export const CHAT_RETRY_MS = 5000;
 export const SHARED_CHAT_URL = 'wss://24.144.88.205/multiplayer';
 export const SHARED_ROOM = 'morning-quarter-v1';
 export const SHARED_WORLD = 'map2-v1';
 export interface Identity { uid: string; username: string; nickName: string; avatar: string }
 export interface ChatState {
-  messages: ChatMessage[]; status: MultiplayerStatus['phase']; unread: number; profile: Identity | null;
+  onlineCount:number; messages: ChatMessage[]; status: MultiplayerStatus['phase']; unread: number; profile: Identity | null;
   isOwner: boolean; error: string; players: PlayerProfile[]; mute: ChatMuteState | null;
   historyReceived: boolean; moderationResult: string;
 }
-const initial: ChatState = { messages: [], status: 'solo', unread: 0, profile: null, isOwner: false, error: '', players: [], mute: null, historyReceived: false, moderationResult: '' };
+const initial: ChatState = { onlineCount:1, messages: [], status: 'solo', unread: 0, profile: null, isOwner: false, error: '', players: [], mute: null, historyReceived: false, moderationResult: '' };
 
 /** One connection shared by the header, chat room and game overlay. */
 export class SharedChatStore {
@@ -24,28 +25,28 @@ export class SharedChatStore {
   private unreadIds = new Set<string>();
   private lastSent = -Infinity;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
-  private pruneTimer: ReturnType<typeof setInterval> | null = null;
   private serverClockOffset = 0;
-  private attempts = 0;
+  private retryAllowed=false;
+  private watchingNetwork=false;
   readonly connection: MultiplayerConnection;
   constructor(makeSocket?: ConstructorParameters<typeof MultiplayerConnection>[3]) {
     this.connection = new MultiplayerConnection(SHARED_CHAT_URL, status => this.onStatus(status), message => this.accept(message), makeSocket);
   }
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
   getSnapshot = () => this.state;
-  private update(patch: Partial<ChatState>) { this.state = { ...this.state, ...patch }; this.listeners.forEach(listener => listener()); }
+  private update(patch: Partial<ChatState>) { if(patch.messages){const kept=new Set(patch.messages.map(m=>m.id));for(const id of this.unreadIds)if(!kept.has(id))this.unreadIds.delete(id);patch.unread=this.unreadIds.size;} this.state = { ...this.state, ...patch }; this.state.onlineCount=countParticipants(this.state.players,this.connection.playerId,this.state.profile?.username); this.listeners.forEach(listener => listener()); }
   identify = (identity: Identity | null) => {
     if (!identity?.uid || !identity.username) {
-      this.stopPruning();
+      this.stopWatching();
       if (this.state.profile) { this.cancelRetry(); this.connection.disconnect(); this.permissions = null; this.unreadIds.clear(); this.update({ ...initial }); }
       return;
     }
     const old = this.state.profile;
     if (old && ['uid','username','nickName','avatar'].every(key => old[key as keyof Identity] === identity[key as keyof Identity])) return;
-    this.stopPruning(); this.cancelRetry(); this.connection.disconnect(); this.permissions = null;
+    this.stopWatching(); this.cancelRetry(); this.connection.disconnect(); this.permissions = null;
     this.unreadIds.clear();
     this.update({ ...initial, profile: identity, messages: this.readCache(identity.uid) });
-    this.pruneTimer = setInterval(() => this.pruneHistory(),30_000);
+    this.watchNetwork();
     this.connect();
   };
   private connect() {
@@ -53,28 +54,24 @@ export class SharedChatStore {
     if (!identity) return;
     this.connection.connect(identity.nickName || '@' + identity.username, SHARED_ROOM, identity, [0,0,0], SHARED_WORLD);
   }
-  reconnect = () => { this.cancelRetry(); this.attempts = 0; this.connect(); };
+  reconnect = () => { this.cancelRetry(); this.retryAllowed = false; this.connect(); };
   private cancelRetry() { if (this.reconnectTimer) clearTimeout(this.reconnectTimer); this.reconnectTimer = null; }
-  private stopPruning() { if (this.pruneTimer) clearInterval(this.pruneTimer); this.pruneTimer = null; }
+  private resume = () => { if(this.retryAllowed&&this.state.status==='disconnected'&&this.state.profile&&(!globalThis.document||!document.hidden))this.reconnect(); };
+  private watchNetwork(){if(this.watchingNetwork||typeof window==='undefined')return;this.watchingNetwork=true;window.addEventListener('online',this.resume);document.addEventListener('visibilitychange',this.resume);}
+  private stopWatching(){this.retryAllowed=false;if(!this.watchingNetwork)return;this.watchingNetwork=false;window.removeEventListener('online',this.resume);document.removeEventListener('visibilitychange',this.resume);}
   private onStatus(status: MultiplayerStatus) {
     if (status.phase !== 'connected') this.permissions = null;
-    this.update({ status: status.phase, error: status.notice || '', isOwner: status.phase === 'connected' && this.permissions?.role === 'owner' });
+    this.update({ ...(status.phase!=='connected'?{players:[]}:{}),status: status.phase, error: status.notice || '', isOwner: status.phase === 'connected' && this.permissions?.role === 'owner' });
     if (status.phase === 'connected') {
-      this.attempts = 0; this.cancelRetry();
+      this.retryAllowed = false; this.cancelRetry();
       this.serverClockOffset = this.connection.serverTime - Date.now();
     }
     // Explicit server removals and denied admission never auto-rejoin.
-    if (status.phase === 'disconnected' && this.state.profile && /Disconnected|Connection lost|timed out|Unable to connect|Unable to send/.test(status.notice || '')) {
+    this.retryAllowed = status.phase==='disconnected'&&status.retryable!==false;
+    if (this.retryAllowed && this.state.profile) {
       this.cancelRetry();
-      this.reconnectTimer = setTimeout(() => this.connect(), Math.min(30_000, 2000 * 2 ** this.attempts++));
+      this.reconnectTimer = setTimeout(() => this.connect(), CHAT_RETRY_MS);
     }
-  }
-  private pruneHistory() {
-    const messages = mergeHistory(this.state.messages,[],Date.now() + this.serverClockOffset);
-    if (messages.length === this.state.messages.length && messages.every((message,index) => message.id === this.state.messages[index].id)) return;
-    const retained = new Set(messages.map(message => message.id));
-    for (const id of this.unreadIds) if (!retained.has(id)) this.unreadIds.delete(id);
-    this.update({ messages, unread: this.unreadIds.size }); this.writeCache();
   }
   accept(message: Message) {
     if (this.connection.connected) this.serverClockOffset = this.connection.serverTime - Date.now();

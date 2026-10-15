@@ -1,0 +1,15 @@
+{
+  "testedAt": "2026-10-15T01:57:03.016Z",
+  "mockedTransport": true,
+  "checks": [
+    "chat joins automatically before chat is opened",
+    "clean in-game credits use plain attribution text",
+    "a dropped chat retries after five seconds while genuine gameplay keeps saving",
+    "chat shows fifteen older messages, viewer count one and real remote profile pictures",
+    "own image stays visible, and presence counts self once when the server includes self",
+    "network return reconnects immediately without intercepting game input",
+    "Daily is the initial leaderboard and All Time remains selectable",
+    "Leaderboard Challenge shows daily placement in the existing result bubble and keeps the better score"
+  ],
+  "errors": []
+}

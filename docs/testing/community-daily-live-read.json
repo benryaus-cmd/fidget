@@ -1,0 +1,47 @@
+{
+  "readOnly": true,
+  "realAPI": true,
+  "profileAvailable": true,
+  "checks": [
+    {
+      "toyId": "pop",
+      "rank": null,
+      "best": null
+    },
+    {
+      "toyId": "spinner",
+      "rank": 1,
+      "best": 1170
+    },
+    {
+      "toyId": "switch",
+      "rank": 2,
+      "best": 1035
+    },
+    {
+      "toyId": "piano",
+      "rank": null,
+      "best": null
+    },
+    {
+      "toyId": "sliders",
+      "rank": null,
+      "best": null
+    },
+    {
+      "toyId": "dial",
+      "rank": 1,
+      "best": 1015
+    },
+    {
+      "toyId": "marble",
+      "rank": null,
+      "best": null
+    },
+    {
+      "toyId": "magnet",
+      "rank": 1,
+      "best": 1800
+    }
+  ]
+}

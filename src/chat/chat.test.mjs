@@ -4,17 +4,17 @@ import { build } from 'esbuild';
 const output = await build({ entryPoints: ['src/chat/store.ts'], bundle: true, write: false, format: 'esm', platform: 'node' });
 const { SharedChatStore, SHARED_CHAT_URL } = await import('data:text/javascript;base64,' + Buffer.from(output.outputFiles[0].text).toString('base64'));
 const parsers = await build({ entryPoints: ['src/chat/protocol.ts'], bundle: true, write: false, format:'esm', platform:'node' });
-const { mergeHistory, readChatMessage } = await import('data:text/javascript;base64,' + Buffer.from(parsers.outputFiles[0].text).toString('base64'));
+const { mergeHistory, readChatMessage, countParticipants } = await import('data:text/javascript;base64,' + Buffer.from(parsers.outputFiles[0].text).toString('base64'));
 const identity = { uid:'sdk-account-123', username:'actual_member', nickName:'Nickname', avatar:'https://example.invalid/avatar.png' };
 const caches = new Map();
 globalThis.localStorage = { getItem: key => caches.get(key) ?? null, setItem:(key,value) => caches.set(key,value) };
 function fixture() {
-  let socket;
+  let socket;const sockets=[];
   const frames = [];
   const store = new SharedChatStore(url => {
     assert.equal(url, SHARED_CHAT_URL);
     socket = { readyState:1,bufferedAmount:0,onopen:null,onmessage:null,onerror:null,onclose:null,send:data => frames.push(JSON.parse(data)),close() {} };
-    return socket;
+    sockets.push(socket);return socket;
   });
   const receive = message => socket.onmessage?.({data:JSON.stringify(message)});
   const join = (profile=identity) => {
@@ -23,7 +23,7 @@ function fixture() {
   };
   const snapshot = (chatHistory=[],playerDirectory=[]) => receive({type:'world_snapshot',playerId:'p1',roomId:'morning-quarter-v1',worldId:'map2-v1',serverTime:Date.now(),strokes:[],players:[],playerDirectory,chatHistory});
   const end = () => store.identify(null);
-  return {store,frames,join,receive,snapshot,end};
+  return {store,frames,join,receive,snapshot,end,sockets};
 }
 const message = (id='m1', timestamp=Date.now()) => ({ id, playerId:'other',username:'other_user',nickName:'Other nickname',displayName:'Other nickname',text:'Shared hello',timestamp });
 test('no fabricated guest or duplicate socket; exact deployed join protocol', () => {
@@ -62,10 +62,10 @@ test('server mute blocks send; unknown duration remains server checked; ping res
   f.receive({type:'chat_mute_state',muted:false});assert.equal(f.store.send('unmuted'),true);
   f.receive({type:'ping',timestamp:123});assert.deepEqual(f.frames.at(-1),{type:'pong',timestamp:123});f.end();
 });
-test('one-hour history dedupes, sorts, merges snapshot/cache and rejects malformed data', () => {
+test('recent history dedupes, sorts, merges snapshot/cache and rejects malformed data', () => {
   const now=Date.now();assert.equal(readChatMessage({...message(),playerId:''}),null);
   assert.equal(readChatMessage({...message(),timestamp:NaN}),null);
-  assert.deepEqual(mergeHistory([message('cached',now-1000),message('old',now-3600001)],[message('fresh',now),message('cached',now-1000),{}],now).map(m=>m.id),['cached','fresh']);
+  assert.deepEqual(mergeHistory([message('cached',now-1000),message('old',now-3600001)],[message('fresh',now),message('cached',now-1000),{}],now).map(m=>m.id),['old','cached','fresh']);
   const f=fixture();f.join();f.snapshot([message('snapshot')]);
   assert.equal(f.store.getSnapshot().unread,0);
   f.receive({type:'chat_message',message:message('live')});assert.equal(f.store.getSnapshot().unread,1);
@@ -118,32 +118,34 @@ test('relative mute expiry uses local clock despite server clock skew', () => {
     assert.equal(f.store.send('elapsed mute'),true);
   } finally { f.end();Date.now=originalNow; }
 });
-test('idle connection prunes expired hour history and cache without new frames', t => {
-  const local=Date.now();t.mock.timers.enable({apis:['Date','setInterval'],now:local});
-  const f=fixture();f.join({...identity,uid:'prune-account'});f.snapshot();f.receive({type:'chat_message',message:message('nearly-expired',local-3599990)});
-  assert.equal(f.store.getSnapshot().unread,1);
-  assert.equal(f.store.getSnapshot().messages.length,1);const sent=f.frames.length;
-  t.mock.timers.tick(30000);
-  assert.equal(f.store.getSnapshot().messages.length,0);assert.equal(f.store.getSnapshot().unread,0);assert.deepEqual(JSON.parse(caches.get('fidget-shared-chat-v1:prune-account')),[]);assert.equal(f.frames.length,sent);
-  f.end();const current=f.store.getSnapshot();t.mock.timers.tick(30000);assert.equal(f.store.getSnapshot(),current);
+test('live history and unread cache stay bounded to fifteen messages',()=>{
+ const f=fixture();try{f.join({...identity,uid:'bounded-history'});f.snapshot();for(let i=0;i<40;i++)f.receive({type:'chat_message',message:message('bounded-'+i,Date.now()-86400000+i)});const state=f.store.getSnapshot();assert.equal(state.messages.length,15);assert.equal(state.unread,15);assert.equal(state.messages[0].id,'bounded-25');assert.equal(JSON.parse(caches.get('fidget-shared-chat-v1:bounded-history')).length,15);}finally{f.end()}
+});
+test('older cached conversation survives reconnect and explicit removal',t=>{
+ t.mock.timers.enable({apis:['Date','setTimeout'],now:Date.now()});const f=fixture();try{f.join({...identity,uid:'old-cache'});f.snapshot([message('older-history',Date.now()-86400000)]);f.receive({type:'kicked',reason:'fixture explicit removal'});t.mock.timers.tick(7200000);assert.equal(f.store.getSnapshot().messages[0].id,'older-history');assert.equal(f.sockets.length,1);f.end();f.join({...identity,uid:'old-cache'});f.snapshot();assert.equal(f.store.getSnapshot().messages[0].id,'older-history');}finally{f.end()}
 });
 
-test('offline profile prunes using retained server clock; explicit removal does not rejoin', t => {
-  const local=Date.now();t.mock.timers.enable({apis:['Date','setInterval'],now:local});
-  const f=fixture();
-  try {
-    f.join({...identity,uid:'offline-prune-account'});
-    f.receive({type:'world_snapshot',playerId:'p1',roomId:'morning-quarter-v1',worldId:'map2-v1',serverTime:local-600000,strokes:[],chatHistory:[]});
-    f.receive({type:'chat_message',message:message('offline-hour',local-3600000)});
-    f.receive({type:'permissions',role:'owner',permissions:['*']});
-    assert.equal(f.store.getSnapshot().isOwner,true);assert.equal(f.store.getSnapshot().messages.length,1);
-    f.receive({type:'kicked',reason:'fixture explicit removal'});
-    assert.equal(f.store.getSnapshot().isOwner,false);const sent=f.frames.length;
-    t.mock.timers.tick(30000);
-    assert.equal(f.store.getSnapshot().messages.length,1,'last known server clock keeps the 50-minute-old message');
-    t.mock.timers.tick(7200000);
-    assert.equal(f.store.getSnapshot().messages.length,0);assert.equal(f.store.getSnapshot().unread,0);
-    assert.deepEqual(JSON.parse(caches.get('fidget-shared-chat-v1:offline-prune-account')),[]);
-    assert.equal(f.frames.length,sent);
-  } finally { f.end(); }
+test('latest fifteen messages include older conversations, dedupe and sort',()=>{
+ const now=Date.now(),history=Array.from({length:30},(_,i)=>message('history-'+i,now-(30-i)*86400000));
+ assert.deepEqual(mergeHistory([],history,now).map(m=>m.id),history.slice(-15).map(m=>m.id));
+ assert.equal(mergeHistory(history,[history.at(-1)],now).length,15);
+});
+test('participant count includes self exactly once when directory omits self',()=>{
+ const me={playerId:'self',username:'me'},other={playerId:'other',username:'other'};
+ assert.equal(countParticipants([],'self','me'),1);assert.equal(countParticipants([other],'self','me'),2);
+ assert.equal(countParticipants([me,other],'self','me'),2);assert.equal(countParticipants([me],'self','me'),1);
+});
+test('dropped connection retries every five seconds and clears retries on sign out',t=>{
+ t.mock.timers.enable({apis:['Date','setTimeout'],now:Date.now()});const f=fixture();
+ try{f.join({...identity,uid:'retry-profile'});f.snapshot();f.sockets.at(-1).onerror();assert.equal(f.store.getSnapshot().status,'disconnected');t.mock.timers.tick(4999);assert.equal(f.sockets.length,1);t.mock.timers.tick(1);assert.equal(f.sockets.length,2);f.sockets.at(-1).onerror();t.mock.timers.tick(5000);assert.equal(f.sockets.length,3);f.end();t.mock.timers.tick(60000);assert.equal(f.sockets.length,3);}finally{f.end()}
+});
+test('owner kick never auto-rejoins even when its reason mentions Disconnected',t=>{
+ t.mock.timers.enable({apis:['Date','setTimeout'],now:Date.now()});const f=fixture();try{f.join();f.snapshot();f.receive({type:'kicked',reason:'Disconnected by owner'});t.mock.timers.tick(60000);assert.equal(f.sockets.length,1);}finally{f.end()}
+});
+
+test('admission timeout retries, but incompatible protocol waits for an update',t=>{
+ t.mock.timers.enable({apis:['Date','setTimeout'],now:Date.now()});const f=fixture();try{f.store.identify({...identity,uid:'timeout-retry'});t.mock.timers.tick(12000);assert.equal(f.store.getSnapshot().status,'disconnected');t.mock.timers.tick(5000);assert.equal(f.sockets.length,2);f.receive({type:'hello',protocol:999,playerId:'wrong'});t.mock.timers.tick(60000);assert.equal(f.sockets.length,2);}finally{f.end()}
+});
+test('maintenance retries without bypassing a subsequent owner ban',t=>{
+ t.mock.timers.enable({apis:['Date','setTimeout'],now:Date.now()});const f=fixture();try{f.join({...identity,uid:'maintenance-retry'});f.snapshot();f.receive({type:'maintenance',reason:'Server restarting'});t.mock.timers.tick(5000);assert.equal(f.sockets.length,2);f.receive({type:'hello',protocol:2,playerId:'p1',capabilities:[]});f.snapshot();f.receive({type:'banned',reason:'Disconnected'});t.mock.timers.tick(60000);assert.equal(f.sockets.length,2);}finally{f.end()}
 });

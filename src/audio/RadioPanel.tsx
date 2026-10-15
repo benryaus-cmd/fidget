@@ -19,6 +19,6 @@ export default function RadioPanel({station,volume,owned,onStation,onVolume,onSh
     </div>
     <label className="uff-radio-volume">Radio volume <span>{Math.round(volume*100)}%</span><input aria-label="Radio volume" type="range" min="0" max="1" step="0.01" value={volume} onChange={e=>onVolume(Number(e.target.value))}/></label>
     <div className="uff-radio-stations">{STATIONS.map(s=>{const unlocked=canUse(s.id);return <button key={s.id} className={state.station===s.id?'is-selected':''} aria-pressed={state.station===s.id} onClick={()=>{if(!unlocked){onShop();return;}radio.select(s.id);onStation(s.id);}}><span className="uff-radio-dot"/><span><strong>{s.name}</strong><small>{s.mood}</small></span>{unlocked?<span className="uff-radio-tag">{s.id==='poptron'?'FREE':'OWNED'}</span>:<LockKeyhole size={17} aria-label="Unlock in shop"/>}</button>;})}</div>
-    <p className="uff-radio-footnote">Live radio by <a href="https://somafm.com/" target="_blank" rel="noreferrer">SomaFM</a>. <a href="https://somafm.com/support/" target="_blank" rel="noreferrer">Support their DJs</a> · <a href="https://somafm.com/contact/tos.html" target="_blank" rel="noreferrer">Stream terms</a>. Development integration; public game use requires permission. Choosing a station pauses playback. Radio uses mobile data.</p>
+    <p className="uff-radio-footnote">Radio stations from SomaFM. Choosing a station pauses playback. Radio uses mobile data.</p>
   </section>;
 }

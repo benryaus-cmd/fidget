@@ -1,7 +1,7 @@
 {
-  "version": "ultimate-fidget-fingers-leaders-pet-bundle-20261015",
+  "version": "ultimate-fidget-fingers-leaders-pet-live-20261015",
   "mode": "overlay",
-  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/6f1499bb13c1a28f69587b66065848af5085e94d/",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/61038469fd73d73408c87c59257a91e28ba09a68/",
   "files": [
     {
       "source": "ASSET-CREDITS.md",
@@ -66,6 +66,14 @@
     {
       "source": "src/leaders/rounds.ts",
       "target": "src/leaders/rounds.ts"
+    },
+    {
+      "source": "src/gameplay/ToyStage.tsx",
+      "target": "src/gameplay/ToyStage.tsx"
+    },
+    {
+      "source": "build/aippy-user-compat.ts",
+      "target": "build/aippy-user-compat.ts"
     }
   ]
 }

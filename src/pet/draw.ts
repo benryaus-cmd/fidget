@@ -1,5 +1,5 @@
 // Adapted from the user-supplied KENNEY game by Mohammad (Milo procedural renderer).
-import {paletteFor,earPlacement} from './appearance';
+import {paletteFor,earPlacement,bodyDimensions} from './appearance';
 import type {PetState} from './state';
 import type { MiloPose } from './pose';
 
@@ -22,17 +22,17 @@ let metallic=false;
 const geo = { yb: 0, yt: 0, h: 0, w: 0, wb: 0, fo: 0 };
 
 function setBody(sx: number, sy: number, hip: number, bob: number): void {
-  geo.yb = -hip + bob; geo.h = 37.4 * sy; geo.yt = geo.yb - geo.h; geo.w = 17.9 * sx; geo.wb = 14.7 * sx;
+  geo.yb = -hip + bob; geo.h = bodyDimensions(sx,sy).h; geo.yt = geo.yb - geo.h; geo.w = bodyDimensions(sx,sy).w; geo.wb = bodyDimensions(sx,sy).wb;
 }
 
 function bodyPath(g: G): void {
   const { yt, yb, h, w, wb } = geo;
   g.beginPath();
   g.moveTo(0, yt);
-  g.bezierCurveTo(w * 0.6, yt, w, yt + h * 0.2, w, yt + h * 0.47);
+  g.bezierCurveTo(w * 0.78, yt - 1, w * 1.03, yt + h * 0.24, w, yt + h * 0.5);
   g.bezierCurveTo(w, yt + h * 0.8, wb * 0.9, yb, 0, yb);
   g.bezierCurveTo(-wb * 0.9, yb, -w, yt + h * 0.8, -w, yt + h * 0.47);
-  g.bezierCurveTo(-w, yt + h * 0.2, -w * 0.6, yt, 0, yt);
+  g.bezierCurveTo(-w * 1.03, yt + h * 0.24, -w * 0.65, yt - 1, 0, yt);
   g.closePath();
 }
 

@@ -1,9 +1,9 @@
-# Pending combined Aippy update
+# Pending combined pet and leaderboard update
 
-The latest tested pet expansion is prepared as `updates/ultimate-fidget-fingers-pet-expanded-20261015.json`, a cumulative 12-file overlay containing both the initial pet and its expanded wardrobe, emotes and game-footer companion. Its source URL is pinned to the tested commit. It can be included in the next larger update; the user is holding the import until that bundle is ready.
+`updates/ultimate-fidget-fingers-leaders-pet-bundle-20261015.json` is a cumulative 16-file overlay, including both pet updates, the text-only wardrobe and refined silhouette, and the leaderboard frontend. It applies after the current chat-and-awards game and supersedes the earlier pet-only overlays. Its source URL is pinned to the tested source commit.
 
-This pet overlay applies after the chat-and-awards version. Older projects first apply the premium eight-toy, compact-layout and chat-and-awards overlays in that order. The original 10-file pet overlay is superseded by this cumulative version.
+The user is holding the build prompt until the larger bundle is ready. No import prompt is issued for this checkpoint.
 
-One React root, the existing Aippy runtime, build lifecycle, importer, dependencies and saves remain in place. No new runtime dependency is introduced. Pet state uses the existing validated uff-save-v2 save. Colours, ears, faces, hats, chosen names, treats and existing arcade progress remain intact.
+One React root, the existing Aippy runtime, entry, importer, build plugins, dependency configuration, saves, settings and existing purchases remain in place. No new runtime dependency is introduced. Pet data remains inside uff-save-v2. Pending leaderboard submissions use the separate uff-leaderboards-pending-v1 key and are scoped to their original account UID.
 
-The normal Vite build runs the host's existing exact-path downloader with Node. Actual Aippy import and physical Android behavior remain device verification work. No new build prompt is issued for this checkpoint.
+The documented public leaderboard API currently returns the generic game-server response and browser requests fail. The frontend handles this honestly with unavailable/local-only states. Live acceptance remains blocked by the public API route; see docs/leaderboards-server-followup.md before claiming a working live connection.

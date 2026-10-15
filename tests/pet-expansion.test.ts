@@ -22,3 +22,6 @@ test('random tap emotes avoid immediate repeats and real game events map to appr
  let last='idle';const seen=new Set();for(let i=0;i<48;i++){const next=chooseTapEmote(last,()=>i%8/8);assert.notEqual(next,last);seen.add(next);last=next;}assert.ok(seen.size>=7);
  assert.equal(emoteForEvent('board-clear'),'confetti');assert.equal(emoteForEvent('song-complete'),'dance');assert.equal(emoteForEvent('miss'),'encourage');assert.equal(emoteForEvent('best'),'confetti');
 });
+test('Pip silhouette is rounder and wider than the original tall Milo body',async()=>{
+ const {bodyDimensions}=await import('../src/pet/appearance.ts');const b=bodyDimensions(1,1);assert.ok(b.h<37.4);assert.ok(b.w>17.9);assert.ok(b.wb>14.7);assert.ok(b.h/b.w<1.9);
+});

@@ -63,3 +63,5 @@
 @container(max-width:345px){.uff .pet-dock{gap:0}.uff .pet-dock-copy small{max-width:85px;font-size:6px}.uff .pet-items{max-height:160px}.uff .pet-item{padding:5px}.uff .pet-style-thumb{width:29px;height:34px}}
 
 .uff .result-medal .pet-portrait{width:72px;height:72px}
+
+.uff .pet-item-preview{min-height:30px;padding:3px 2px}.uff .pet-item-preview b{font-size:10px}.uff .pet-item-preview small{font-size:6px}

@@ -1,0 +1,37 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+const meta={ok:true,scoringVersion:1,serverTime:'2026-10-15T01:00:00Z',activeDate:'2026-10-15',dailyBoundary:'UTC',nextResetAt:'2026-10-16T00:00:00Z',toys:['pop','spinner','switch','piano','sliders','dial','marble','magnet']};
+const player={uid:'real-fixture',rank:28,score:240,name:'Fixture',username:'fixture',avatar:null,rounds:4,achievedAt:'2026-10-15T01:00:00Z'};
+const accepted={ok:true,acceptedScore:24,overallTotal:240,personalBests:{pop:24},acceptedRounds:4,idempotent:false};
+const storage=()=>{const data=new Map<string,string>();return {getItem:(k:string)=>data.get(k)??null,setItem:(k:string,v:string)=>{data.set(k,v)}}};
+test('API rejects the actual generic public server response instead of reporting rankings',async()=>{
+ const {LeaderAPI}=await import('../src/leaders/api.ts');const api=new LeaderAPI(async()=>new Response(JSON.stringify({service:'aippy-game-server',websocket:'/multiplayer',health:'/health'})));
+ await assert.rejects(api.meta(),/leaderboard|service/i);await assert.rejects(api.rankings({period:'all-time',toyId:'overall',limit:25,offset:0}),/leaderboard|service/i);
+});
+test('rankings preserve server rank and encode current identity, pagination and server-date filter',async()=>{
+ const {LeaderAPI}=await import('../src/leaders/api.ts');let url='';const api=new LeaderAPI(async input=>{url=String(input);return new Response(JSON.stringify({ok:true,players:[player],currentPlayer:player,totalPlayers:80,hasMore:true}))});
+ const result=await api.rankings({period:'daily',toyId:'pop',date:'2026-10-14',limit:25,offset:25,uid:'id & 2'});assert.equal(result.currentPlayer?.rank,28);const q=new URL(url).searchParams;assert.equal(q.get('uid'),'id & 2');assert.equal(q.get('offset'),'25');assert.equal(q.get('date'),'2026-10-14');
+});
+test('metadata accepts server UTC dates and rejects unsupported scoring versions',async()=>{
+ const {LeaderAPI}=await import('../src/leaders/api.ts');const api=new LeaderAPI(async()=>new Response(JSON.stringify(meta)));assert.equal((await api.meta()).activeDate,'2026-10-15');
+ const wrong=new LeaderAPI(async()=>new Response(JSON.stringify({...meta,scoringVersion:2})));await assert.rejects(wrong.meta(),/version/i);
+});
+test('round events record capped positive points, accurate timestamps and reject late actions',async()=>{
+ const {captureEvent}=await import('../src/leaders/rounds.ts');const events:any[]=[];assert.equal(captureEvent(events,{kind:'pop',points:12},2100),true);assert.equal(captureEvent(events,{kind:'spin',points:999},2500.9),true);assert.equal(captureEvent(events,{kind:'piano-miss',points:0},2900),false);assert.equal(captureEvent(events,{kind:'pop',points:12},45001),false);assert.deepEqual(events,[{kind:'pop',points:12,atMs:2100},{kind:'spin',points:100,atMs:2500}]);
+});
+test('submission retry keeps original round secret and body, survives reload, and never calls economy',async()=>{
+ const {RankedRounds}=await import('../src/leaders/rounds.ts');const store=storage(),sent:any[]=[];let fail=true;
+ const api={start:async()=>({ok:true,roundId:'server-round-1',roundSecret:'secret-one',startedAt:'2026-10-15T01:00:00Z',eligibleUntil:'2026-10-15T01:05:00Z'}),submit:async(body:any)=>{sent.push(structuredClone(body));if(fail)throw new Error('network timeout');return accepted}};
+ const rounds=new RankedRounds(api,store),r=await rounds.begin({uid:'real-fixture',username:'fixture',nickName:'Fixture',avatar:''},'pop');r.events.push({kind:'pop',points:12,atMs:2100},{kind:'pop',points:12,atMs:4100});await rounds.finish(r,15000,24);assert.equal(rounds.getSnapshot().results[r.id].state,'retry');assert.equal(rounds.pending('another-account').length,0);
+ const restored=new RankedRounds(api,store);assert.equal(restored.pending('real-fixture').length,1);fail=false;await restored.retry(r.id,'real-fixture');assert.equal(restored.getSnapshot().results[r.id].state,'accepted');assert.deepEqual(sent[0],sent[1]);assert.equal(sent[1].roundSecret,'secret-one');assert.equal(restored.pending('real-fixture').length,0);
+});
+test('identity absence, offline start, short rounds and trace-score mismatches stay local only',async()=>{
+ const {RankedRounds}=await import('../src/leaders/rounds.ts');let starts=0,submits=0;const api={start:async()=>{starts++;throw new Error('offline')},submit:async()=>{submits++;return accepted}},r=new RankedRounds(api,storage());
+ const guest=await r.begin(null,'pop');assert.equal(starts,0);await r.finish(guest,15000,24);const offline=await r.begin({uid:'u',username:'u',nickName:'U',avatar:''},'pop');assert.equal(starts,1);await r.finish(offline,15000,24);assert.equal(submits,0);
+ const good=new RankedRounds({...api,start:async()=>({ok:true,roundId:'r',roundSecret:'s',startedAt:meta.serverTime,eligibleUntil:meta.nextResetAt})},storage());const round=await good.begin({uid:'u',username:'u',nickName:'U',avatar:''},'pop');await good.finish(round,9000,24);assert.equal(good.getSnapshot().results[round.id].state,'local');const round2=await good.begin({uid:'u',username:'u',nickName:'U',avatar:''},'pop');round2.events.push({kind:'pop',points:12,atMs:2000});await good.finish(round2,15000,24);assert.equal(submits,0);assert.equal(good.getSnapshot().results[round2.id].state,'local');
+});
+test('wrong-account retries and duplicate concurrent retries cannot submit twice',async()=>{
+ const {RankedRounds}=await import('../src/leaders/rounds.ts');let calls=0,release:any;const api={start:async()=>({ok:true,roundId:'r',roundSecret:'s',startedAt:meta.serverTime,eligibleUntil:meta.nextResetAt}),submit:async()=>{calls++;if(calls===1)throw new Error('offline');await new Promise(r=>{release=r});return {...accepted,idempotent:true}}};const rounds=new RankedRounds(api,storage());const r=await rounds.begin({uid:'u',username:'u',nickName:'U',avatar:''},'pop');r.events.push({kind:'pop',points:24,atMs:1000});await rounds.finish(r,15000,24);await rounds.retry(r.id,'wrong');assert.equal(calls,1);const one=rounds.retry(r.id,'u'),two=rounds.retry(r.id,'u');release();await Promise.all([one,two]);assert.equal(calls,2);assert.equal(rounds.getSnapshot().results[r.id].state,'accepted');
+});
+test('metadata shape remains valid when server omits the optional ok envelope',async()=>{const {LeaderAPI}=await import('../src/leaders/api.ts');const {ok,...body}=meta;const api=new LeaderAPI(async()=>new Response(JSON.stringify(body)));assert.equal((await api.meta()).scoringVersion,1)});
+test('server validation rejection is final and cannot be retried as an accepted score',async()=>{const {RankedRounds}=await import('../src/leaders/rounds.ts');const {LeaderError}=await import('../src/leaders/api.ts');let submissions=0;const api={start:async()=>({ok:true,roundId:'rejected-round',roundSecret:'s',startedAt:meta.serverTime,eligibleUntil:meta.nextResetAt}),submit:async()=>{submissions++;throw new LeaderError('Score trace rejected',false)}};const rounds=new RankedRounds(api,storage());const r=await rounds.begin({uid:'u',username:'u',nickName:'U',avatar:''},'pop');r.events.push({kind:'pop',points:12,atMs:1500});await rounds.finish(r,15000,12);assert.equal(rounds.getSnapshot().results[r.id].state,'rejected');assert.equal(rounds.pending('u').length,0);await rounds.retry(r.id,'u');assert.equal(submissions,1)});

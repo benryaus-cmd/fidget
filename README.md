@@ -45,3 +45,11 @@ A small procedural pet hops around the welcome screen and between showroom cards
 Pet care and cosmetics migrate into the existing `uff-save-v2` save. Roaming stops behind chat and dialogs and respects reduced motion. Run `npm run test:pet` against a running Vite server; see `docs/pet-playtest-report.md` and `docs/pet-development-report.md` for actual verification.
 
 The expanded pet uses nonrepeating random tap emotes and a passive companion in the game footer. Actual toy actions, clears, combos, piano songs, awards and results trigger reactions. Metallic gold/silver palettes and repaired side-hanging floppy ears are included. Existing chosen names are retained; the earlier automatic Milo/Mile name migrates to Pip. See `docs/pet-expansion-report.md` for this follow-up; the next Aippy import is being bundled.
+
+## Leaderboards and refined pet controls
+
+LEADERS is the fifth bottom-navigation destination. Overall totals and each toy's single-round best have All Time, Daily and historical UTC-day filters, pagination and a prominent current-player rank. Aippy identity is read independently of chat. Challenge events use server-issued sessions; failed result submissions keep their original body/secret in an account-scoped local retry queue. Only server acceptance displays RANKED, and acceptance never creates a second economy payout.
+
+The supplied API base is `https://24.144.88.205/api/leaderboards/v1`. Public live probes currently return the generic game-server response rather than the documented API and browser requests fail. The frontend and mocked end-to-end tests are ready; live score acceptance requires the public route to be repaired. See `docs/leaderboards-server-followup.md` and `docs/leaderboards-development-report.md`.
+
+Pip's options are text-only: tap a name to sample, then its price/apply button to keep it. The body is subtly shorter and wider. Run `npm run test:leaders` against a running Vite server for the focused integration suite. The next Aippy import remains held for the combined update.

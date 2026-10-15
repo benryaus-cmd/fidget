@@ -24,6 +24,7 @@ const mockFixture=()=>{
  window.webkit={messageHandlers:{aippyListener:{postMessage(message){if(message.command==='user.getUserInfo')setTimeout(()=>window.processUserInfo?.({uid:'qa-fixture-only',username:'qa_tester',nickName:'QA Fixture',avatar:''}),0);}}}};
 };
 await context.addInitScript(mockFixture);
+await context.route('https://24.144.88.205/api/leaderboards/v1/**',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({ok:false,error:'Local-only social regression fixture'})}));
 const page=await context.newPage();page.setDefaultTimeout(5000);
 const checks=[],errors=[];page.on('pageerror',e=>errors.push(e.message));
 async function shot(name){await page.screenshot({path:`${out}/${baseline?'baseline-':''}${name}.png`});const surface=page.locator('#simulated-aippy-surface');if(await surface.count())await surface.screenshot({path:`${out}/${baseline?'baseline-':''}surface-${name}.png`});}

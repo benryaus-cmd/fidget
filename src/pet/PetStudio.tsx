@@ -1,9 +1,9 @@
 import {useEffect,useRef,useState} from 'react';
-import {X,Heart,Check,Utensils} from 'lucide-react';
+import {X,Heart,Utensils} from 'lucide-react';
 import type {Save} from '../economy';
 import {PET_ITEMS,buyPetItem,buyTreats,feedPet,renamePet,petStatus,type PetItem} from './state';
 import {chooseTapEmote,EMOTE_LABELS,type PetEmote} from './emotes';
-import {PetPortrait,PetStyleThumb} from './PetCanvas';
+import {PetPortrait} from './PetCanvas';
 import './pet.css';
 const CATEGORIES=[['color','COLORS'],['ears','EARS'],['face','FACES'],['hat','HATS']] as const;
 export default function PetStudio({save,reducedMotion,onUpdate,onClose,onSound}:{save:Save;reducedMotion:boolean;onUpdate:(fn:(s:Save)=>Save)=>Save;onClose:()=>void;onSound:(kind:string)=>void}){
@@ -22,7 +22,7 @@ export default function PetStudio({save,reducedMotion,onUpdate,onClose,onSound}:
   <div className="pet-care"><button className="pet-feed" aria-label="Feed treat" disabled={!status.canFeed} onClick={feed}><Utensils size={13}/>{status.canFeed?'FEED TREAT':pet.treats?'HAPPY SNACKING':'NO TREATS'}<small>{pet.treats} left</small></button><button className="pet-refill" aria-label="Buy 5 treats for 15 Gems" disabled={save.gems<15||pet.treats>45} onClick={()=>{const next=onUpdate(buyTreats);if(next.pet.treats>pet.treats){setNotice('Five little treats, ready to share.');onSound('purchase')}}}>+5 TREATS <span>◆ 15</span></button></div>
   <form className="pet-name" onSubmit={e=>{e.preventDefault();const next=onUpdate(s=>({...s,pet:renamePet(s.pet,name)}));setName(next.pet.name);setNotice(`Hello, ${next.pet.name}!`);onSound('navigation')}}><input aria-label="Pet name" value={name} maxLength={16} onChange={e=>setName(e.target.value)} placeholder="Name your little friend"/><button type="submit">Save name</button></form>
   <div className="pet-tabs" role="tablist" aria-label="Pet wardrobe">{CATEGORIES.map(([id,label])=><button key={id} role="tab" aria-selected={category===id} onClick={()=>{setCategory(id);setPreview(null)}}>{label}</button>)}</div>
-  <div className="pet-items">{PET_ITEMS.filter(i=>i.category===category).map(item=>{const owned=pet.owned.includes(item.id),equipped=pet[item.category]===item.id;return <article className={'pet-item '+(equipped?'pet-equipped':'')} key={item.id}><button className="pet-item-preview" aria-label={`Preview ${item.name} pet style`} onClick={()=>setPreview(item)}><PetStyleThumb pet={{...pet,[item.category]:item.id}}/><span><b>{item.name}</b><small>{equipped?'WEARING':owned?'YOURS':'TAP TO PREVIEW'}</small></span></button><button className="pet-item-buy" disabled={equipped} aria-label={equipped?`${item.name} equipped`:owned?`Equip ${item.name}`:`Buy ${item.name} for ${item.cost} Gems`} onClick={()=>buy(item)}>{equipped?<Check size={13}/>:owned?'WEAR':`◆ ${item.cost}`}</button></article>})}</div>
+  <div className="pet-items">{PET_ITEMS.filter(i=>i.category===category).map(item=>{const owned=pet.owned.includes(item.id),equipped=pet[item.category]===item.id;return <article className={'pet-item '+(equipped?'pet-equipped':'')} key={item.id}><button className="pet-item-preview" aria-label={`Preview ${item.name} pet style`} onClick={()=>setPreview(item)}><span><b>{item.name}</b><small>{equipped?'WEARING':owned?'YOURS':'TAP TO PREVIEW'}</small></span></button><button className="pet-item-buy" disabled={equipped} aria-label={equipped?`${item.name} equipped`:owned?`Equip ${item.name}`:`Buy ${item.name} for ${item.cost} Gems`} onClick={()=>buy(item)}>{equipped?'ON':owned?'APPLY':`◆ ${item.cost}`}</button></article>})}</div>
   <p className="pet-footnote">Scroll the styles. Tap one to try it on.<br/>Styles and care save on this device.</p>
  </div></div>;
 }

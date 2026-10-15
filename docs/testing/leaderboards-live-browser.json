@@ -1,0 +1,14 @@
+{
+  "testedAt": "2026-10-15T00:05:05.429Z",
+  "failures": [
+    {
+      "url": "https://24.144.88.205/api/leaderboards/v1/meta",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "url": "https://24.144.88.205/api/leaderboards/v1/rankings?period=all-time&toyId=overall&limit=25&offset=0",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ],
+  "message": "Ranks are taking a breather\n\nLeaderboard connection unavailable. Your game remains playable.\n\nTRY AGAIN"
+}

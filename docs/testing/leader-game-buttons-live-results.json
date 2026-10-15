@@ -1,0 +1,19 @@
+{
+  "testedAt": "2026-10-15T00:48:07.494Z",
+  "readOnly": true,
+  "realAPI": true,
+  "proxyCATestException": true,
+  "checks": [
+    "pop actual touch button loads real API rankings",
+    "spinner actual touch button loads real API rankings",
+    "switch actual touch button loads real API rankings",
+    "piano actual touch button loads real API rankings",
+    "sliders actual touch button loads real API rankings",
+    "dial actual touch button loads real API rankings",
+    "marble actual touch button loads real API rankings",
+    "magnet actual touch button loads real API rankings",
+    "overall actual touch button loads real API rankings",
+    "Daily retains Overall and loads real API"
+  ],
+  "errors": []
+}

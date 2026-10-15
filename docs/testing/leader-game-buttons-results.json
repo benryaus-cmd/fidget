@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "All nine boards work through actual button taps, with matching server queries and selection",
+    "Daily filter keeps selected game",
+    "First and last game reachable at 320",
+    "First and last game reachable at 390",
+    "First and last game reachable at 430",
+    "Real horizontal touch swipe scrolls the game buttons"
+  ],
+  "errors": [],
+  "mockedTransport": true
+}

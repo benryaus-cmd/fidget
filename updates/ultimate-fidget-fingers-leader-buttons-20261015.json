@@ -1,0 +1,15 @@
+{
+  "version": "ultimate-fidget-fingers-leader-buttons-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/445619ec6faaf8ed1d64ccb4cfdbabfe2bf2dcf8/",
+  "files": [
+    {
+      "source": "src/leaders/LeadersPage.tsx",
+      "target": "src/leaders/LeadersPage.tsx"
+    },
+    {
+      "source": "src/leaders/leaders.css",
+      "target": "src/leaders/leaders.css"
+    }
+  ]
+}

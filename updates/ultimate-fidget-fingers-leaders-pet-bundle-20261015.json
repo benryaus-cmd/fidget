@@ -1,0 +1,71 @@
+{
+  "version": "ultimate-fidget-fingers-leaders-pet-bundle-20261015",
+  "mode": "overlay",
+  "baseUrl": "https://raw.githubusercontent.com/benryaus-cmd/fidget/6f1499bb13c1a28f69587b66065848af5085e94d/",
+  "files": [
+    {
+      "source": "ASSET-CREDITS.md",
+      "target": "ASSET-CREDITS.md"
+    },
+    {
+      "source": "src/App.tsx",
+      "target": "src/App.tsx"
+    },
+    {
+      "source": "src/economy.ts",
+      "target": "src/economy.ts"
+    },
+    {
+      "source": "src/pet/PetCanvas.tsx",
+      "target": "src/pet/PetCanvas.tsx"
+    },
+    {
+      "source": "src/pet/PetStudio.tsx",
+      "target": "src/pet/PetStudio.tsx"
+    },
+    {
+      "source": "src/pet/draw.ts",
+      "target": "src/pet/draw.ts"
+    },
+    {
+      "source": "src/pet/motion.ts",
+      "target": "src/pet/motion.ts"
+    },
+    {
+      "source": "src/pet/pet.css",
+      "target": "src/pet/pet.css"
+    },
+    {
+      "source": "src/pet/pose.ts",
+      "target": "src/pet/pose.ts"
+    },
+    {
+      "source": "src/pet/state.ts",
+      "target": "src/pet/state.ts"
+    },
+    {
+      "source": "src/pet/appearance.ts",
+      "target": "src/pet/appearance.ts"
+    },
+    {
+      "source": "src/pet/emotes.ts",
+      "target": "src/pet/emotes.ts"
+    },
+    {
+      "source": "src/leaders/LeadersPage.tsx",
+      "target": "src/leaders/LeadersPage.tsx"
+    },
+    {
+      "source": "src/leaders/api.ts",
+      "target": "src/leaders/api.ts"
+    },
+    {
+      "source": "src/leaders/leaders.css",
+      "target": "src/leaders/leaders.css"
+    },
+    {
+      "source": "src/leaders/rounds.ts",
+      "target": "src/leaders/rounds.ts"
+    }
+  ]
+}
